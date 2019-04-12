@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/name"
+        android:title="聚合一种消息"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/music"
+        android:title="取消聚合"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/search"
+        android:title="全部聚合"
+        app:showAsAction="never" />
+</menu>

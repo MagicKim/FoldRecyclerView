@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.chad.baserecyclerviewadapterhelper.animation.SwipeMenuLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rl_normal_root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
+    app:ios="true"
+    app:leftSwipe="true"
+    app:swipeEnable="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginBottom="1dp"
+        android:background="@android:color/white"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingLeft="10dp">
+
+        <LinearLayout
+            android:id="@+id/ll_l1_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:src="@mipmap/head_img_1" />
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/sub_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/iv_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center"
+                android:layout_weight="3"
+                android:visibility="gone"
+                app:srcCompat="@drawable/expand_arrow" />
+
+        </LinearLayout>
+
+        <com.chad.baserecyclerviewadapterhelper.animation.FoldingLayout
+            android:id="@+id/expandable_person_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_bright"
+            android:visibility="gone"
+            app:el_duration="300"
+            app:el_expanded="true"
+            app:el_parallax="0.5">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_image_expand_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:textColor="@android:color/holo_purple" />
+
+            </RelativeLayout>
+        </com.chad.baserecyclerviewadapterhelper.animation.FoldingLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_assemble_shield"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:background="@android:color/holo_orange_light"
+        android:gravity="center"
+        android:text="屏蔽"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/tv_assemble_del"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:background="@android:color/holo_blue_dark"
+        android:gravity="center"
+        android:text="删除"
+        android:textSize="20sp" />
+</com.chad.baserecyclerviewadapterhelper.animation.SwipeMenuLayout>

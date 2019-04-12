@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/bt_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="聚合消息"
+            android:textColor="@color/colorPrimary" />
+
+        <Button
+            android:id="@+id/bt_cancel_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="取消聚合消息"
+            android:textColor="@color/colorPrimary" />
+
+        <Button
+            android:id="@+id/bt_add_notification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="添加一条消息"
+            android:textColor="@color/colorPrimary" />
+
+        <Button
+            android:id="@+id/bt_del_notification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="删除一条消息"
+            android:textColor="@color/colorPrimary" />
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>
