@@ -6,7 +6,7 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
 public class NormalItem implements MultiItemEntity {
 
     private String title;
-    private Long time;
+    private long time;
     private String content;
 
     private String pkg;
@@ -60,7 +60,7 @@ public class NormalItem implements MultiItemEntity {
     }
 
     @Override
-    public Long getTime() {
+    public long getTime() {
         return time;
     }
 
@@ -68,7 +68,9 @@ public class NormalItem implements MultiItemEntity {
     public String toString() {
         return "NormalItem{" +
                 "title='" + title + '\'' +
+                ", time=" + time +
                 ", content='" + content + '\'' +
+                ", pkg='" + pkg + '\'' +
                 '}';
     }
 }

@@ -5,7 +5,7 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 public class ImageItem implements MultiItemEntity {
 
-    private Long time;
+    private long time;
     private String title;
     private String content;
     private String pkg;
@@ -78,15 +78,17 @@ public class ImageItem implements MultiItemEntity {
     }
 
     @Override
-    public Long getTime() {
+    public long getTime() {
         return time;
     }
 
     @Override
     public String toString() {
         return "ImageItem{" +
-                "title='" + title + '\'' +
+                "time=" + time +
+                ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
+                ", pkg='" + pkg + '\'' +
                 ", isSelected=" + isSelected +
                 ", isExpanded=" + isExpanded +
                 '}';

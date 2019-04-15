@@ -1,17 +1,17 @@
 /*
-******************************* Copyright (c)*********************************\
-**
-**                 (c) Copyright 2015, Allen, china, shanghai
-**                          All Rights Reserved
-**
-**                          
-**                         
-**-----------------------------------版本信息------------------------------------
-** 版    本: V0.1
-**
-**------------------------------------------------------------------------------
-********************************End of Head************************************\
-*/
+ ******************************* Copyright (c)*********************************\
+ **
+ **                 (c) Copyright 2015, Allen, china, shanghai
+ **                          All Rights Reserved
+ **
+ **
+ **
+ **-----------------------------------版本信息------------------------------------
+ ** 版    本: V0.1
+ **
+ **------------------------------------------------------------------------------
+ ********************************End of Head************************************\
+ */
 package com.chad.baserecyclerviewadapterhelper.entity;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
@@ -47,7 +47,7 @@ public class ClickEntity implements MultiItemEntity {
     }
 
     @Override
-    public Long getTime() {
-        return null;
+    public long getTime() {
+        return 1;
     }
 }

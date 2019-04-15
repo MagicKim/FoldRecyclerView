@@ -10,9 +10,12 @@ import com.chad.baserecyclerviewadapterhelper.entity.NormalItem;
 import com.chad.baserecyclerviewadapterhelper.entity.TestNotification;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -24,25 +27,140 @@ import java.util.Set;
  */
 public class DataManager {
 
-    private volatile static DataManager mInstance;
+//    private volatile static DataManager mInstance;
 
     private Map<String, List<TestNotification>> maps = new HashMap<>();
 
-    private static ArrayList<TestNotification> mOriginData = new ArrayList<>();
+    private List<TestNotification> mOriginData = new ArrayList<>();
 
-    public static DataManager getInstance() {
-        if (mInstance == null) {
-            synchronized (DataManager.class) {
-                if (mInstance == null) {
-                    getNormalData();
-                    mInstance = new DataManager();
-                }
-            }
-        }
-        return mInstance;
+//    public static DataManager getInstance() {
+//        if (mInstance == null) {
+//            synchronized (DataManager.class) {
+//                if (mInstance == null) {
+//                    mInstance = new DataManager();
+//                    Log.e("kim","hash code = "+mInstance.hashCode());
+//                }
+//            }
+//        }
+//        return mInstance;
+//    }
+
+
+    public List<TestNotification> getOriginData() {
+
+        return mOriginData;
     }
 
-    private static void getNormalData() {
+    public void addOriginData(TestNotification testNotification) {
+        Log.w("kim", "testNotification = " + testNotification.toString());
+        mOriginData.add(testNotification);
+        Log.w("kim", "addOriginData total size  = " + mOriginData.size());
+    }
+
+
+    //聚合转换
+//    public ArrayList<MultiItemEntity> consistGroup() {
+//        ArrayList<MultiItemEntity> me = new ArrayList<>();
+//
+//        for (TestNotification notification : mOriginData) {
+//            List<TestNotification> testNotifications = maps.get(notification.getPkg());
+//            if (testNotifications == null) {
+//                testNotifications = new ArrayList<>();
+//                testNotifications.add(notification);
+//                maps.put(notification.getPkg(), testNotifications);
+//            } else {
+//                testNotifications.add(notification);
+//            }
+//        }
+//        for (String key : maps.keySet()) {
+//            Log.w("kim", "key= " + key + " and value= " + maps.get(key));
+//            Level0Item level0Item = new Level0Item(key, "---聚合---");
+//            List<TestNotification> testNotifications = maps.get(key);
+//            for (TestNotification testNotification : testNotifications) {
+//                level0Item.addSubItem(new Level1Item(testNotification.getTitle(),
+//                        testNotification.getPkg(), testNotification.isExpandItem(), testNotification.getContent()));
+//            }
+//            me.add(level0Item);
+//        }
+//        HeaderItem headerItem = new HeaderItem("通知头部", 2555053240000L);
+//        me.add(headerItem);
+//        return me;
+//    }
+
+
+//    public void addOriginGroupData(TestNotification notification) {
+//        boolean needSort = true;
+//        for (ExpandableGroupEntity2 expandableGroupEntity2 : groupEntity2s) {
+//            if (expandableGroupEntity2.getHeader().equals(childEntity2.getDate())) {
+//                needSort = false;
+//                expandableGroupEntity2.getChildren().add(childEntity2);
+//                break;
+//            }
+//        }
+//        if (needSort) {
+//            ExpandableGroupEntity2 expandableGroupEntity2 = new ExpandableGroupEntity2();
+//            expandableGroupEntity2.setHeader(childEntity2.getDate());
+//            ArrayList<ChildEntity2> list = new ArrayList<>();
+//            list.add(childEntity2);
+//            expandableGroupEntity2.setChildren(list);
+//            groupEntity2s.add(expandableGroupEntity2);
+//            sort();
+//        }
+//    }
+
+
+
+    public Map<String, List<TestNotification>> getMaps() {
+        return maps;
+    }
+
+    public void removeOriginData() {
+
+    }
+
+
+    //非聚合数据
+    public ArrayList<MultiItemEntity> getTransferData() {
+        getNormalData();
+        ArrayList<MultiItemEntity> res = new ArrayList<>();
+        for (TestNotification testNotification : mOriginData) {
+            if (testNotification.isExpandItem()) {
+                ImageItem iItem = new ImageItem(testNotification.getTitle(), testNotification.getContent(), testNotification.getPkg());
+                iItem.setTime(testNotification.getTime());
+                res.add(iItem);
+            } else {
+                NormalItem nItem = new NormalItem(testNotification.getTitle(), testNotification.getContent(), testNotification.getPkg());
+                nItem.setTime(testNotification.getTime());
+                res.add(nItem);
+            }
+        }
+        HeaderItem headerItem = new HeaderItem("通知中心", 2555053240000L);
+        res.add(headerItem);
+        Collections.sort(res, mGroupEntityCmp);
+        return res;
+    }
+
+    private Comparator<MultiItemEntity> mGroupEntityCmp = new Comparator<MultiItemEntity>() {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/M/d H:mm:ss");
+        public int compare(MultiItemEntity a, MultiItemEntity b) {
+            Date d1, d2;
+            try {
+                d1 = format.parse(format.format(new Date(a.getTime())));
+                d2 = format.parse(format.format(b.getTime()));
+            } catch (ParseException e) {
+                // 解析出错，则不进行排序
+                Log.e("kim", "ComparatorDate--compare--SimpleDateFormat.parse--error");
+                return 0;
+            }
+            if (d1.before(d2)) {
+                return 1;
+            } else {
+                return -1;
+            }
+        }
+    };
+
+    private void getNormalData() {
 
         mOriginData.add(new TestNotification(1, "com.ecarx.cc", "周杰伦全新专辑发布!",
                 "音乐消息1", false, false, 1555053240000L));
@@ -66,97 +184,6 @@ public class DataManager {
                 "音乐消息10", false, false, 1555153240000L));
         mOriginData.add(new TestNotification(11, "com.ecarx.ee", "2019日本小姐冠军出炉 网友：越看越像吴京！",
                 "娱乐消息11", false, false, 1255053240000L));
-    }
-
-    //聚合转换
-    public ArrayList<MultiItemEntity> consistGroup() {
-        ArrayList<MultiItemEntity> me = new ArrayList<>();
-
-        for (TestNotification notification : mOriginData) {
-            List<TestNotification> testNotifications = maps.get(notification.getPkg());
-            if (testNotifications == null) {
-                testNotifications = new ArrayList<>();
-                testNotifications.add(notification);
-                maps.put(notification.getPkg(), testNotifications);
-            } else {
-                testNotifications.add(notification);
-            }
-        }
-        for (String key : maps.keySet()) {
-            Log.w("kim", "key= " + key + " and value= " + maps.get(key));
-            Level0Item level0Item = new Level0Item(key, "---聚合---");
-            List<TestNotification> testNotifications = maps.get(key);
-            for (TestNotification testNotification : testNotifications) {
-                level0Item.addSubItem(new Level1Item(testNotification.getTitle(),
-                        testNotification.getPkg(), testNotification.isExpandItem(), testNotification.getContent()));
-            }
-            me.add(level0Item);
-        }
-        HeaderItem headerItem = new HeaderItem("通知头部", 2555053240000L);
-        me.add(headerItem);
-        return me;
-    }
-
-
-//    public void addOriginGroupData(TestNotification notification) {
-//        boolean needSort = true;
-//        for (ExpandableGroupEntity2 expandableGroupEntity2 : groupEntity2s) {
-//            if (expandableGroupEntity2.getHeader().equals(childEntity2.getDate())) {
-//                needSort = false;
-//                expandableGroupEntity2.getChildren().add(childEntity2);
-//                break;
-//            }
-//        }
-//        if (needSort) {
-//            ExpandableGroupEntity2 expandableGroupEntity2 = new ExpandableGroupEntity2();
-//            expandableGroupEntity2.setHeader(childEntity2.getDate());
-//            ArrayList<ChildEntity2> list = new ArrayList<>();
-//            list.add(childEntity2);
-//            expandableGroupEntity2.setChildren(list);
-//            groupEntity2s.add(expandableGroupEntity2);
-//            sort();
-//        }
-//    }
-
-    public void sort() {
-
-    }
-
-    private final Comparator<MultiItemEntity> mGroupEntityCmp = new Comparator<MultiItemEntity>() {
-        public int compare(MultiItemEntity a, MultiItemEntity b) {
-            final long na = Long.valueOf(a.getTime());
-            final long nb = Long.valueOf(b.getTime());
-            return (int) (na - nb);
-        }
-    };
-
-    public Map<String, List<TestNotification>> getMaps() {
-        return maps;
-    }
-
-    public void removeOriginData() {
-
-    }
-
-
-    //非聚合数据
-    public ArrayList<MultiItemEntity> getTransferData() {
-        ArrayList<MultiItemEntity> res = new ArrayList<>();
-        for (TestNotification testNotification : mOriginData) {
-            if (testNotification.isExpandItem()) {
-                ImageItem iItem = new ImageItem(testNotification.getTitle(), testNotification.getContent(), testNotification.getPkg());
-                iItem.setTime(testNotification.getTime());
-                res.add(iItem);
-            } else {
-                NormalItem nItem = new NormalItem(testNotification.getTitle(), testNotification.getContent(), testNotification.getPkg());
-                nItem.setTime(testNotification.getTime());
-                res.add(nItem);
-            }
-        }
-        HeaderItem headerItem = new HeaderItem("通知中心", 2555053240000L);
-        res.add(headerItem);
-        Collections.sort(res, mGroupEntityCmp);
-        return res;
     }
 
 

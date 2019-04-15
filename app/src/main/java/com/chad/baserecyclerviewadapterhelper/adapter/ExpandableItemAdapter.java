@@ -49,8 +49,8 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
      *
      * @param data A new list is created out of this one to avoid mutable list
      */
-    public ExpandableItemAdapter(List<MultiItemEntity> data) {
-        super(data);
+    public ExpandableItemAdapter() {
+        super(null);
         addItemType(TYPE_HEADER, R.layout.head_view);
         addItemType(TYPE_LEVEL_0, R.layout.item_assemble_parent);
         addItemType(TYPE_LEVEL_1, R.layout.item_assemble_child);
@@ -264,6 +264,10 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
             default:
                 break;
         }
+    }
+
+    public void groupAddOriginData(){
+
     }
 
     //删除

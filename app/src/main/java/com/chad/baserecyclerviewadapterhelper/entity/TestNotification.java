@@ -5,7 +5,7 @@ package com.chad.baserecyclerviewadapterhelper.entity;
  */
 public class TestNotification {
 
-    private Long time;
+    private long time;
     private int id;
     private String pkg;
     private String content;
@@ -14,7 +14,7 @@ public class TestNotification {
     private boolean isShield;
 
 
-    public TestNotification(int id, String pkg, String content, String title, boolean isExpandItem, boolean isShield, Long time) {
+    public TestNotification(int id, String pkg, String content, String title, boolean isExpandItem, boolean isShield, long time) {
         this.id = id;
         this.pkg = pkg;
         this.content = content;

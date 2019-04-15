@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.chad.baserecyclerviewadapterhelper.R;
 import com.chad.baserecyclerviewadapterhelper.animation.FoldingLayout;
 import com.chad.baserecyclerviewadapterhelper.data.DataManager;
+import com.chad.baserecyclerviewadapterhelper.entity.HeaderItem;
 import com.chad.baserecyclerviewadapterhelper.entity.ImageItem;
 import com.chad.baserecyclerviewadapterhelper.entity.Level0Item;
 import com.chad.baserecyclerviewadapterhelper.entity.Level1Item;
@@ -17,10 +18,17 @@ import com.chad.baserecyclerviewadapterhelper.entity.MultipleItem;
 import com.chad.baserecyclerviewadapterhelper.entity.NormalItem;
 import com.chad.baserecyclerviewadapterhelper.entity.PolymerizationItem0;
 import com.chad.baserecyclerviewadapterhelper.entity.PolymerizationItem1;
+import com.chad.baserecyclerviewadapterhelper.entity.TestNotification;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -43,9 +51,12 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<MultiIte
     public static final int TYPE_GROUP_1 = 6;
 
     private PolymerizationItem0 item0 = new PolymerizationItem0("null", "屏蔽列表");
+    private HeaderItem headerItem = new HeaderItem("通知中心", 2555053240000L);
 
-    public MultipleItemQuickAdapter(List<MultiItemEntity> data) {
-        super(data);
+    private List<TestNotification> mDatas = new ArrayList<>();
+
+    public MultipleItemQuickAdapter() {
+        super(null);
         addItemType(TYPE_HEADER, R.layout.head_view);
         addItemType(TYPE_NORMAL, R.layout.item_text_view);
         addItemType(TYPE_IMAGE, R.layout.recycler_expandable_item);
@@ -64,6 +75,7 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<MultiIte
                     public void onClick(View v) {
                         Log.d("ccdata", "click ---------------");
                         getData().clear();
+                        mDatas.clear();
                         notifyDataSetChanged();
                     }
                 });
@@ -156,6 +168,81 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<MultiIte
         }
 
     }
+
+    public void setOriginListData(List<TestNotification> mData) {
+        getData().clear();
+        mDatas.clear();
+        mDatas.addAll(mData);
+        if (mDatas.size() > 0) {
+            getTransferData(mDatas, true);
+        } else {
+            getTransferData(mDatas, false);
+        }
+    }
+
+    //非聚合数据
+    private void getTransferData(List<TestNotification> data, boolean isHeader) {
+        ArrayList<MultiItemEntity> res = new ArrayList<>();
+        Log.w("kim", "----------------->" + res.hashCode());
+        for (TestNotification testNotification : data) {
+            if (testNotification.isExpandItem()) {
+                ImageItem iItem = new ImageItem(testNotification.getTitle(), testNotification.getContent(), testNotification.getPkg());
+                iItem.setTime(testNotification.getTime());
+                res.add(iItem);
+            } else {
+                NormalItem nItem = new NormalItem(testNotification.getTitle(), testNotification.getContent(), testNotification.getPkg());
+                nItem.setTime(testNotification.getTime());
+                res.add(nItem);
+            }
+        }
+        if (isHeader) {
+            res.add(headerItem);
+        }
+        Collections.sort(res, mGroupEntityCmp);
+        setNewData(res);
+    }
+
+    public void addAdapterOriginData(TestNotification testNotification) {
+        mDatas.add(testNotification);
+        setTransferData(testNotification);
+    }
+
+    //非聚合数据
+    private void setTransferData(TestNotification testNotification) {
+        if (!getData().contains(headerItem)) {
+//            res.add(headerItem);
+            addData(headerItem);
+        }
+        if (testNotification.isExpandItem()) {
+            ImageItem iItem = new ImageItem(testNotification.getTitle(), testNotification.getContent(), testNotification.getPkg());
+            iItem.setTime(testNotification.getTime());
+            addData(iItem);
+        } else {
+            NormalItem nItem = new NormalItem(testNotification.getTitle(), testNotification.getContent(), testNotification.getPkg());
+            nItem.setTime(testNotification.getTime());
+            addData(nItem);
+        }
+    }
+
+    private Comparator<MultiItemEntity> mGroupEntityCmp = new Comparator<MultiItemEntity>() {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/M/d H:mm:ss");
+        public int compare(MultiItemEntity a, MultiItemEntity b) {
+            Date d1, d2;
+            try {
+                d1 = format.parse(format.format(new Date(a.getTime())));
+                d2 = format.parse(format.format(b.getTime()));
+            } catch (ParseException e) {
+                // 解析出错，则不进行排序
+                Log.e("kim", "ComparatorDate--compare--SimpleDateFormat.parse--error");
+                return 0;
+            }
+            if (d1.before(d2)) {
+                return 1;
+            } else {
+                return -1;
+            }
+        }
+    };
 
     //屏蔽
     private void setItemShield(int pos, MultiItemEntity item) {

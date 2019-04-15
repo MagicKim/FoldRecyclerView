@@ -9,7 +9,7 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
  */
 public class PolymerizationItem0 extends AbstractExpandableItem<PolymerizationItem1> implements MultiItemEntity {
 
-    private Long time;
+    private long time;
     private String pkg;
     private String title;
 
@@ -57,7 +57,7 @@ public class PolymerizationItem0 extends AbstractExpandableItem<PolymerizationIt
     }
 
     @Override
-    public Long getTime() {
+    public long getTime() {
         return time;
     }
 

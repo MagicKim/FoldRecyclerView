@@ -9,5 +9,5 @@ public interface MultiItemEntity {
 
     String getPackageName();
 
-    Long getTime();
+    long getTime();
 }

@@ -9,7 +9,7 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
  */
 public class Level0Item extends AbstractExpandableItem<Level1Item> implements MultiItemEntity {
 
-    public Long time;
+    public long time;
     public String title;
     public String subTitle;
 
@@ -34,7 +34,7 @@ public class Level0Item extends AbstractExpandableItem<Level1Item> implements Mu
     }
 
     @Override
-    public Long getTime() {
+    public long getTime() {
         return time;
     }
 

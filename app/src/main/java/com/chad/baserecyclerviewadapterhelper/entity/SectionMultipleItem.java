@@ -53,7 +53,7 @@ public class SectionMultipleItem extends SectionMultiEntity<Video> implements Mu
     }
 
     @Override
-    public Long getTime() {
-        return null;
+    public long getTime() {
+        return 1;
     }
 }

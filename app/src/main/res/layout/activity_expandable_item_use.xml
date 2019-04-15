@@ -11,19 +11,15 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/bt_group"
+        <Switch
+            android:id="@+id/switch1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="聚合消息"
-            android:textColor="@color/colorPrimary" />
+            android:checked="true"
+            android:text="聚合开关"
+            android:textOff="聚合关闭"
+            android:textOn="聚合开启" />
 
-        <Button
-            android:id="@+id/bt_cancel_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="取消聚合消息"
-            android:textColor="@color/colorPrimary" />
 
         <Button
             android:id="@+id/bt_add_notification"

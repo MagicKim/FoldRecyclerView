@@ -8,7 +8,7 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
  */
 public class HeaderItem implements MultiItemEntity {
 
-    private Long time;
+    private long time;
     private String title;
 
     public HeaderItem(String title, Long time) {
@@ -24,7 +24,7 @@ public class HeaderItem implements MultiItemEntity {
         this.title = title;
     }
 
-    public Long getTime() {
+    public long getTime() {
         return time;
     }
 
@@ -42,5 +42,11 @@ public class HeaderItem implements MultiItemEntity {
         return null;
     }
 
-
+    @Override
+    public String toString() {
+        return "HeaderItem{" +
+                "time=" + time +
+                ", title='" + title + '\'' +
+                '}';
+    }
 }

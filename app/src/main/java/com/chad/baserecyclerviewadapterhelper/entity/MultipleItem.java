@@ -56,8 +56,8 @@ public class MultipleItem implements MultiItemEntity {
     }
 
     @Override
-    public Long getTime() {
-        return null;
+    public long getTime() {
+        return 1;
     }
 
     @Override
