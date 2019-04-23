@@ -24,9 +24,9 @@ public class HomeActivity extends AppCompatActivity {
     private ArrayList<HomeItem> mDataList;
     private RecyclerView mRecyclerView;
     //
-    private static final Class<?>[] ACTIVITY = {ExpandableUseActivity.class};
-    private static final String[] TITLE = {"test demo"};
-    private static final int[] IMG = {R.mipmap.gv_expandable};
+    private static final Class<?>[] ACTIVITY = {ExpandableUseActivity.class, Main2Activity.class};
+    private static final String[] TITLE = {"test demo", "Test UI"};
+    private static final int[] IMG = {R.mipmap.gv_expandable, R.mipmap.gv_empty};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

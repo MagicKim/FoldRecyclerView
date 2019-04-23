@@ -1,27 +1,47 @@
 package com.chad.baserecyclerviewadapterhelper.adapter;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.v7.util.DiffUtil;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chad.baserecyclerviewadapterhelper.R;
 import com.chad.baserecyclerviewadapterhelper.animation.FoldingLayout;
+import com.chad.baserecyclerviewadapterhelper.animation.SwipeMenuLayout;
+import com.chad.baserecyclerviewadapterhelper.entity.HeaderItem;
 import com.chad.baserecyclerviewadapterhelper.entity.ImageItem;
 import com.chad.baserecyclerviewadapterhelper.entity.Level0Item;
 import com.chad.baserecyclerviewadapterhelper.entity.Level1Item;
 import com.chad.baserecyclerviewadapterhelper.entity.NormalItem;
 import com.chad.baserecyclerviewadapterhelper.entity.PolymerizationItem0;
 import com.chad.baserecyclerviewadapterhelper.entity.PolymerizationItem1;
+import com.chad.baserecyclerviewadapterhelper.entity.TestNotification;
+import com.chad.baserecyclerviewadapterhelper.util.DataCallback;
+import com.chad.baserecyclerviewadapterhelper.util.ListUtils;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.entity.IExpandable;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
+import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by luoxw on 2016/8/9.
@@ -41,38 +61,26 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
     public static final int TYPE_GROUP_0 = 5;
     public static final int TYPE_GROUP_1 = 6;
 
-    PolymerizationItem0 item0 = new PolymerizationItem0("null", "屏蔽列表");
+    private Context mContext;
+
+    private PolymerizationItem0 item0 = new PolymerizationItem0("null", "屏蔽列表");
 
     /**
      * Same as QuickAdapter#QuickAdapter(Context,int) but with
      * some initialization data.
-     *
-     * @param data A new list is created out of this one to avoid mutable list
      */
-    public ExpandableItemAdapter() {
+    public ExpandableItemAdapter(Context context) {
         super(null);
-        addItemType(TYPE_HEADER, R.layout.head_view);
+        mContext = context;
         addItemType(TYPE_LEVEL_0, R.layout.item_assemble_parent);
         addItemType(TYPE_LEVEL_1, R.layout.item_assemble_child);
         addItemType(TYPE_GROUP_0, R.layout.item_expandable_lv0);
         addItemType(TYPE_GROUP_1, R.layout.item_expandable_lv1);
-
     }
 
     @Override
     protected void convert(final BaseViewHolder holder, final MultiItemEntity item) {
         switch (holder.getItemViewType()) {
-            case TYPE_HEADER:
-                holder.getView(R.id.iv_delete_all).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Log.d("ccdata", "click ---------------");
-                        getData().clear();
-                        notifyDataSetChanged();
-                    }
-                });
-
-                break;
             case TYPE_LEVEL_0:
                 switch (holder.getLayoutPosition() % 3) {
                     case 0:
@@ -88,37 +96,51 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                         break;
                 }
                 final Level0Item lv0 = (Level0Item) item;
+                final SwipeMenuLayout swipeMenuLayout = holder.getView(R.id.rl_normal_root_layout);
+//                final RelativeLayout layoutLandscape = holder.getView(R.id.l0_layout_image);
+                final LinearLayout layoutL0 = holder.getView(R.id.l0_layout);
+//                final ImageView imageLandscape = holder.getView(R.id.iv_picture);
+//                layoutLandscape.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        imageLandscape.setVisibility(View.GONE);
+//                        layoutL0.setVisibility(View.VISIBLE);
+//                    }
+//                });
 
+
+//                Picasso.with(mContext).load(R.drawable.picture_landscape).into(imageLandscape);
+//                if (lv0.isExpanded()) {
+//                    swipeMenuLayout.setSwipeEnable(false);
+//                } else {
+//                    swipeMenuLayout.setSwipeEnable(true);
+//                }
                 holder.setText(R.id.title, lv0.title)
                         .setText(R.id.sub_title, lv0.subTitle)
                         .setImageResource(R.id.iv, lv0.isExpanded() ? R.mipmap.arrow_b : R.mipmap.arrow_r);
-                holder.getView(R.id.l0_layout).setOnClickListener(new View.OnClickListener() {
+                layoutL0.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         int pos = holder.getAdapterPosition();
-                        Log.d(TAG, "Level 0 item pos: " + pos);
+                        Log.e("kim", "Level 0 item pos: " + pos);
                         if (lv0.isExpanded()) {
+//                            lv0.setExpanded(false);
                             collapse(pos);
+                            swipeMenuLayout.setSwipeEnable(false);
                         } else {
+//                            lv0.setExpanded(true);
                             expand(pos);
+                            swipeMenuLayout.setSwipeEnable(true);
                         }
                     }
                 });
 
-                holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                holder.getView(R.id.tv_question_del).setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public boolean onLongClick(View v) {
+                    public void onClick(View v) {
+                        Log.e("kim", "删除");
                         int pos = holder.getAdapterPosition();
-                        // 先获取到当前 item 的父 positon，再移除自己
-                        int positionAtAll = getParentPositionInAll(pos);
-                        remove(pos);
-                        if (positionAtAll != -1) {
-                            IExpandable multiItemEntity = (IExpandable) getData().get(positionAtAll);
-                            if (!hasSubItems(multiItemEntity)) {
-                                remove(positionAtAll);
-                            }
-                        }
-                        return true;
+                        remove(pos - getHeaderLayoutCount());
                     }
                 });
                 break;
@@ -133,7 +155,20 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 holder.getView(R.id.tv_assemble_del).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        setItemDel(holder.getAdapterPosition(), item);
+                        int pos = holder.getAdapterPosition();
+                        // 先获取到当前 item 的父 positon，再移除自己
+                        int positionAtAll = getParentPositionInAll(pos - getHeaderLayoutCount());
+                        Log.w(TAG, "positionAtAll =" + positionAtAll);
+                        remove(pos - getHeaderLayoutCount());
+                        if (positionAtAll != -1) {
+                            IExpandable multiItemEntity = (IExpandable) getData().get(positionAtAll);
+                            Log.e(TAG, "multiItemEntity =" + multiItemEntity.toString());
+                            if (!hasSubItems(multiItemEntity)) {
+                                getData().remove(multiItemEntity);
+                                notifyDataSetChanged();
+//                                remove(positionAtAll);
+                            }
+                        }
                     }
                 });
                 if (lv1.isExpand) {
@@ -266,7 +301,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
         }
     }
 
-    public void groupAddOriginData(){
+    public void groupAddOriginData() {
 
     }
 
@@ -283,6 +318,70 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
             }
         }
     }
+
+
+    private ArrayList<TestNotification> notificationArrayList = new ArrayList<>();
+
+    //聚合转换
+    public void addGroupItem(TestNotification notification) {
+        notificationArrayList.add(notification);
+        ArrayList<Long> childTimeList = new ArrayList<>();
+        ArrayList<MultiItemEntity> entityList = new ArrayList<>();
+        Map<String, List<TestNotification>> resultMap = new LinkedHashMap<>();
+        for (TestNotification testN : notificationArrayList) {
+            String pkg = testN.getPkg();
+            if (resultMap.containsKey(pkg)) {
+                resultMap.get(pkg).add(testN);
+            } else {
+                List<TestNotification> tmp = new LinkedList<>();
+                tmp.add(testN);
+                resultMap.put(pkg, tmp);
+            }
+        }
+        for (String key : resultMap.keySet()) {
+            Level0Item level0Item = new Level0Item(key, "---聚合---");
+            List<TestNotification> notificationList = resultMap.get(key);
+            for (TestNotification testNotification : notificationList) {
+                childTimeList.add(testNotification.getTime());
+            }
+            Long maxTime = Collections.max(childTimeList);
+            level0Item.time = maxTime;
+//            if (notificationList.size() > 2) {
+//
+//            } else {
+//
+//            }
+            for (TestNotification testNotification : notificationList) {
+                level0Item.addSubItem(new Level1Item(testNotification.getTitle(),
+                        testNotification.getPkg(), testNotification.isExpandItem(), testNotification.getContent()));
+            }
+            entityList.add(level0Item);
+
+        }
+        Collections.sort(entityList, mGroupEntityCmp);
+        setNewData(entityList);
+    }
+
+    private Comparator<MultiItemEntity> mGroupEntityCmp = new Comparator<MultiItemEntity>() {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/M/d H:mm:ss");
+
+        public int compare(MultiItemEntity a, MultiItemEntity b) {
+            Date d1, d2;
+            try {
+                d1 = format.parse(format.format(new Date(a.getTime())));
+                d2 = format.parse(format.format(b.getTime()));
+            } catch (ParseException e) {
+                // 解析出错，则不进行排序
+                Log.e("kim", "ComparatorDate--compare--SimpleDateFormat.parse--error");
+                return 0;
+            }
+            if (d1.before(d2)) {
+                return 1;
+            } else {
+                return -1;
+            }
+        }
+    };
 
     //屏蔽
     private void setItemShield(int pos, MultiItemEntity item) {
@@ -359,7 +458,6 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
             }
         }
         getData().remove(multiItemEntityLeve0);
-
         setNewData(getData());
     }
 
@@ -394,6 +492,12 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
         newData.clear();
     }
 
+    public void deleteAllData() {
+        Log.d("kim", "click ---------------");
+        getData().clear();
+        notifyDataSetChanged();
+    }
+
     private int itemType(MultiItemEntity item) {
         if (item instanceof ImageItem) {
             return TYPE_IMAGE;
@@ -406,5 +510,4 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
         }
         return -1;
     }
-
 }

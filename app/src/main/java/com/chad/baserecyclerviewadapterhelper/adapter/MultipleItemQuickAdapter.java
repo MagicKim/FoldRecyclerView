@@ -169,6 +169,7 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<MultiIte
 
     }
 
+    //切换过来，加载数据源，排序
     public void setOriginListData(List<TestNotification> mData) {
         getData().clear();
         mDatas.clear();

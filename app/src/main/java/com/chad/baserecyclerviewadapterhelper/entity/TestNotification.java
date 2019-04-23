@@ -1,5 +1,7 @@
 package com.chad.baserecyclerviewadapterhelper.entity;
 
+import java.util.Collection;
+
 /**
  * Created by ${Kim} on 19-3-22.
  */
@@ -72,7 +74,7 @@ public class TestNotification {
         isShield = shield;
     }
 
-    public Long getTime() {
+    public long getTime() {
         return time;
     }
 

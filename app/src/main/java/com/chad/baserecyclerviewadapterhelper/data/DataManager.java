@@ -8,6 +8,7 @@ import com.chad.baserecyclerviewadapterhelper.entity.Level0Item;
 import com.chad.baserecyclerviewadapterhelper.entity.Level1Item;
 import com.chad.baserecyclerviewadapterhelper.entity.NormalItem;
 import com.chad.baserecyclerviewadapterhelper.entity.TestNotification;
+import com.chad.baserecyclerviewadapterhelper.util.ListUtils;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 import java.text.ParseException;
@@ -59,33 +60,33 @@ public class DataManager {
 
 
     //聚合转换
-//    public ArrayList<MultiItemEntity> consistGroup() {
-//        ArrayList<MultiItemEntity> me = new ArrayList<>();
-//
-//        for (TestNotification notification : mOriginData) {
-//            List<TestNotification> testNotifications = maps.get(notification.getPkg());
-//            if (testNotifications == null) {
-//                testNotifications = new ArrayList<>();
-//                testNotifications.add(notification);
-//                maps.put(notification.getPkg(), testNotifications);
-//            } else {
-//                testNotifications.add(notification);
-//            }
-//        }
-//        for (String key : maps.keySet()) {
-//            Log.w("kim", "key= " + key + " and value= " + maps.get(key));
-//            Level0Item level0Item = new Level0Item(key, "---聚合---");
-//            List<TestNotification> testNotifications = maps.get(key);
-//            for (TestNotification testNotification : testNotifications) {
-//                level0Item.addSubItem(new Level1Item(testNotification.getTitle(),
-//                        testNotification.getPkg(), testNotification.isExpandItem(), testNotification.getContent()));
-//            }
-//            me.add(level0Item);
-//        }
-//        HeaderItem headerItem = new HeaderItem("通知头部", 2555053240000L);
-//        me.add(headerItem);
-//        return me;
-//    }
+    public ArrayList<MultiItemEntity> consistGroup() {
+        ArrayList<MultiItemEntity> me = new ArrayList<>();
+
+        for (TestNotification notification : mOriginData) {
+            List<TestNotification> testNotifications = maps.get(notification.getPkg());
+            if (testNotifications == null) {
+                testNotifications = new ArrayList<>();
+                testNotifications.add(notification);
+                maps.put(notification.getPkg(), testNotifications);
+            } else {
+                testNotifications.add(notification);
+            }
+        }
+        for (String key : maps.keySet()) {
+            Log.w("kim", "key= " + key + " and value= " + maps.get(key));
+            Level0Item level0Item = new Level0Item(key, "---聚合---");
+            List<TestNotification> testNotifications = maps.get(key);
+            for (TestNotification testNotification : testNotifications) {
+                level0Item.addSubItem(new Level1Item(testNotification.getTitle(),
+                        testNotification.getPkg(), testNotification.isExpandItem(), testNotification.getContent()));
+            }
+            me.add(level0Item);
+        }
+        HeaderItem headerItem = new HeaderItem("通知头部", 2555053240000L);
+        me.add(headerItem);
+        return me;
+    }
 
 
 //    public void addOriginGroupData(TestNotification notification) {
@@ -109,7 +110,6 @@ public class DataManager {
 //    }
 
 
-
     public Map<String, List<TestNotification>> getMaps() {
         return maps;
     }
@@ -121,7 +121,7 @@ public class DataManager {
 
     //非聚合数据
     public ArrayList<MultiItemEntity> getTransferData() {
-        getNormalData();
+
         ArrayList<MultiItemEntity> res = new ArrayList<>();
         for (TestNotification testNotification : mOriginData) {
             if (testNotification.isExpandItem()) {
@@ -142,6 +142,7 @@ public class DataManager {
 
     private Comparator<MultiItemEntity> mGroupEntityCmp = new Comparator<MultiItemEntity>() {
         SimpleDateFormat format = new SimpleDateFormat("yyyy/M/d H:mm:ss");
+
         public int compare(MultiItemEntity a, MultiItemEntity b) {
             Date d1, d2;
             try {
@@ -162,28 +163,44 @@ public class DataManager {
 
     private void getNormalData() {
 
-        mOriginData.add(new TestNotification(1, "com.ecarx.cc", "周杰伦全新专辑发布!",
+        mOriginData.add(new TestNotification(1, "com.car.cc", "周杰伦全新专辑发布!",
                 "音乐消息1", false, false, 1555053240000L));
-        mOriginData.add(new TestNotification(2, "com.ecarx.bb", "AirPods H1芯片有多强？- 你的耳朵里是台iPhone 4",
+        mOriginData.add(new TestNotification(2, "com.car.bb", "AirPods H1芯片有多强？- 你的耳朵里是台iPhone 4",
                 "新闻消息2", true, false, 1335053240000L));
-        mOriginData.add(new TestNotification(3, "com.ecarx.dd", "您的内存满了哦，请及时清理！",
+        mOriginData.add(new TestNotification(3, "com.car.dd", "您的内存满了哦，请及时清理！",
                 "系统消息3", false, false, 1455053240000L));
-        mOriginData.add(new TestNotification(4, "com.ecarx.cc", "陈奕迅全新专辑发布!",
+        mOriginData.add(new TestNotification(4, "com.car.cc", "陈奕迅全新专辑发布!",
                 "音乐消息4", true, false, 1655053240000L));
-        mOriginData.add(new TestNotification(5, "com.ecarx.bb", "坚果Pro 2系统更新：下线“残废”功能",
+        mOriginData.add(new TestNotification(5, "com.car.bb", "坚果Pro 2系统更新：下线“残废”功能",
                 "新闻消息5", true, false, 1555053240000L));
-        mOriginData.add(new TestNotification(6, "com.ecarx.dd", "有新的OTA升级包哦！",
+        mOriginData.add(new TestNotification(6, "com.car.dd", "有新的OTA升级包哦！",
                 "系统消息6", false, false, 1855053240000L));
-        mOriginData.add(new TestNotification(7, "com.ecarx.cc", "蔡依林全新专辑发布!",
+        mOriginData.add(new TestNotification(7, "com.car.cc", "蔡依林全新专辑发布!",
                 "音乐消息7", true, false, 1955053240000L));
-        mOriginData.add(new TestNotification(8, "com.ecarx.cc", "陶喆全新专辑发布!",
+        mOriginData.add(new TestNotification(8, "com.car.cc", "陶喆全新专辑发布!",
                 "音乐消息8", false, false, 1555054240000L));
-        mOriginData.add(new TestNotification(9, "com.ecarx.cc", "朴树全新专辑发布!",
+        mOriginData.add(new TestNotification(9, "com.car.cc", "朴树全新专辑发布!",
                 "音乐消息9", true, false, 1555073240000L));
-        mOriginData.add(new TestNotification(10, "com.ecarx.cc", "LadyGaga全新专辑发布!",
+        mOriginData.add(new TestNotification(10, "com.car.cc", "LadyGaga全新专辑发布!",
                 "音乐消息10", false, false, 1555153240000L));
-        mOriginData.add(new TestNotification(11, "com.ecarx.ee", "2019日本小姐冠军出炉 网友：越看越像吴京！",
+        mOriginData.add(new TestNotification(11, "com.car.ee", "2019日本小姐冠军出炉 网友：越看越像吴京！",
                 "娱乐消息11", false, false, 1255053240000L));
+    }
+
+    public void groupEntity() {
+//        getNormalData();
+//        Map<String, List<TestNotification>> stringListMap = ListUtils.groupBy(mOriginData, new ListUtils.GroupBy<String, TestNotification>() {
+//            @Override
+//            public String groupBy(TestNotification row) {
+//                String pkg = row.getPkg();
+//
+//                return pkg;
+//            }
+//        });
+//
+//        for (String key : stringListMap.keySet()) {
+//            Log.w("kim", "key = " + key + " --- value ---" + stringListMap.get(key));
+//        }
     }
 
 
