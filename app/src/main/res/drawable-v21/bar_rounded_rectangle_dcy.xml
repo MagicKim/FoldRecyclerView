@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle"
+    android:useLevel="true">
+
+    <stroke
+        android:width="2dp"
+        android:color="@color/notify_button_two_border_color" />
+
+    <solid android:color="@color/notify_recycler_view_two_button_color" />
+
+    <corners android:radius="@dimen/list_item_button_radius" />
+
+</shape>

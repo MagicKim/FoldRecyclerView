@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--item image 宽高 -->
+    <dimen name="list_view_item_image_width">60dp</dimen>
+    <dimen name="list_view_item_image_size">50dp</dimen>
+
+    <!-- item 文字 -->
+    <dimen name="list_view_item_title">36sp</dimen>
+    <dimen name="list_view_item_content">32sp</dimen>
+    <dimen name="list_view_item_time">30sp</dimen>
+
+    <dimen name="list_view_item_header_del">33sp</dimen>
+    <!-- header 高度-->
+    <dimen name="list_view_item_header_height">114dp</dimen>
+    <!-- header 大标题-->
+    <dimen name="list_view_item_header_text_time_size">50sp</dimen>
+    <!-- header 标题 margin-->
+    <dimen name="list_view_item_offset">20dp</dimen>
+    <dimen name="list_view_item_header_driver_line_padding">1dp</dimen>
+    <dimen name="list_view_item_header_driver_line_height">1px</dimen>
+
+    <!-- item 文字距离图片-->
+    <dimen name="list_view_item_margin_start">15dp</dimen>
+    <dimen name="list_view_item_margin_top">38dp</dimen>
+    <dimen name="list_view_item_content_margin_top">13dp</dimen>
+    <dimen name="list_view_item_margin_end">10dp</dimen>
+    <dimen name="list_view_item_margin_time_end">50dp</dimen>
+    <dimen name="list_view_item_control_margin">40dp</dimen>
+    <!-- recycler view margin边距用于控制进度条显示位置-->
+    <dimen name="list_view_margin_start">40dp</dimen>
+    <dimen name="list_view_margin_top">2dp</dimen>
+    <dimen name="list_view_padding">5dp</dimen>
+
+    <!--main view 画白色框的宽 -->
+    <dimen name="main_view_width">619dp</dimen>
+    <!-- main view 高-->
+    <dimen name="main_view_rectangle_height">879dp</dimen>
+
+    <!-- recycler view 宽-->
+    <dimen name="list_view_width">1300dp</dimen>
+    <dimen name="list_view_item1">100dp</dimen>
+    <dimen name="list_view_item2">120dp</dimen>
+    <dimen name="list_view_margin">310dp</dimen>
+
+    <dimen name="list_view_empty_view_content_width">490dp</dimen>
+    <dimen name="list_view_empty_view_width">145dp</dimen>
+    <dimen name="list_view_empty_view_height">2dp</dimen>
+    <dimen name="list_view_empty_tc_margin">170dp</dimen>
+    <dimen name="list_view_empty_tc_margin_start">730dp</dimen>
+    <dimen name="list_view_empty_text_margin_start">715dp</dimen>
+    <dimen name="list_view_empty_text_margin">115dp</dimen>
+    <dimen name="list_view_empty_text_padding">20dp</dimen>
+    <!-- recycler view item高-->
+    <dimen name="list_view_swipe_height">160dp</dimen>
+    <!-- recycler view 高 dcy11 not-->
+    <dimen name="list_view_height">510dp</dimen>
+
+    <dimen name="list_view_dcy_padding">10dp</dimen>
+
+
+    <!--删除按钮 -->
+    <dimen name="list_view_item_delete_width">160dp</dimen>
+    <dimen name="item_delete_max_height">221dp</dimen>
+    <dimen name="item_delete_min_height">168dp</dimen>
+    <dimen name="list_view_item_delete_text">30sp</dimen>
+    <dimen name="list_view_place_button_width">20dp</dimen>
+
+    <!-- dcy11 item 删除按钮样式-->
+
+    <dimen name="list_view_del_button_height">80dp</dimen>
+    <dimen name="list_view_del_oval_size">80dp</dimen>
+    <dimen name="list_view_del_button_width">200dp</dimen>
+    <dimen name="list_view_del_button_radius">40dp</dimen>
+    <dimen name="list_del_button_radius">20dp</dimen>
+
+    <dimen name="list_item_button_radius">6dp</dimen>
+
+    <!-- 弹框image宽高-->
+    <dimen name="bar_view_image_width">120dp</dimen>
+    <dimen name="bar_view_image_height">120dp</dimen>
+    <!-- bar text size-->
+    <dimen name="bar_view_title_text">36sp</dimen>
+    <dimen name="bar_view_content_text">32sp</dimen>
+    <dimen name="bar_view_time_text">32sp</dimen>
+    <dimen name="bar_view_text_max_width">250dp</dimen>
+    <dimen name="bar_view_text_content_max_width">443dp</dimen>
+
+    <dimen name="bar_time_margin_start">30dp</dimen>
+    <dimen name="bar_view_time_margin_top">15dp</dimen>
+
+    <!--bar icon margin-->
+    <dimen name="bar_root_view_margin_end">50dp</dimen>
+    <!--bar text margin-->
+    <dimen name="bar_view_text_margin">50dp</dimen>
+    <dimen name="bar_view_text_margin_top">16dp</dimen>
+
+    <dimen name="list_view_tc1_textsize">160sp</dimen>
+    <dimen name="list_view_tc2_textsize">64sp</dimen>
+    <dimen name="list_view_tc3_textsize">48sp</dimen>
+
+
+    <!--弹框宽高-->
+    <dimen name="bar_view_width">1300dp</dimen>
+    <dimen name="bar_view_height">192dp</dimen>
+
+    <dimen name="bar_view_content_width">850dp</dimen>
+    <dimen name="bar_view_time_width">170dp</dimen>
+
+    <dimen name="item_placeholder_width">40dp</dimen>
+    <!-- 滑动条尺寸dcy11-->
+    <dimen name="list_view_thumb_width">2dp</dimen>
+    <dimen name="list_view_thumb_height">10dp</dimen>
+
+    <dimen name="list_view_thumb_radius">2dp</dimen>
+    <dimen name="list_view_thumb_line_radius">2dp</dimen>
+    <dimen name="list_view_thumb_line_padding">2dp</dimen>
+
+    <!-- main view 画线框 -->
+    <dimen name="main_view_border_radius">2dp</dimen>
+    <dimen name="main_view_border_width">1dp</dimen>
+
+    <!-- dcy11 bar自定义按钮-->
+    <dimen name="bar_view_button_height">64dp</dimen>
+    <dimen name="bar_view_button_width">192dp</dimen>
+    <!-- bar button margin start-->
+    <dimen name="bar_view_button_margin">20dp</dimen>
+    <dimen name="bar_view_button_text_size">36sp</dimen>
+
+    <dimen name="dyc_list_header_del_width_height">80dp</dimen>
+
+    <dimen name="main_no_notification">38sp</dimen>
+
+    <!-- 删除的控件宽-->
+    <dimen name="custom_layout_delete">185dp</dimen>
+    <dimen name="custom_layout_delete_button_end">32dp</dimen>
+</resources>
