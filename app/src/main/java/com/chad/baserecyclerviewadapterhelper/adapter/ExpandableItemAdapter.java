@@ -3,6 +3,7 @@ package com.chad.baserecyclerviewadapterhelper.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -72,6 +73,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
     public ExpandableItemAdapter(Context context) {
         super(null);
         mContext = context;
+        addItemType(TYPE_NORMAL, R.layout.item_text_view);
         addItemType(TYPE_LEVEL_0, R.layout.item_assemble_parent);
         addItemType(TYPE_LEVEL_1, R.layout.item_assemble_child);
         addItemType(TYPE_GROUP_0, R.layout.item_expandable_lv0);
@@ -81,6 +83,30 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
     @Override
     protected void convert(final BaseViewHolder holder, final MultiItemEntity item) {
         switch (holder.getItemViewType()) {
+
+            case TYPE_NORMAL:
+                final NormalItem normalItem = (NormalItem) item;
+                holder.setText(R.id.tv_normal_title, normalItem.getTitle());
+                holder.setText(R.id.tv_normal_content, normalItem.getContent());
+                holder.setText(R.id.tv_normal_pkg, normalItem.getPkg());
+                holder.setText(R.id.tv_normal_time, "时间：" + normalItem.getTime());
+                TextView textViewDel = holder.getView(R.id.tv_normal_del);
+                TextView textViewShield = holder.getView(R.id.tv_normal_shield);
+//                textViewDel.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        setItemDel(holder.getAdapterPosition(), normalItem);
+//                    }
+//                });
+//
+//                textViewShield.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        setItemShield(holder.getAdapterPosition(), normalItem);
+//                    }
+//                });
+
+                break;
             case TYPE_LEVEL_0:
                 switch (holder.getLayoutPosition() % 3) {
                     case 0:
@@ -323,7 +349,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
     private ArrayList<TestNotification> notificationArrayList = new ArrayList<>();
 
     //聚合转换
-    public void addGroupItem(TestNotification notification) {
+/*    public void addGroupItem(TestNotification notification) {
         notificationArrayList.add(notification);
         ArrayList<Long> childTimeList = new ArrayList<>();
         ArrayList<MultiItemEntity> entityList = new ArrayList<>();
@@ -346,11 +372,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
             }
             Long maxTime = Collections.max(childTimeList);
             level0Item.time = maxTime;
-//            if (notificationList.size() > 2) {
-//
-//            } else {
-//
-//            }
+
             for (TestNotification testNotification : notificationList) {
                 level0Item.addSubItem(new Level1Item(testNotification.getTitle(),
                         testNotification.getPkg(), testNotification.isExpandItem(), testNotification.getContent()));
@@ -360,7 +382,90 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
         }
         Collections.sort(entityList, mGroupEntityCmp);
         setNewData(entityList);
+    }*/
+
+    private ArrayList<MultiItemEntity> entityList = new ArrayList<>();
+
+    //聚合转换
+    public void addGroupItem(TestNotification xcnRecord) {
+        notificationArrayList.add(xcnRecord);
+        ArrayList<Long> childTimeList = new ArrayList<>();
+        Map<String, List<TestNotification>> resultMap = new LinkedHashMap<>();
+        for (TestNotification record : notificationArrayList) {
+            String pkg = record.getPkg();
+            if (resultMap.containsKey(pkg)) {
+                resultMap.get(pkg).add(record);
+            } else {
+                List<TestNotification> tmp = new LinkedList<>();
+                tmp.add(record);
+                resultMap.put(pkg, tmp);
+            }
+        }
+        if (resultMap.get(xcnRecord.getPkg()).size() < 2) {
+            Log.e(TAG, "添加默认的布局 同一个包名下面的消息小于2 " + xcnRecord.getPkg());
+            NormalItem normalItem = new NormalItem(xcnRecord.getTitle(), xcnRecord.getContent(), xcnRecord.getPkg());
+            normalItem.setTime(xcnRecord.getTime());
+            entityList.add(normalItem);
+        } else {
+            Log.e(TAG, "聚合布局------>" + xcnRecord.getPkg());
+            Iterator<MultiItemEntity> iterator = getData().iterator();
+            while (iterator.hasNext()) {
+                MultiItemEntity next = iterator.next();
+                if (itemType(next) == TYPE_NORMAL) {
+                    NormalItem normalItem = (NormalItem) next;
+                    if (normalItem.getPackageName().equals(xcnRecord.getPkg())) {
+                        Log.e(TAG, "聚合布局,需要删除原来默认的数据 " + xcnRecord.getPkg());
+                        iterator.remove();
+                    }
+                }
+            }
+//            Log.e(TAG, "notificationList = " + notificationList.size());
+            for (String key : resultMap.keySet()) {
+                Log.e(TAG, "遍历map");
+                if (TextUtils.equals(key, xcnRecord.getPkg())) {
+                    Log.e(TAG, " getData() = "+getData().size() );
+                    Iterator<MultiItemEntity> iteratorGroup = getData().iterator();
+                    while (iteratorGroup.hasNext()) {
+                        MultiItemEntity next = iteratorGroup.next();
+                        if (itemType(next) == TYPE_LEVEL_0) {
+                            Log.e(TAG, " TYPE_LEVEL_0" );
+                            Level0Item level0Item = (Level0Item) next;
+                            if (level0Item.getPackageName().equals(xcnRecord.getPkg())) {
+                                Log.e(TAG, "聚合布局,需要删除原来已经聚合的内容 " + xcnRecord.getPkg());
+                                iteratorGroup.remove();
+                            }
+                        }
+                    }
+                    Log.e(TAG, "如果这条消息与map中的key值一样,那么聚合");
+                    List<TestNotification> notificationList = resultMap.get(key);
+                    Level0Item foldParentItem = new Level0Item(xcnRecord.getTitle(),xcnRecord.getPkg());
+                    for (TestNotification timeNotification : notificationList) {
+                        childTimeList.add(timeNotification.getTime());
+                        foldParentItem.addSubItem(new Level1Item(timeNotification.getTitle(), timeNotification.getPkg(), true, timeNotification.getContent()));
+                    }
+                    Long maxTime = Collections.max(childTimeList);
+                    foldParentItem.time = maxTime;
+                    foldParentItem.title = xcnRecord.getPkg();
+                    foldParentItem.setExpanded(false);
+                    entityList.add(foldParentItem);
+                }
+            }
+        }
+        getData().addAll(entityList);
+        Collections.sort(getData(), mGroupEntityCmp);
+        setNewData(getData());
+        entityList.clear();
     }
+
+
+    private ArrayList<TestNotification> testNotificationList = new ArrayList<>();
+
+    public void add(TestNotification notification) {
+        testNotificationList.add(notification);
+
+
+    }
+
 
     private Comparator<MultiItemEntity> mGroupEntityCmp = new Comparator<MultiItemEntity>() {
         SimpleDateFormat format = new SimpleDateFormat("yyyy/M/d H:mm:ss");
