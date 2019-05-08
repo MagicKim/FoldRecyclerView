@@ -387,10 +387,14 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
     //转换的数据
     private ArrayList<MultiItemEntity> entityList = new ArrayList<>();
 
-    //聚合转换
+    //动态构建聚合转换
     public void addGroupItem(TestNotification xcnRecord) {
         //添加原始数据
         notificationArrayList.add(xcnRecord);
+        assembleData(xcnRecord);
+    }
+
+    private void assembleData(TestNotification xcnRecord) {
         //构建时间集合
         ArrayList<Long> childTimeList = new ArrayList<>();
         //使用map分组
@@ -472,8 +476,12 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
 
     private ArrayList<TestNotification> testNotificationList = new ArrayList<>();
 
-    public void add(TestNotification notification) {
-        testNotificationList.add(notification);
+    public void setNormalData() {
+        getData().clear();
+        for (TestNotification testNotification : notificationArrayList) {
+            NormalItem normalItem = new NormalItem(testNotification.getTitle(), testNotification.getContent(), testNotification.getPkg());
+            addData(normalItem);
+        }
 
 
     }

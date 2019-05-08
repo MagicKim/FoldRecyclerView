@@ -33,10 +33,8 @@ import java.util.Map;
 public class ExpandableUseActivity extends BaseActivity {
     private RecyclerView mRecyclerView;
     private ExpandableItemAdapter expandableAdapter;
-    private MultipleItemQuickAdapter multipleAdapter;
     private ArrayList<TestNotification> mData = new ArrayList<>();
     private Context mContext;
-    private boolean isChecked = false;
     private DataManager mDataManager;
 
     @Override
@@ -51,41 +49,33 @@ public class ExpandableUseActivity extends BaseActivity {
         mDataManager = new DataManager();
         mDataManager.groupEntity();
         mRecyclerView = findViewById(R.id.rv);
+        expandableAdapter = new ExpandableItemAdapter(mContext);
+        LinearLayoutManager manager = new LinearLayoutManager(mContext);
+        expandableAdapter.setEmptyView(R.layout.loading_view, (ViewGroup) mRecyclerView.getParent());
+        mRecyclerView.setLayoutManager(manager);
+        mRecyclerView.setAdapter(expandableAdapter);
+        expandableAdapter.addHeaderView(getHeaderView());
         Switch switchGroup = findViewById(R.id.switch1);
 
         switchGroup.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    expandableAdapter();
+
                 } else {
-                    setMultipleAdapter();
-                    List<TestNotification> originData = mDataManager.getOriginData();
-                    multipleAdapter.setOriginListData(originData);
+                    expandableAdapter.setNormalData();
                 }
             }
         });
 
         final int[] group = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-        final int[] pos = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
         Button addNotificationButton = findViewById(R.id.bt_add_notification);
         addNotificationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isChecked) {
-                    expandableAdapter.addGroupItem(mData.get(group[0]++));
-                    mDataManager.addOriginData(mData.get(pos[0]++));
-                } else {
-                    multipleAdapter.addAdapterOriginData(mData.get(pos[0]++));
-                    mDataManager.addOriginData(mData.get(pos[0]++));
-
-                }
+                expandableAdapter.addGroupItem(mData.get(group[0]++));
             }
         });
-
-        expandableAdapter();
-
-//        setMultipleAdapter();
     }
 
     private View getHeaderView() {
@@ -99,31 +89,6 @@ public class ExpandableUseActivity extends BaseActivity {
         return view;
     }
 
-    private void multipleAdapterAdd(TestNotification testNotification) {
-        multipleAdapter.addAdapterOriginData(testNotification);
-        mDataManager.addOriginData(testNotification);
-    }
-
-
-    private void expandableAdapter() {
-        isChecked = true;
-        expandableAdapter = new ExpandableItemAdapter(mContext);
-        LinearLayoutManager manager = new LinearLayoutManager(mContext);
-        expandableAdapter.setEmptyView(R.layout.loading_view, (ViewGroup) mRecyclerView.getParent());
-        mRecyclerView.setLayoutManager(manager);
-        mRecyclerView.setAdapter(expandableAdapter);
-        expandableAdapter.addHeaderView(getHeaderView());
-    }
-
-    private void setMultipleAdapter() {
-        isChecked = false;
-        multipleAdapter = new MultipleItemQuickAdapter();
-        LinearLayoutManager manager = new LinearLayoutManager(mContext);
-        multipleAdapter.setEmptyView(R.layout.loading_view, (ViewGroup) mRecyclerView.getParent());
-        mRecyclerView.setLayoutManager(manager);
-        mRecyclerView.setAdapter(multipleAdapter);
-
-    }
 
     public void getNormalData() {
 
