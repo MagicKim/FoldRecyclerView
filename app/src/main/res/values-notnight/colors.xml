@@ -21,6 +21,7 @@
     <color name="notify_recycler_view_item_pkg_press_color">#80000000</color>
 
 
+    <color name="notify_recycler_expand_bg_normal_color">#434343</color>
 
     <color name="notify_recycler_content_bg_normal_color">#1A434343</color>
     <color name="notify_recycler_content_bg_press_color">#0D434343</color>

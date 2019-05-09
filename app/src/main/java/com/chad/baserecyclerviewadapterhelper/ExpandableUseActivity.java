@@ -16,6 +16,7 @@ import com.chad.baserecyclerviewadapterhelper.adapter.ExpandableItemAdapter;
 import com.chad.baserecyclerviewadapterhelper.adapter.MultipleItemQuickAdapter;
 import com.chad.baserecyclerviewadapterhelper.base.BaseActivity;
 import com.chad.baserecyclerviewadapterhelper.data.DataManager;
+import com.chad.baserecyclerviewadapterhelper.decoration.DividerDecoration;
 import com.chad.baserecyclerviewadapterhelper.entity.HeaderItem;
 import com.chad.baserecyclerviewadapterhelper.entity.Level0Item;
 import com.chad.baserecyclerviewadapterhelper.entity.Level1Item;
@@ -53,6 +54,8 @@ public class ExpandableUseActivity extends BaseActivity {
         LinearLayoutManager manager = new LinearLayoutManager(mContext);
         expandableAdapter.setEmptyView(R.layout.loading_view, (ViewGroup) mRecyclerView.getParent());
         mRecyclerView.setLayoutManager(manager);
+        DividerDecoration itemDecoration = new DividerDecoration(this, LinearLayoutManager.VERTICAL);
+        mRecyclerView.addItemDecoration(itemDecoration);
         mRecyclerView.setAdapter(expandableAdapter);
         expandableAdapter.addHeaderView(getHeaderView());
         Switch switchGroup = findViewById(R.id.switch1);
@@ -61,7 +64,7 @@ public class ExpandableUseActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-
+                    expandableAdapter.transformGroupView();
                 } else {
                     expandableAdapter.setNormalData();
                 }
@@ -92,27 +95,27 @@ public class ExpandableUseActivity extends BaseActivity {
 
     public void getNormalData() {
 
-        mData.add(new TestNotification(1, "com.car.cc", "周杰伦全新专辑发布!",
+        mData.add(new TestNotification(1, "com.car.cc", "周杰伦全新专辑发布   1!",
                 "音乐消息1", false, false, 1555053240000L));
-        mData.add(new TestNotification(2, "com.car.bb", "AirPods H1芯片有多强？- 你的耳朵里是台iPhone 4",
+        mData.add(new TestNotification(2, "com.car.bb", "AirPods H1芯片有多强2？- 你的耳朵里是台iPhone 4",
                 "新闻消息2", true, false, 1335053240000L));
-        mData.add(new TestNotification(3, "com.car.dd", "您的内存满了哦，请及时清理！",
+        mData.add(new TestNotification(3, "com.car.dd", "您的内存满了哦，请及时清理3！",
                 "系统消息3", false, false, 1455053240000L));
-        mData.add(new TestNotification(4, "com.car.cc", "陈奕迅全新专辑发布!",
+        mData.add(new TestNotification(4, "com.car.cc", "陈奕迅全新专辑发布4!",
                 "音乐消息4", true, false, 1655053240000L));
-        mData.add(new TestNotification(5, "com.car.bb", "坚果Pro 2系统更新：下线“残废”功能",
+        mData.add(new TestNotification(5, "com.car.bb", "坚果Pro 2系统更新：下线“残废”功能5",
                 "新闻消息5", true, false, 1555053240000L));
-        mData.add(new TestNotification(6, "com.car.dd", "有新的OTA升级包哦！",
+        mData.add(new TestNotification(6, "com.car.dd", "有新的OTA升级包哦6！",
                 "系统消息6", false, false, 1855053240000L));
-        mData.add(new TestNotification(7, "com.car.cc", "蔡依林全新专辑发布!",
+        mData.add(new TestNotification(7, "com.car.cc", "蔡依林全新专辑发布7!",
                 "音乐消息7", true, false, 1955053240000L));
-        mData.add(new TestNotification(8, "com.car.cc", "陶喆全新专辑发布!",
+        mData.add(new TestNotification(8, "com.car.cc", "陶喆全新专辑发布8!",
                 "音乐消息8", false, false, 1555054240000L));
-        mData.add(new TestNotification(9, "com.car.cc", "朴树全新专辑发布!",
+        mData.add(new TestNotification(9, "com.car.cc", "朴树全新专辑发布9!",
                 "音乐消息9", true, false, 1555073240000L));
-        mData.add(new TestNotification(10, "com.car.cc", "LadyGaga全新专辑发布!",
+        mData.add(new TestNotification(10, "com.car.cc", "LadyGaga全新专辑发布10!",
                 "音乐消息10", false, false, 1555153240000L));
-        mData.add(new TestNotification(11, "com.car.ee", "2019日本小姐冠军出炉 网友：越看越像吴京！",
+        mData.add(new TestNotification(11, "com.car.ee", "2019日本小姐冠军出炉 网友：越看越像吴京11！",
                 "娱乐消息11", false, false, 1255053240000L));
     }
 

@@ -79,7 +79,7 @@ public class DataManager {
             List<TestNotification> testNotifications = maps.get(key);
             for (TestNotification testNotification : testNotifications) {
                 level0Item.addSubItem(new Level1Item(testNotification.getTitle(),
-                        testNotification.getPkg(), testNotification.isExpandItem(), testNotification.getContent()));
+                        testNotification.getPkg(), testNotification.isExpandItem(), testNotification.getContent(),testNotification.getTime()));
             }
             me.add(level0Item);
         }

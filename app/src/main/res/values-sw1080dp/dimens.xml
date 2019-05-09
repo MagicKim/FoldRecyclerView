@@ -39,6 +39,7 @@
 
     <!-- recycler view 宽-->
     <dimen name="list_view_width">1300dp</dimen>
+    <dimen name="list_view_item_height">221dp</dimen>
     <dimen name="list_view_item1">100dp</dimen>
     <dimen name="list_view_item2">120dp</dimen>
     <dimen name="list_view_margin">310dp</dimen>
@@ -134,4 +135,5 @@
     <!-- 删除的控件宽-->
     <dimen name="custom_layout_delete">185dp</dimen>
     <dimen name="custom_layout_delete_button_end">32dp</dimen>
+
 </resources>

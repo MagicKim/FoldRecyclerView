@@ -82,25 +82,25 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<MultiIte
                 break;
             case TYPE_NORMAL:
                 final NormalItem normalItem = (NormalItem) item;
-                holder.setText(R.id.tv_normal_title, normalItem.getTitle());
-                holder.setText(R.id.tv_normal_content, normalItem.getContent());
-                holder.setText(R.id.tv_normal_pkg, normalItem.getPkg());
-                holder.setText(R.id.tv_normal_time, "时间：" + normalItem.getTime());
-                TextView textViewDel = holder.getView(R.id.tv_normal_del);
-                TextView textViewShield = holder.getView(R.id.tv_normal_shield);
-                textViewDel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        setItemDel(holder.getAdapterPosition(), normalItem);
-                    }
-                });
-
-                textViewShield.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        setItemShield(holder.getAdapterPosition(), normalItem);
-                    }
-                });
+//                holder.setText(R.id.tv_normal_title, normalItem.getTitle());
+//                holder.setText(R.id.tv_normal_content, normalItem.getContent());
+//                holder.setText(R.id.tv_normal_pkg, normalItem.getPkg());
+//                holder.setText(R.id.tv_normal_time, "时间：" + normalItem.getTime());
+//                TextView textViewDel = holder.getView(R.id.tv_normal_del);
+//                TextView textViewShield = holder.getView(R.id.tv_normal_shield);
+//                textViewDel.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        setItemDel(holder.getAdapterPosition(), normalItem);
+//                    }
+//                });
+//
+//                textViewShield.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        setItemShield(holder.getAdapterPosition(), normalItem);
+//                    }
+//                });
 
                 break;
             case TYPE_IMAGE:

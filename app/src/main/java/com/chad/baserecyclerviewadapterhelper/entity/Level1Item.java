@@ -8,7 +8,7 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
  * Created by luoxw on 2016/8/10.
  */
 
-public class Level1Item  implements MultiItemEntity {
+public class Level1Item implements MultiItemEntity {
     public long time;
     public String title;
     public String content;
@@ -21,11 +21,12 @@ public class Level1Item  implements MultiItemEntity {
     public Level1Item() {
     }
 
-    public Level1Item(String title, String subTitle, boolean expand, String content) {
+    public Level1Item(String title, String subTitle, boolean expand, String content, long time) {
         this.subTitle = subTitle;
         this.title = title;
         this.isExpand = expand;
         this.content = content;
+        this.time = time;
     }
 
     @Override

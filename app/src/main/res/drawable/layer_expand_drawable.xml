@@ -1,0 +1,42 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:bottom="5dp"
+        android:left="20dp"
+        android:right="20dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/notify_recycler_content_bg_normal_color" />
+            <corners
+                android:bottomLeftRadius="5dp"
+                android:bottomRightRadius="5dp"
+                android:topLeftRadius="5dp"
+                android:topRightRadius="5dp" />
+        </shape>
+    </item>
+
+
+    <item
+        android:bottom="15dp"
+        android:left="10dp"
+        android:right="10dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/notify_recycler_content_bg_normal_color" />
+            <corners
+                android:bottomLeftRadius="5dp"
+                android:bottomRightRadius="5dp"
+                android:topLeftRadius="5dp"
+                android:topRightRadius="5dp" />
+        </shape>
+    </item>
+
+
+    <item >
+        <shape android:shape="rectangle">
+            <solid android:color="@color/notify_recycler_content_bg_normal_color" />
+            <corners
+                android:bottomLeftRadius="5dp"
+                android:bottomRightRadius="5dp"
+                android:topLeftRadius="5dp"
+                android:topRightRadius="5dp" />
+        </shape>
+    </item>
+</layer-list>
