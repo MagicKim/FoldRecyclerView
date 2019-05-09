@@ -1,6 +1,7 @@
 package com.chad.baserecyclerviewadapterhelper.adapter;
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
 import android.text.TextUtils;
@@ -44,6 +45,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 /**
  * Created by luoxw on 2016/8/9.
@@ -69,6 +71,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
     private ArrayList<TestNotification> notificationArrayList = new ArrayList<>();
     //转换的数据
     private ArrayList<MultiItemEntity> entityList = new ArrayList<>();
+    private Handler mHandler = new Handler();
 
 
     /**
@@ -94,12 +97,13 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 holder.setText(R.id.tv_pkg_name, normalItem.getPkg());
                 holder.setText(R.id.tv_item_time, "时间：" + normalItem.getTime());
                 Button buttonViewDel = holder.getView(R.id.btn_item_delete);
-//                textViewDel.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
+                buttonViewDel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 //                        setItemDel(holder.getAdapterPosition(), normalItem);
-//                    }
-//                });
+                        deleteNormalItem(holder.getAdapterPosition(), normalItem);
+                    }
+                });
                 break;
             case TYPE_LEVEL_0:
                 switch (holder.getLayoutPosition() % 3) {
@@ -144,6 +148,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                     imageViewMorePicture.setVisibility(View.VISIBLE);
                 }
 
+                //todo swipeLayout 直接删除下一个无法左滑
                 layoutL0.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -176,48 +181,90 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 holder.setText(R.id.tv_item_content, lv1.content);
                 holder.setText(R.id.tv_pkg_name, lv1.subTitle);
                 holder.setText(R.id.tv_item_time, "时间：" + lv1.getTime());
-//                holder.getView(R.id.tv_assemble_del).setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        int pos = holder.getAdapterPosition();
-//                        // 先获取到当前 item 的父 positon，再移除自己
-//                        int positionAtAll = getParentPositionInAll(pos - getHeaderLayoutCount());
-//                        Log.w(TAG, "positionAtAll =" + positionAtAll);
-//                        remove(pos - getHeaderLayoutCount());
-//                        if (positionAtAll != -1) {
-//                            IExpandable multiItemEntity = (IExpandable) getData().get(positionAtAll);
-//                            Log.e(TAG, "multiItemEntity =" + multiItemEntity.toString());
-//                            if (!hasSubItems(multiItemEntity)) {
-//                                getData().remove(multiItemEntity);
-//                                notifyDataSetChanged();
-////                                remove(positionAtAll);
-//                            }
-//                        }
-//                    }
-//                });
+                holder.getView(R.id.btn_item_delete).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        deleteAssembleChild(holder, lv1);
+                    }
+                });
                 break;
             default:
                 break;
         }
     }
 
-    public void groupAddOriginData() {
-
-    }
-
-    //删除
-    private void setItemDel(int pos, MultiItemEntity item) {
-        Log.d(TAG, "click remove");
-        // 先获取到当前 item 的父 positon，再移除自己
-        int positionAtAll = getParentPositionInAll(pos);
-        remove(pos);
-        if (positionAtAll != -1) {
-            IExpandable multiItemEntity = (IExpandable) getData().get(positionAtAll);
-            if (!hasSubItems(multiItemEntity)) {
-                remove(positionAtAll);
+    private void deleteNormalItem(int adapterPosition, NormalItem normalItem) {
+        //删除视图数据
+        remove(adapterPosition - getHeaderLayoutCount());
+        //删除原数据
+        Iterator<TestNotification> it = notificationArrayList.iterator();
+        while (it.hasNext()) {
+            TestNotification next = it.next();
+            if (next.getTime() == normalItem.getTime()) {
+                it.remove();
             }
         }
+        Log.e("kim", "删除默认布局之后 = " + notificationArrayList.toString());
+
     }
+
+
+    /**
+     * 删除的时候,注意数据同步,默认的删除直接删除position,然后自动移除了getData()里面的数据,需要删除原始数据
+     * 如果是折叠列表,需要判断当前删除的child数量,如果数量变为1个时候,需要将那一个单独的child变成默认的布局
+     * 这时候getData()里面还有这个折叠的 数据集,需要删除?然后删除默认的数据集,更新界面.
+     */
+
+    private void deleteAssembleParent() {
+
+    }
+
+    private void deleteAssembleChild(BaseViewHolder holder, Level1Item lv1) {
+        int pos = holder.getAdapterPosition();
+        // 先获取到当前 item 的父 positon，再移除自己
+        final int positionAtAll = getParentPositionInAll(pos - getHeaderLayoutCount());
+        Log.w(TAG, "positionAtAll =" + positionAtAll);
+        remove(pos - getHeaderLayoutCount());
+        if (positionAtAll != -1) {
+            final IExpandable multiItemEntity = (IExpandable) getData().get(positionAtAll);
+            List<Level1Item> childList = multiItemEntity.getSubItems();
+            if (childList.size() == 1) {
+                for (Level1Item level1Item : childList) {
+                    Log.e("kim", "1 = " + level1Item.toString());
+                    NormalItem normalItem = new NormalItem(level1Item.title, level1Item.content, level1Item.getPackageName());
+                    normalItem.setTime(level1Item.time);
+                    addData(normalItem);
+                }
+                remove(positionAtAll);
+//                notifyDataSetChanged();
+
+            }
+
+            //todo 需要删除原始数据
+            Log.e("kim", "删除折叠子类剩余视图数据 = " + getData().toString());
+            Log.e("kim", "multiItemEntity =" + multiItemEntity.toString());
+//            if (!hasSubItems(multiItemEntity)) {
+//                getData().remove(multiItemEntity);
+//                notifyDataSetChanged();
+//            }
+        }
+
+    }
+
+
+    //删除
+//    private void setItemDel(int pos, MultiItemEntity item) {
+//        Log.d(TAG, "click remove");
+//        // 先获取到当前 item 的父 positon，再移除自己
+//        int positionAtAll = getParentPositionInAll(pos);
+//        remove(pos);
+//        if (positionAtAll != -1) {
+//            IExpandable multiItemEntity = (IExpandable) getData().get(positionAtAll);
+//            if (!hasSubItems(multiItemEntity)) {
+//                remove(positionAtAll);
+//            }
+//        }
+//    }
 
     //动态构建聚合转换
     public void addGroupItem(TestNotification xcnRecord) {
@@ -316,6 +363,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
     }
 
     private void transformData() {
+        Log.w("kim", "切换数据到聚合 = " + notificationArrayList.toString());
         //构建时间集合
         ArrayList<Long> childTimeList = new ArrayList<>();
         //使用map分组
@@ -339,6 +387,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
             if (notificationList.size() < 2) {
                 for (TestNotification notification : notificationList) {
                     NormalItem normalItem = new NormalItem(notification.getTitle(), notification.getContent(), notification.getPkg());
+                    normalItem.setTime(notification.getTime());
                     entityList.add(normalItem);
                 }
             } else {
@@ -370,17 +419,13 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
         entityList.clear();
     }
 
-
-    private ArrayList<TestNotification> testNotificationList = new ArrayList<>();
-
     public void setNormalData() {
         getData().clear();
         for (TestNotification testNotification : notificationArrayList) {
             NormalItem normalItem = new NormalItem(testNotification.getTitle(), testNotification.getContent(), testNotification.getPkg());
+            normalItem.setTime(testNotification.getTime());
             addData(normalItem);
         }
-
-
     }
 
 

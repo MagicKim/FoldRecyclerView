@@ -18,6 +18,7 @@ public class DeleteLayout extends FrameLayout implements View.OnClickListener {
     private CountDownTimer timer;
     private ImageView imageView;
     private Button button;
+    private boolean isDeleteAllShow = false;
 
     public DeleteLayout(@NonNull Context context) {
         super(context);
@@ -65,6 +66,7 @@ public class DeleteLayout extends FrameLayout implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_icon:
+                isDeleteAllShow = true;
                 imageView.setVisibility(GONE);
                 button.setVisibility(VISIBLE);
                 timer.start();
@@ -78,12 +80,19 @@ public class DeleteLayout extends FrameLayout implements View.OnClickListener {
         }
     }
 
-    public void restoreUI() {
+    private void restoreUI() {
         if (timer != null) {
             timer.cancel();
         }
+        isDeleteAllShow = false;
         button.setVisibility(GONE);
         imageView.setVisibility(VISIBLE);
+    }
+
+    public void setRestoreUI(boolean isRestore) {
+        if (isRestore) {
+            restoreUI();
+        }
     }
 
     public void setDeleteItemListener(OnDeleteItemListener deleteItemListener) {
@@ -93,5 +102,12 @@ public class DeleteLayout extends FrameLayout implements View.OnClickListener {
     public interface OnDeleteItemListener {
         void setDeleteItem();
     }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+
+    }
+
 
 }

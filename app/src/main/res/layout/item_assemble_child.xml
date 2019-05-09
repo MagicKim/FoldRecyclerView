@@ -141,15 +141,4 @@
         android:text="删除"
         android:textColor="@drawable/list_item_delete_text_selector"
         android:textSize="@dimen/list_view_item_delete_text" />
-
-    <Button
-        android:id="@+id/bt_bg"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/list_item_delete_selector"
-        android:text="删除"
-        android:textAlignment="center"
-        android:textColor="@drawable/list_item_delete_text_selector"
-        android:textSize="@dimen/list_view_item_delete_text"
-        android:visibility="gone" />
 </com.chad.baserecyclerviewadapterhelper.animation.SwipeMenuLayout>
