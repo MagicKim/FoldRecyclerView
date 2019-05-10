@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.chad.baserecyclerviewadapterhelper.R;
@@ -107,6 +108,14 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
 //                final RelativeLayout layoutLandscape = holder.getView(R.id.l0_layout_image);
                 final RelativeLayout layoutL0 = holder.getView(R.id.sm_root_view);
                 final ImageView imageViewMorePicture = holder.getView(R.id.iv_more_picture);
+                final RelativeLayout layoutR = holder.getView(R.id.rl_icon_pkg);
+                LinearLayout llExpandContent = holder.getView(R.id.ll_expand_content);
+                RelativeLayout rlHeader = holder.getView(R.id.rl_expand_header);
+                Button btDel = holder.getView(R.id.btn_item_delete);
+                Button btPlace = holder.getView(R.id.btn_item_place);
+
+                Button buttonCollapse = holder.getView(R.id.bt_header_collapse);
+
                 holder.setText(R.id.tv_item_title, lv0.title)
                         .setText(R.id.tv_pkg_name, lv0.subTitle)
                         .setText(R.id.tv_item_time, "时间:" + lv0.time);
@@ -118,9 +127,19 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 }
 
                 if (lv0.isExpanded()) {
+                    layoutR.setVisibility(View.GONE);
+                    llExpandContent.setVisibility(View.GONE);
+                    rlHeader.setVisibility(View.VISIBLE);
+                    btDel.setVisibility(View.GONE);
+                    btPlace.setVisibility(View.GONE);
                     imageViewMorePicture.setVisibility(View.GONE);
                 } else {
+                    layoutR.setVisibility(View.VISIBLE);
+                    llExpandContent.setVisibility(View.VISIBLE);
+                    rlHeader.setVisibility(View.GONE);
                     imageViewMorePicture.setVisibility(View.VISIBLE);
+                    btDel.setVisibility(View.VISIBLE);
+                    btPlace.setVisibility(View.VISIBLE);
                 }
 
                 //todo swipeLayout 直接删除下一个无法左滑
@@ -145,7 +164,30 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                         }
                     }
                 });
-                holder.getView(R.id.btn_item_delete).setOnClickListener(new View.OnClickListener() {
+
+                buttonCollapse.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int pos = holder.getAdapterPosition();
+                        if (lv0.getSubItems().size() > 2) {
+                            imageViewMorePicture.setBackground(mContext.getResources().getDrawable(R.drawable.basic_elements_two_bg));
+                        } else {
+                            imageViewMorePicture.setBackground(mContext.getResources().getDrawable(R.drawable.basic_elements_one_bg));
+                        }
+
+                        if (lv0.isExpanded()) {
+//                            lv0.setExpanded(false);
+                            collapse(pos);
+                            swipeMenuLayout.setSwipeEnable(false);
+                        } else {
+//                            lv0.setExpanded(true);
+                            expand(pos);
+                            swipeMenuLayout.setSwipeEnable(true);
+                        }
+                    }
+                });
+
+                btDel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         int assembleParentPosition = holder.getAdapterPosition();
@@ -216,6 +258,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
         final int positionAtAll = getParentPositionInAll(pos - getHeaderLayoutCount());
         Log.w(TAG, "positionAtAll =" + positionAtAll);
         remove(pos - getHeaderLayoutCount());
+        //todo 我艹  这是什么鬼!
         if (positionAtAll != -1) {
             final IExpandable multiItemEntity = (IExpandable) getData().get(positionAtAll);
             List<Level1Item> childList = new ArrayList<>(multiItemEntity.getSubItems());
@@ -229,7 +272,6 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                     testList.add(normalItem);
                     Collections.sort(testList, SortUtils.sortGroupEntityCmp);
                     int i = testList.indexOf(normalItem);
-//                    addData(normalItem);
                     addData(i, normalItem);
                 }
 

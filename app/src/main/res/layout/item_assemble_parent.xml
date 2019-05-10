@@ -14,6 +14,41 @@
         android:layout_height="wrap_content">
 
         <RelativeLayout
+            android:id="@+id/rl_expand_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_header_pkg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="这是标题"
+                android:textColor="@drawable/list_item_pkg_text_selector"
+                android:textSize="@dimen/list_view_item_title" />
+
+            <Button
+                android:id="@+id/bt_header_collapse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/bar_button_noborder_selector"
+                android:text="折叠"
+                android:textSize="35sp" />
+
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/bar_button_noborder_selector"
+                android:text="删除"
+                android:textSize="35sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
             android:id="@+id/sm_root_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -56,6 +91,7 @@
             </RelativeLayout>
 
             <LinearLayout
+                android:id="@+id/ll_expand_content"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/list_view_item2"
                 android:layout_below="@id/rl_icon_pkg"
@@ -102,8 +138,9 @@
     </RelativeLayout>
 
     <Button
+        android:id="@+id/btn_item_place"
         android:layout_width="@dimen/list_view_place_button_width"
-        android:layout_height="match_parent"
+        android:layout_height="221dp"
         android:background="@null" />
 
     <Button
