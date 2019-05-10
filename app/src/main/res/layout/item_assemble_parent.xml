@@ -91,43 +91,6 @@
                         android:textColor="@drawable/list_item_content_text_selector"
                         android:textSize="@dimen/list_view_item_content" />
                 </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/linearLayout_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="@dimen/list_view_item_control_margin"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/bt_item_first"
-                        android:layout_width="@dimen/bar_view_button_width"
-                        android:layout_height="@dimen/bar_view_button_height"
-                        android:background="@drawable/bar_button_border_selector"
-                        android:ellipsize="end"
-                        android:gravity="center"
-                        android:maxEms="6"
-                        android:singleLine="true"
-                        android:text="确定"
-                        android:textColor="@drawable/list_item_button_text_selector"
-                        android:textSize="@dimen/bar_view_button_text_size" />
-
-                    <Button
-                        android:id="@+id/bt_item_second"
-                        android:layout_width="@dimen/bar_view_button_width"
-                        android:layout_height="@dimen/bar_view_button_height"
-                        android:layout_marginStart="@dimen/bar_view_button_margin"
-                        android:background="@drawable/bar_button_noborder_selector"
-                        android:ellipsize="end"
-                        android:gravity="center"
-                        android:maxEms="6"
-                        android:singleLine="true"
-                        android:text="取消"
-                        android:textColor="@drawable/list_item_button_two_text_selector"
-                        android:textSize="@dimen/bar_view_button_text_size" />
-
-                </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
 
@@ -135,8 +98,7 @@
             android:id="@+id/iv_more_picture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/sm_root_view"
-            android:background="@drawable/basic_elements_three" />
+            android:layout_below="@id/sm_root_view" />
     </RelativeLayout>
 
     <Button

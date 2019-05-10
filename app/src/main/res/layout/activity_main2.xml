@@ -147,8 +147,7 @@
                 android:id="@+id/two"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/sm_root_view"
-                android:background="@drawable/basic_elements_three"/>
+                android:layout_below="@id/sm_root_view" />
         </RelativeLayout>
 
         <Button

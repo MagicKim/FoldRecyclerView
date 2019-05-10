@@ -36,7 +36,6 @@ public class DividerDecoration extends RecyclerView.ItemDecoration {
             } else {
                 outRect.set(0, 0, 0, mItemMarginStart);
             }
-
         } else {
             outRect.set(0, 0, mItemMarginStart, 0);
         }

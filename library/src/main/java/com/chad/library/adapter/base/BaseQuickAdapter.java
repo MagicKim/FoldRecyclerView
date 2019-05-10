@@ -28,6 +28,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.LayoutParams;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,7 @@ import com.chad.library.adapter.base.animation.SlideInBottomAnimation;
 import com.chad.library.adapter.base.animation.SlideInLeftAnimation;
 import com.chad.library.adapter.base.animation.SlideInRightAnimation;
 import com.chad.library.adapter.base.entity.IExpandable;
+import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.chad.library.adapter.base.loadmore.LoadMoreView;
 import com.chad.library.adapter.base.loadmore.SimpleLoadMoreView;
 import com.chad.library.adapter.base.util.MultiTypeDelegate;
@@ -54,8 +56,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
@@ -1164,7 +1171,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
      * @param index
      * @param orientation
      */
-    public int addHeaderView(View header,final int index, int orientation) {
+    public int addHeaderView(View header, final int index, int orientation) {
         if (mHeaderLayout == null) {
             mHeaderLayout = new LinearLayout(header.getContext());
             if (orientation == LinearLayout.VERTICAL) {
@@ -1176,7 +1183,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
             }
         }
         final int childCount = mHeaderLayout.getChildCount();
-        int mIndex =index;
+        int mIndex = index;
         if (index < 0 || index > childCount) {
             mIndex = childCount;
         }
@@ -1371,7 +1378,6 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
 
     /**
      * bind recyclerView {@link #bindToRecyclerView(RecyclerView)} before use!
-     * Recommend you to use {@link #setEmptyView(layoutResId, viewGroup)}
      *
      * @see #bindToRecyclerView(RecyclerView)
      */
@@ -1942,6 +1948,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
     public interface OnItemChildClickListener {
         /**
          * callback method to be invoked when an itemchild in this view has been click
+         *
          * @param adapter
          * @param view     The view whihin the ItemView that was clicked
          * @param position The position of the view int the adapter
@@ -1958,6 +1965,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
         /**
          * callback method to be invoked when an item in this view has been
          * click and held
+         *
          * @param adapter  this BaseQuickAdapter adapter
          * @param view     The childView whihin the itemView that was clicked and held.
          * @param position The position of the view int the adapter
