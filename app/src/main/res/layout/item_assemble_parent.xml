@@ -2,7 +2,7 @@
 <com.chad.baserecyclerviewadapterhelper.animation.SwipeMenuLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rl_normal_root_layout"
-    android:layout_width="1300dp"
+    android:layout_width="@dimen/list_view_width"
     android:layout_height="wrap_content"
     app:ios="true"
     app:leftSwipe="true"
@@ -17,6 +17,7 @@
             android:id="@+id/rl_expand_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="bottom"
             android:visibility="gone">
 
             <TextView
@@ -32,18 +33,19 @@
                 android:id="@+id/bt_header_collapse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_toEndOf="@id/tv_header_pkg"
                 android:background="@drawable/bar_button_noborder_selector"
                 android:text="折叠"
+                android:textColor="@drawable/list_item_pkg_text_selector"
                 android:textSize="35sp" />
-
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
+                android:layout_toEndOf="@id/bt_header_collapse"
                 android:background="@drawable/bar_button_noborder_selector"
                 android:text="删除"
+                android:textColor="@drawable/list_item_pkg_text_selector"
                 android:textSize="35sp" />
 
         </RelativeLayout>
@@ -51,86 +53,64 @@
         <RelativeLayout
             android:id="@+id/sm_root_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/list_view_parent_item"
             android:background="@drawable/list_item_selector">
 
-            <RelativeLayout
-                android:id="@+id/rl_icon_pkg"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/list_view_item1">
 
-                <ImageView
-                    android:id="@+id/iv_app_icon"
-                    android:layout_width="@dimen/list_view_item_image_size"
-                    android:layout_height="@dimen/list_view_item_image_size"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/list_view_item_control_margin"
-                    android:src="@mipmap/logo" />
+            <ImageView
+                android:id="@+id/iv_app_icon"
+                android:layout_width="@dimen/list_view_item_image_size"
+                android:layout_height="@dimen/list_view_item_image_size"
+                android:layout_marginStart="@dimen/list_view_item_control_margin"
+                android:src="@mipmap/logo" />
 
-                <TextView
-                    android:id="@+id/tv_pkg_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginStart="@dimen/list_view_item_margin_start"
-                    android:layout_toEndOf="@id/iv_app_icon"
-                    android:text="新闻"
-                    android:textColor="@drawable/list_item_pkg_text_selector"
-                    android:textSize="@dimen/list_view_item_time" />
+            <TextView
+                android:id="@+id/tv_pkg_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/list_view_item_margin_start"
+                android:layout_toEndOf="@id/iv_app_icon"
+                android:text="新闻"
+                android:textColor="@drawable/list_item_pkg_text_selector"
+                android:textSize="@dimen/list_view_item_time" />
 
-                <TextView
-                    android:id="@+id/tv_item_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerInParent="true"
-                    android:layout_marginEnd="@dimen/list_view_item_margin_time_end"
-                    android:text="17:56"
-                    android:textColor="@drawable/list_item_pkg_text_selector"
-                    android:textSize="@dimen/list_view_item_time" />
-            </RelativeLayout>
+            <TextView
+                android:id="@+id/tv_item_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/list_view_item_margin_time_end"
+                android:text="17:56"
+                android:textColor="@drawable/list_item_pkg_text_selector"
+                android:textSize="@dimen/list_view_item_time" />
 
-            <LinearLayout
-                android:id="@+id/ll_expand_content"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/list_view_item2"
-                android:layout_below="@id/rl_icon_pkg"
-                android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tv_item_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iv_app_icon"
+                android:layout_alignStart="@id/iv_app_icon"
+                android:gravity="center"
+                android:singleLine="true"
+                android:textColor="@drawable/list_item_content_text_selector"
+                android:textSize="@dimen/list_view_item_title" />
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/list_view_item_control_margin"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tv_item_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:paddingEnd="30dp"
-                        android:singleLine="true"
-                        android:text="联想Z6 Pro正式发布 骁龙855加持带来超级视频AI四摄"
-                        android:textColor="@drawable/list_item_content_text_selector"
-                        android:textSize="@dimen/list_view_item_title" />
-
-                    <TextView
-                        android:id="@+id/tv_item_content"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:gravity="center"
-                        android:paddingEnd="20dp"
-                        android:singleLine="true"
-                        android:text="没有设置内容"
-                        android:textColor="@drawable/list_item_content_text_selector"
-                        android:textSize="@dimen/list_view_item_content" />
-                </LinearLayout>
-            </LinearLayout>
+            <TextView
+                android:id="@+id/tv_item_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_item_title"
+                android:layout_alignStart="@id/iv_app_icon"
+                android:layout_marginTop="3dp"
+                android:gravity="center"
+                android:paddingEnd="20dp"
+                android:singleLine="true"
+                android:text="没有设置内容"
+                android:textColor="@drawable/list_item_content_text_selector"
+                android:textSize="@dimen/list_view_item_content" />
         </RelativeLayout>
 
-        <ImageView
+        <FrameLayout
             android:id="@+id/iv_more_picture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

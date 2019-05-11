@@ -70,6 +70,12 @@ public abstract class AbstractExpandableItem<T> implements IExpandable<T> {
         return mSubItems != null && mSubItems.remove(subItem);
     }
 
+    public void clearSubItemList() {
+        if (mSubItems != null) {
+            mSubItems.clear();
+        }
+    }
+
     public boolean removeSubItem(int position) {
         if (mSubItems != null && position >= 0 && position < mSubItems.size()) {
             mSubItems.remove(position);

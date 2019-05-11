@@ -1687,9 +1687,10 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
         if (expandable == null) {
             return 0;
         }
+        //todo 更新增加header
         if (!hasSubItems(expandable)) {
             expandable.setExpanded(true);
-            notifyItemChanged(position);
+            notifyItemChanged(position + getHeaderLayoutCount());
             return 0;
         }
         int subItemCount = 0;

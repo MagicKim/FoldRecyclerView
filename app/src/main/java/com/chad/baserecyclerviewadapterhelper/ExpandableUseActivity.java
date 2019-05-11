@@ -8,12 +8,14 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import com.chad.baserecyclerviewadapterhelper.adapter.ExpandableItemAdapter;
 import com.chad.baserecyclerviewadapterhelper.adapter.MultipleItemQuickAdapter;
+import com.chad.baserecyclerviewadapterhelper.animation.FadeInDownAnimator;
 import com.chad.baserecyclerviewadapterhelper.base.BaseActivity;
 import com.chad.baserecyclerviewadapterhelper.data.DataManager;
 import com.chad.baserecyclerviewadapterhelper.decoration.DividerDecoration;
@@ -56,6 +58,8 @@ public class ExpandableUseActivity extends BaseActivity {
         mRecyclerView.setLayoutManager(manager);
         DividerDecoration itemDecoration = new DividerDecoration(this, LinearLayoutManager.VERTICAL);
         mRecyclerView.addItemDecoration(itemDecoration);
+        FadeInDownAnimator adapterAnimator = new FadeInDownAnimator();
+        mRecyclerView.setItemAnimator(adapterAnimator);
         mRecyclerView.setAdapter(expandableAdapter);
         expandableAdapter.addHeaderView(getHeaderView());
         Switch switchGroup = findViewById(R.id.switch1);

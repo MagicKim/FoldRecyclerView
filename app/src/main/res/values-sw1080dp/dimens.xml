@@ -44,6 +44,8 @@
     <dimen name="list_view_item2">120dp</dimen>
     <dimen name="list_view_margin">310dp</dimen>
 
+    <dimen name="list_view_parent_item">220dp</dimen>
+
     <dimen name="list_view_empty_view_content_width">490dp</dimen>
     <dimen name="list_view_empty_view_width">145dp</dimen>
     <dimen name="list_view_empty_view_height">2dp</dimen>

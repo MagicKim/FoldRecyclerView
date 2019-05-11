@@ -2,10 +2,17 @@ package com.chad.baserecyclerviewadapterhelper.adapter;
 
 import android.content.Context;
 import android.os.Handler;
+import android.support.transition.AutoTransition;
+import android.support.transition.Explode;
+import android.support.transition.Fade;
+import android.support.transition.Slide;
+import android.support.transition.TransitionManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -37,24 +44,17 @@ import java.util.Map;
 public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder> {
     private static final String TAG = ExpandableItemAdapter.class.getSimpleName();
 
-    public static final int TYPE_HEADER = 4;
     //聚合
     public static final int TYPE_LEVEL_0 = 0;
     public static final int TYPE_LEVEL_1 = 1;
     //普通
     public static final int TYPE_NORMAL = 2;
-    //折叠
-    public static final int TYPE_IMAGE = 3;
-    //屏蔽
-    public static final int TYPE_GROUP_0 = 5;
-    public static final int TYPE_GROUP_1 = 6;
 
     private Context mContext;
 
     //原始数据
     private ArrayList<TestNotification> notificationArrayList = new ArrayList<>();
-    //转换的数据
-    private ArrayList<MultiItemEntity> entityList = new ArrayList<>();
+
     private Handler mHandler = new Handler();
 
 
@@ -105,11 +105,9 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 }
                 final Level0Item lv0 = (Level0Item) item;
                 final SwipeMenuLayout swipeMenuLayout = holder.getView(R.id.rl_normal_root_layout);
-//                final RelativeLayout layoutLandscape = holder.getView(R.id.l0_layout_image);
                 final RelativeLayout layoutL0 = holder.getView(R.id.sm_root_view);
-                final ImageView imageViewMorePicture = holder.getView(R.id.iv_more_picture);
-                final RelativeLayout layoutR = holder.getView(R.id.rl_icon_pkg);
-                LinearLayout llExpandContent = holder.getView(R.id.ll_expand_content);
+                final FrameLayout flMorePicture = holder.getView(R.id.iv_more_picture);
+
                 RelativeLayout rlHeader = holder.getView(R.id.rl_expand_header);
                 Button btDel = holder.getView(R.id.btn_item_delete);
                 Button btPlace = holder.getView(R.id.btn_item_place);
@@ -121,47 +119,48 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                         .setText(R.id.tv_item_time, "时间:" + lv0.time);
 
                 if (lv0.getSubItems().size() > 2) {
-                    imageViewMorePicture.setBackground(mContext.getResources().getDrawable(R.drawable.basic_elements_two_bg));
+                    flMorePicture.setBackground(mContext.getResources().getDrawable(R.drawable.basic_elements_two_bg));
                 } else {
-                    imageViewMorePicture.setBackground(mContext.getResources().getDrawable(R.drawable.basic_elements_one_bg));
+                    flMorePicture.setBackground(mContext.getResources().getDrawable(R.drawable.basic_elements_one_bg));
                 }
-
+                TransitionManager.beginDelayedTransition(layoutL0, new Slide(Gravity.BOTTOM));
+                TransitionManager.beginDelayedTransition(flMorePicture, new Slide(Gravity.BOTTOM));
+                TransitionManager.beginDelayedTransition(rlHeader, new Slide(Gravity.TOP));
                 if (lv0.isExpanded()) {
-                    layoutR.setVisibility(View.GONE);
-                    llExpandContent.setVisibility(View.GONE);
                     rlHeader.setVisibility(View.VISIBLE);
+                    layoutL0.setVisibility(View.GONE);
                     btDel.setVisibility(View.GONE);
                     btPlace.setVisibility(View.GONE);
-                    imageViewMorePicture.setVisibility(View.GONE);
+                    flMorePicture.setVisibility(View.GONE);
                 } else {
-                    layoutR.setVisibility(View.VISIBLE);
-                    llExpandContent.setVisibility(View.VISIBLE);
                     rlHeader.setVisibility(View.GONE);
-                    imageViewMorePicture.setVisibility(View.VISIBLE);
+                    layoutL0.setVisibility(View.VISIBLE);
                     btDel.setVisibility(View.VISIBLE);
                     btPlace.setVisibility(View.VISIBLE);
+                    flMorePicture.setVisibility(View.VISIBLE);
                 }
 
-                //todo swipeLayout 直接删除下一个无法左滑
+                //todo 展开与折叠分别是两个按钮，所以删除之后swipe状态不会混乱了
                 layoutL0.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         int pos = holder.getAdapterPosition();
                         if (lv0.getSubItems().size() > 2) {
-                            imageViewMorePicture.setBackground(mContext.getResources().getDrawable(R.drawable.basic_elements_two_bg));
+                            flMorePicture.setBackground(mContext.getResources().getDrawable(R.drawable.basic_elements_two_bg));
                         } else {
-                            imageViewMorePicture.setBackground(mContext.getResources().getDrawable(R.drawable.basic_elements_one_bg));
+                            flMorePicture.setBackground(mContext.getResources().getDrawable(R.drawable.basic_elements_one_bg));
                         }
 
-                        if (lv0.isExpanded()) {
-//                            lv0.setExpanded(false);
-                            collapse(pos);
-                            swipeMenuLayout.setSwipeEnable(false);
-                        } else {
-//                            lv0.setExpanded(true);
-                            expand(pos);
-                            swipeMenuLayout.setSwipeEnable(true);
-                        }
+                        expand(pos);
+                        swipeMenuLayout.setSwipeEnable(false);
+
+//                        if (lv0.isExpanded()) {
+//                            collapse(pos);
+//                            swipeMenuLayout.setSwipeEnable(false);
+//                        } else {
+//                            expand(pos);
+//                            swipeMenuLayout.setSwipeEnable(true);
+//                        }
                     }
                 });
 
@@ -170,20 +169,18 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                     public void onClick(View v) {
                         int pos = holder.getAdapterPosition();
                         if (lv0.getSubItems().size() > 2) {
-                            imageViewMorePicture.setBackground(mContext.getResources().getDrawable(R.drawable.basic_elements_two_bg));
+                            flMorePicture.setBackground(mContext.getResources().getDrawable(R.drawable.basic_elements_two_bg));
                         } else {
-                            imageViewMorePicture.setBackground(mContext.getResources().getDrawable(R.drawable.basic_elements_one_bg));
+                            flMorePicture.setBackground(mContext.getResources().getDrawable(R.drawable.basic_elements_one_bg));
                         }
 
-                        if (lv0.isExpanded()) {
-//                            lv0.setExpanded(false);
-                            collapse(pos);
-                            swipeMenuLayout.setSwipeEnable(false);
-                        } else {
-//                            lv0.setExpanded(true);
-                            expand(pos);
-                            swipeMenuLayout.setSwipeEnable(true);
-                        }
+//                        if (lv0.isExpanded()) {
+//                            collapse(pos);
+//                            swipeMenuLayout.setSwipeEnable(false);
+//                        } else {
+                        collapse(pos);
+                        swipeMenuLayout.setSwipeEnable(true);
+//                        }
                     }
                 });
 
@@ -293,108 +290,31 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
     }
 
 
+    /**
+     * add:
+     * 默认是非聚合的状态，所以有这几种情况。1.直接添加默认布局 2.添加聚合布局
+     * 3.默认布局里面有了数据然后点击为聚合   4.聚合布局下点击为默认布局
+     * <p>
+     * del:
+     * 直接删除原始数据，然后刷新界面。1.默认布局下，刷新布局。2.聚合布局下，刷新布局
+     */
+
     //动态构建聚合转换
     public void addGroupItem(TestNotification xcnRecord) {
         //添加原始数据
         notificationArrayList.add(xcnRecord);
         Collections.sort(notificationArrayList, SortUtils.sortChildEntityCmp);
-        assembleData(xcnRecord);
-    }
-
-    private void assembleData(TestNotification xcnRecord) {
-        //构建时间集合
-        ArrayList<Long> childTimeList = new ArrayList<>();
-        //使用map分组
-        Map<String, List<TestNotification>> resultMap = new LinkedHashMap<>();
-        for (TestNotification record : notificationArrayList) {
-            String pkg = record.getPkg();
-            if (resultMap.containsKey(pkg)) {
-                resultMap.get(pkg).add(record);
-            } else {
-                List<TestNotification> tmp = new LinkedList<>();
-                tmp.add(record);
-                resultMap.put(pkg, tmp);
-            }
-        }
-        //同一包名下,2条消息才会聚合
-        if (resultMap.get(xcnRecord.getPkg()).size() < 2) {
-            Log.e(TAG, "添加默认的布局 同一个包名下面的第一条消息不聚合 " + xcnRecord.getPkg());
-            NormalItem normalItem = new NormalItem(xcnRecord.getTitle(), xcnRecord.getContent(), xcnRecord.getPkg());
-            normalItem.setTime(xcnRecord.getTime());
-            entityList.add(normalItem);
-        } else {
-            Log.e(TAG, "开始聚合布局------>" + xcnRecord.getPkg());
-            Iterator<MultiItemEntity> iterator = getData().iterator();
-            while (iterator.hasNext()) {
-                MultiItemEntity next = iterator.next();
-                if (itemType(next) == TYPE_NORMAL) {
-                    NormalItem normalItem = (NormalItem) next;
-                    if (normalItem.getPackageName().equals(xcnRecord.getPkg())) {
-                        Log.e(TAG, "聚合布局,需要删除视图集合中normal类型的数据 " + xcnRecord.getPkg());
-                        iterator.remove();
-                    }
-                }
-            }
-            //遍历map集合
-            for (String key : resultMap.keySet()) {
-                Log.e(TAG, "遍历map");
-                //如果遍历的key 与刚刚来的通知的package是一样的才聚合
-                if (TextUtils.equals(key, xcnRecord.getPkg())) {
-                    //首先删除视图 getData()里面的数据,防止重复添加
-                    Iterator<MultiItemEntity> iteratorGroup = getData().iterator();
-                    while (iteratorGroup.hasNext()) {
-                        MultiItemEntity next = iteratorGroup.next();
-                        if (itemType(next) == TYPE_LEVEL_0) {
-                            Log.e(TAG, " TYPE_LEVEL_0");
-                            Level0Item level0Item = (Level0Item) next;
-                            if (level0Item.getPackageName().equals(xcnRecord.getPkg())) {
-                                Log.e(TAG, "聚合布局,需要删除原来已经聚合的内容 " + xcnRecord.getPkg());
-                                iteratorGroup.remove();
-                            }
-                        }
-                    }
-                    Log.e(TAG, "如果这条消息与map中的key值一样,那么聚合");
-                    //添加聚合实体类
-                    List<TestNotification> notificationList = resultMap.get(key);
-                    Collections.sort(notificationList, SortUtils.sortChildEntityCmp);
-                    Level0Item foldParentItem = new Level0Item();
-                    for (TestNotification timeNotification : notificationList) {
-                        childTimeList.add(timeNotification.getTime());
-                        foldParentItem.addSubItem(new Level1Item(timeNotification.getTitle(), timeNotification.getPkg(), true, timeNotification.getContent(), timeNotification.getTime()));
-                    }
-                    //排序
-                    Long maxTime = Collections.max(childTimeList);
-                    for (TestNotification timeNotification : notificationList) {
-                        if (timeNotification.getTime() == maxTime) {
-                            foldParentItem.time = maxTime;
-                            foldParentItem.setExpanded(false);
-                            foldParentItem.title = timeNotification.getTitle();
-                            foldParentItem.subTitle = timeNotification.getPkg();
-                        }
-                    }
-                    entityList.add(foldParentItem);
-                }
-            }
-        }
-        //将转换的集合加入视图需要的数据源getData
-        getData().addAll(entityList);
-        //排序
-        Collections.sort(getData(), SortUtils.sortGroupEntityCmp);
-        //通知刷新UI
-        setNewData(getData());
-        //清空数据转换集合
-        entityList.clear();
+        transformData();
     }
 
     public void transformGroupView() {
-        getData().clear();
         transformData();
     }
 
     private void transformData() {
+        getData().clear();
+        ArrayList<MultiItemEntity> entityList = new ArrayList<>();
         Log.w("kim", "切换数据到聚合 = " + notificationArrayList.toString());
-        //构建时间集合
-//        List<Long> childTimeList = new ArrayList<>();
         //使用map分组
         Map<String, List<TestNotification>> resultMap = new LinkedHashMap<>();
         for (TestNotification record : notificationArrayList) {
@@ -422,18 +342,13 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
             } else {
                 Level0Item foldParentItem = new Level0Item();
                 for (TestNotification timeNotification : notificationList) {
-//                    childTimeList.add(timeNotification.getTime());
                     foldParentItem.addSubItem(new Level1Item(timeNotification.getTitle(), timeNotification.getPkg(), true, timeNotification.getContent(), timeNotification.getTime()));
                 }
-                //排序
-//                Long maxTime = Collections.max(childTimeList);
                 for (TestNotification timeNotification : notificationList) {
-//                    if (timeNotification.getTime() == maxTime) {
                     foldParentItem.time = timeNotification.getTime();
                     foldParentItem.setExpanded(false);
                     foldParentItem.title = timeNotification.getTitle();
                     foldParentItem.subTitle = timeNotification.getPkg();
-//                    }
                     break;
                 }
                 entityList.add(foldParentItem);
@@ -464,18 +379,5 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
         getData().clear();
         notificationArrayList.clear();
         notifyDataSetChanged();
-    }
-
-    private int itemType(MultiItemEntity item) {
-        if (item instanceof ImageItem) {
-            return TYPE_IMAGE;
-        } else if (item instanceof NormalItem) {
-            return TYPE_NORMAL;
-        } else if (item instanceof Level0Item) {
-            return TYPE_LEVEL_0;
-        } else if (item instanceof Level1Item) {
-            return TYPE_LEVEL_1;
-        }
-        return -1;
     }
 }

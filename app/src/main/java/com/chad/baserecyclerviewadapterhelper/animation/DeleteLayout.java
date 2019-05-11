@@ -106,6 +106,8 @@ public class DeleteLayout extends FrameLayout implements View.OnClickListener {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
+        isDeleteAllShow = false;
+        restoreUI();
 
     }
 

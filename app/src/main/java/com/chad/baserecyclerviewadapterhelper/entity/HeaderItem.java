@@ -34,7 +34,7 @@ public class HeaderItem implements MultiItemEntity {
 
     @Override
     public int getItemType() {
-        return ExpandableItemAdapter.TYPE_HEADER;
+        return 5;
     }
 
     @Override

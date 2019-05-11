@@ -61,7 +61,7 @@ public class PolymerizationItem1 extends AbstractExpandableItem<Level1Item> impl
 
     @Override
     public int getItemType() {
-        return ExpandableItemAdapter.TYPE_GROUP_1;
+        return 4;
     }
 
     @Override

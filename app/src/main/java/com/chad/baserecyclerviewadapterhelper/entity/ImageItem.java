@@ -69,7 +69,7 @@ public class ImageItem implements MultiItemEntity {
 
     @Override
     public int getItemType() {
-        return ExpandableItemAdapter.TYPE_IMAGE;
+        return 2;
     }
 
     @Override

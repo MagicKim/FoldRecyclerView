@@ -2,7 +2,7 @@
 <com.chad.baserecyclerviewadapterhelper.animation.SwipeMenuLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rl_normal_root_layout"
-    android:layout_width="1300dp"
+    android:layout_width="@dimen/list_view_width"
     android:layout_height="wrap_content"
     app:ios="true"
     app:leftSwipe="true"
