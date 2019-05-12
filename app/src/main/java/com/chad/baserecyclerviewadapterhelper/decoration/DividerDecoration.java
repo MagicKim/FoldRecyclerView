@@ -7,6 +7,8 @@ import android.view.View;
 
 import com.chad.baserecyclerviewadapterhelper.R;
 
+import static com.chad.baserecyclerviewadapterhelper.adapter.ExpandableItemAdapter.TYPE_LEVEL_0;
+
 
 /**
  * 设置recycler view的分割线
@@ -30,11 +32,17 @@ public class DividerDecoration extends RecyclerView.ItemDecoration {
 
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         int layoutPosition = parent.getChildLayoutPosition(view);
+        int itemViewType = parent.getAdapter().getItemViewType(layoutPosition);
+
         if (this.mOrientation == 1) {
             if (layoutPosition == 0) {
                 outRect.set(0, 0, 0, 0);
             } else {
-                outRect.set(0, 0, 0, mItemMarginStart);
+                if(itemViewType == TYPE_LEVEL_0){
+                    outRect.set(0, 0, 0, 0);
+                }else{
+                    outRect.set(0, 0, 0, mItemMarginStart);
+                }
             }
         } else {
             outRect.set(0, 0, mItemMarginStart, 0);
