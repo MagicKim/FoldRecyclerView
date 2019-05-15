@@ -5,7 +5,6 @@
     android:useLevel="true"
     tools:ignore="MissingDefaultResource">
 
-    <solid android:color="@color/notify_recycler_content_bg_normal_color" />
-
+    <solid android:color="@color/white_text_color" />
 
 </shape>

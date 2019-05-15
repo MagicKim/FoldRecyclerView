@@ -38,11 +38,7 @@ public class DividerDecoration extends RecyclerView.ItemDecoration {
             if (layoutPosition == 0) {
                 outRect.set(0, 0, 0, 0);
             } else {
-                if(itemViewType == TYPE_LEVEL_0){
-                    outRect.set(0, 0, 0, 0);
-                }else{
-                    outRect.set(0, 0, 0, mItemMarginStart);
-                }
+                outRect.set(0, 0, 0, mItemMarginStart);
             }
         } else {
             outRect.set(0, 0, mItemMarginStart, 0);

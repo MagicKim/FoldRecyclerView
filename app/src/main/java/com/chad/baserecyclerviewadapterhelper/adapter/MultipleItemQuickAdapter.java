@@ -69,17 +69,17 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<MultiIte
     @Override
     protected void convert(final BaseViewHolder holder, final MultiItemEntity item) {
         switch (holder.getItemViewType()) {
-            case TYPE_HEADER:
-                holder.getView(R.id.iv_delete_all).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Log.d("ccdata", "click ---------------");
-                        getData().clear();
-                        mDatas.clear();
-                        notifyDataSetChanged();
-                    }
-                });
-                break;
+//            case TYPE_HEADER:
+//                holder.getView(R.id.iv_delete_all).setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Log.d("ccdata", "click ---------------");
+//                        getData().clear();
+//                        mDatas.clear();
+//                        notifyDataSetChanged();
+//                    }
+//                });
+//                break;
             case TYPE_NORMAL:
                 final NormalItem normalItem = (NormalItem) item;
 //                holder.setText(R.id.tv_normal_title, normalItem.getTitle());

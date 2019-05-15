@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="right">
+
+    <RelativeLayout
+        android:id="@+id/rl_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="@dimen/list_view_parent_delete_size"
+            android:layout_height="@dimen/list_view_parent_delete_size"
+            android:background="@drawable/list_delete_all_oval"
+            android:contentDescription="TODO"
+            android:src="@drawable/item_icon_delete_all" />
+
+        <Button
+            android:id="@+id/bt_del"
+            android:layout_width="@dimen/list_view_parent_delete_button_width"
+            android:layout_height="@dimen/list_view_parent_delete_button_height"
+            android:background="@drawable/list_delete_all_rounded_shape"
+            android:text="清除"
+            android:textAllCaps="false"
+            android:textColor="@color/notify_recycler_view_item_header_normal_color"
+            android:textSize="@dimen/list_view_item_header_del" />
+
+       <!-- <com.chad.baserecyclerviewadapterhelper.animation.MorphingButton
+            android:id="@+id/iv_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />-->
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

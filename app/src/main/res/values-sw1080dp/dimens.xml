@@ -138,4 +138,16 @@
     <dimen name="custom_layout_delete">185dp</dimen>
     <dimen name="custom_layout_delete_button_end">32dp</dimen>
 
+    <!-- 折叠删除 -->
+    <dimen name="list_view_parent_delete_size">66dp</dimen>
+    <dimen name="list_view_parent_delete_button_width">124dp</dimen>
+    <dimen name="list_view_parent_delete_button_height">66dp</dimen>
+
+    <!--parent 点的大小 -->
+    <dimen name="list_view_point_size">5dp</dimen>
+    <!--收起按钮长宽-->
+    <dimen name="list_view_parent_collapse_width">124dp</dimen>
+    <dimen name="list_view_parent_collapse_height">66dp</dimen>
+    <dimen name="list_view_item_header_text_time_margin_start">40dp</dimen>
+    <dimen name="list_view_parent_del">24sp</dimen>
 </resources>

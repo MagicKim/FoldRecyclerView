@@ -87,45 +87,49 @@ public class ExpandableUseActivity extends BaseActivity {
 
     private View getHeaderView() {
         View view = getLayoutInflater().inflate(R.layout.head_view, (ViewGroup) mRecyclerView.getParent(), false);
-        view.findViewById(R.id.iv_delete_all).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                expandableAdapter.deleteAllData();
-            }
-        });
+//        view.findViewById(R.id.iv_delete_all).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                expandableAdapter.deleteAllData();
+//            }
+//        });
         return view;
     }
 
 
     public void getNormalData() {
         mData.add(new TestNotification(1, "com.car.cc", "周杰伦全新专辑发布 !",
-                "音乐消息1", false, false, 1555053240010L));
+                "音乐消息1", false, false, 1557903093000L));
         mData.add(new TestNotification(2, "com.car.bb", "AirPods H1芯片有多强？- 你的耳朵里是台iPhone 4",
-                "新闻消息2", true, false, 1335053240000L));
+                "新闻消息2", true, false, 1557903094000L));
         mData.add(new TestNotification(3, "com.car.dd", "您的内存满了哦，请及时清理！",
-                "系统消息3", false, false, 1455053240000L));
+                "系统消息3", false, false, 1557903095000L));
+        mData.add(new TestNotification(14, "ecarx.upgrade", "您的系统需要升级!",
+                "OTA消息1", true, false, 1557903096000L));
+        mData.add(new TestNotification(15, "ecarx.upgrade", "您的屏幕需要升级!",
+                "OTA消息2", true, false, 1557903097000L));
+        mData.add(new TestNotification(16, "ecarx.upgrade", "您的mcu需要升级!",
+                "OTA消息3", true, false, 1557903098000L));
         mData.add(new TestNotification(4, "com.car.cc", "陈奕迅全新专辑发布!",
-                "音乐消息4", true, false, 1655053240000L));
+                "音乐消息4", true, false, 1557903099000L));
         mData.add(new TestNotification(5, "com.car.bb", "坚果Pro 2系统更新：下线“残废”功能",
-                "新闻消息5", true, false, 1555053240000L));
+                "新闻消息5", true, false, 1557903100000L));
         mData.add(new TestNotification(6, "com.car.dd", "有新的OTA升级包哦！",
-                "系统消息6", false, false, 1855053240000L));
+                "系统消息6", false, false, 1557903101000L));
         mData.add(new TestNotification(7, "com.car.cc", "蔡依林全新专辑发布!",
-                "音乐消息7", true, false, 1955053240000L));
+                "音乐消息7", true, false, 1557903102000L));
         mData.add(new TestNotification(8, "com.car.cc", "陶喆全新专辑发布!",
-                "音乐消息8", false, false, 1555054240000L));
+                "音乐消息8", false, false, 1557903103000L));
         mData.add(new TestNotification(9, "com.car.cc", "朴树全新专辑发布!",
-                "音乐消息9", true, false, 1555073240000L));
+                "音乐消息9", true, false, 1557903104000L));
         mData.add(new TestNotification(10, "com.car.cc", "LadyGaga全新专辑发布!",
-                "音乐消息10", false, false, 1555153240000L));
+                "音乐消息10", false, false, 1557903105000L));
         mData.add(new TestNotification(11, "com.car.ee", "2019日本小姐冠军出炉 网友：越看越像吴京！",
-                "娱乐消息11", false, false, 1255053240000L));
+                "娱乐消息11", false, false, 1557903106000L));
         mData.add(new TestNotification(12, "com.car.ee", "微软公布Windows 10的活跃设备数已经超过9亿 但可能是个乌龙",
-                "娱乐消息12", false, false, 1255053340000L));
+                "娱乐消息12", false, false, 1557903107000L));
         mData.add(new TestNotification(13, "com.car.ee", "18万只蜜蜂在巴黎圣母院大火幸存 因没有肺脏不怕烟",
-                "娱乐消息13", false, false, 1255453340000L));
-        mData.add(new TestNotification(2, "com.car.bb", "提供创建 applet 所必需的类和 applet 用来与其 applet 上下文通信的类。",
-                "新闻消息14", true, false, 1335053240100L));
+                "娱乐消息13", false, false, 1557903108000L));
     }
 
 }

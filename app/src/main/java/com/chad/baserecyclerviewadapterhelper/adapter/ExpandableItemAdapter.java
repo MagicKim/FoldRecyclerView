@@ -25,6 +25,7 @@ import com.chad.baserecyclerviewadapterhelper.entity.Level1Item;
 import com.chad.baserecyclerviewadapterhelper.entity.NormalItem;
 import com.chad.baserecyclerviewadapterhelper.entity.TestNotification;
 import com.chad.baserecyclerviewadapterhelper.util.SortUtils;
+import com.chad.baserecyclerviewadapterhelper.util.TimeUtil;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.entity.IExpandable;
@@ -51,6 +52,9 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
     public static final int TYPE_NORMAL = 2;
 
     private Context mContext;
+
+    private static final String OTA_PACKAGE = "ecarx.upgrade";
+    private static final long OTA_TIME_MARK = 864000000L;
 
     //原始数据
     private ArrayList<TestNotification> notificationArrayList = new ArrayList<>();
@@ -79,7 +83,12 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 holder.setText(R.id.tv_item_title, normalItem.getTitle());
                 holder.setText(R.id.tv_item_content, normalItem.getContent());
                 holder.setText(R.id.tv_pkg_name, normalItem.getPkg());
-                holder.setText(R.id.tv_item_time, "时间：" + normalItem.getTime());
+                if (TextUtils.equals(normalItem.getPkg(), OTA_PACKAGE)) {
+                    holder.setText(R.id.tv_item_time, "时间：" + TimeUtil.getTime(normalItem.getTime() - OTA_TIME_MARK));
+                } else {
+                    holder.setText(R.id.tv_item_time, "时间：" + TimeUtil.getTime(normalItem.getTime()));
+                }
+
                 Button buttonViewDel = holder.getView(R.id.btn_item_delete);
                 buttonViewDel.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -115,8 +124,13 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 Button buttonCollapse = holder.getView(R.id.bt_header_collapse);
 
                 holder.setText(R.id.tv_item_title, lv0.title)
-                        .setText(R.id.tv_pkg_name, lv0.subTitle)
-                        .setText(R.id.tv_item_time, "时间:" + lv0.time);
+                        .setText(R.id.tv_pkg_name, lv0.subTitle);
+                if (TextUtils.equals(lv0.getPackageName(), OTA_PACKAGE)) {
+                    holder.setText(R.id.tv_item_time, "时间:" + TimeUtil.getTime(lv0.time - OTA_TIME_MARK));
+                } else {
+                    holder.setText(R.id.tv_item_time, "时间:" + TimeUtil.getTime(lv0.time));
+                }
+
 
                 if (lv0.getSubItems().size() > 2) {
                     flMorePicture.setBackground(mContext.getResources().getDrawable(R.drawable.basic_elements_two_bg));
@@ -197,7 +211,11 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 holder.setText(R.id.tv_item_title, lv1.title);
                 holder.setText(R.id.tv_item_content, lv1.content);
                 holder.setText(R.id.tv_pkg_name, lv1.subTitle);
-                holder.setText(R.id.tv_item_time, "时间：" + lv1.getTime());
+                if (TextUtils.equals(lv1.getPackageName(), OTA_PACKAGE)) {
+                    holder.setText(R.id.tv_item_time, "时间：" + TimeUtil.getTime(lv1.getTime() - OTA_TIME_MARK));
+                } else {
+                    holder.setText(R.id.tv_item_time, "时间：" + TimeUtil.getTime(lv1.getTime()));
+                }
                 holder.getView(R.id.btn_item_delete).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -302,7 +320,13 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
     //动态构建聚合转换
     public void addGroupItem(TestNotification xcnRecord) {
         //添加原始数据
-        notificationArrayList.add(xcnRecord);
+        if (TextUtils.equals(xcnRecord.getPkg(), OTA_PACKAGE)) {
+            TestNotification testNotification = new TestNotification(xcnRecord.getId(), xcnRecord.getPkg(), xcnRecord.getContent(),
+                    xcnRecord.getTitle(), xcnRecord.isExpandItem(), xcnRecord.isShield(), xcnRecord.getTime() + OTA_TIME_MARK);
+            notificationArrayList.add(testNotification);
+        } else {
+            notificationArrayList.add(xcnRecord);
+        }
         Collections.sort(notificationArrayList, SortUtils.sortChildEntityCmp);
         transformData();
     }

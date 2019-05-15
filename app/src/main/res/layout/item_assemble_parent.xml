@@ -17,37 +17,38 @@
             android:id="@+id/rl_expand_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="bottom"
+            android:background="@android:color/holo_purple"
             android:visibility="gone">
 
             <TextView
                 android:id="@+id/tv_header_pkg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:layout_alignParentStart="true"
+                android:layout_centerInParent="true"
+                android:background="@android:color/holo_green_light"
                 android:text="这是标题"
                 android:textColor="@drawable/list_item_pkg_text_selector"
                 android:textSize="@dimen/list_view_item_title" />
 
+
+            <com.chad.baserecyclerviewadapterhelper.animation.ItemDeleteLayout
+                android:id="@+id/bt_parent_del"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/list_view_item_margin_start" />
+
             <Button
                 android:id="@+id/bt_header_collapse"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/tv_header_pkg"
-                android:background="@drawable/bar_button_noborder_selector"
-                android:text="折叠"
-                android:textColor="@drawable/list_item_pkg_text_selector"
-                android:textSize="35sp" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/bt_header_collapse"
-                android:background="@drawable/bar_button_noborder_selector"
-                android:text="删除"
-                android:textColor="@drawable/list_item_pkg_text_selector"
-                android:textSize="35sp" />
-
+                android:layout_width="@dimen/list_view_parent_collapse_width"
+                android:layout_height="@dimen/list_view_parent_collapse_height"
+                android:layout_marginEnd="@dimen/list_view_item_margin_start"
+                android:layout_toStartOf="@id/bt_parent_del"
+                android:background="@drawable/list_delete_all_rounded_shape"
+                android:text="收起"
+                android:textColor="@drawable/list_item_content_text_selector"
+                android:textSize="@dimen/list_view_parent_del" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -71,6 +72,26 @@
                 android:layout_marginStart="@dimen/list_view_item_margin_start"
                 android:layout_toEndOf="@id/iv_app_icon"
                 android:text="新闻"
+                android:textColor="@drawable/list_item_pkg_text_selector"
+                android:textSize="@dimen/list_view_item_time" />
+
+            <ImageView
+                android:id="@+id/tv_point"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="@dimen/list_view_item_margin_start"
+                android:layout_marginTop="20dp"
+                android:layout_toEndOf="@id/tv_pkg_name"
+                android:background="@drawable/list_circle_shape" />
+
+            <TextView
+                android:id="@+id/tv_parent_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/list_view_item_margin_start"
+                android:layout_toEndOf="@id/tv_point"
+                android:text="5个通知"
                 android:textColor="@drawable/list_item_pkg_text_selector"
                 android:textSize="@dimen/list_view_item_time" />
 
