@@ -25,7 +25,7 @@
     <dimen name="mb_height_8">8dp</dimen>
     <dimen name="mb_height_4">4dp</dimen>
 
-    <integer name="mb_animation">500</integer>
+    <integer name="mb_animation">250</integer>
 
     <string name="mb_button">Button</string>
 </resources>

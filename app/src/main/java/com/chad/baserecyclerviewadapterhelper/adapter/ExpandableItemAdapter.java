@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.chad.baserecyclerviewadapterhelper.R;
+import com.chad.baserecyclerviewadapterhelper.animation.HeaderDelButton;
 import com.chad.baserecyclerviewadapterhelper.animation.SwipeMenuLayout;
 import com.chad.baserecyclerviewadapterhelper.entity.ImageItem;
 import com.chad.baserecyclerviewadapterhelper.entity.Level0Item;
@@ -117,11 +118,25 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 final RelativeLayout layoutL0 = holder.getView(R.id.sm_root_view);
                 final FrameLayout flMorePicture = holder.getView(R.id.iv_more_picture);
 
-                RelativeLayout rlHeader = holder.getView(R.id.rl_expand_header);
+                final RelativeLayout rlHeader = holder.getView(R.id.rl_expand_header);
                 Button btDel = holder.getView(R.id.btn_item_delete);
                 Button btPlace = holder.getView(R.id.btn_item_place);
 
                 Button buttonCollapse = holder.getView(R.id.bt_header_collapse);
+                final HeaderDelButton headerDelButton = holder.getView(R.id.bt_parent_del);
+                headerDelButton.setDeleteItemListener(new HeaderDelButton.OnDeleteItemListener() {
+                    @Override
+                    public void setDeleteItem(int state) {
+                        if (state == 1) {
+                            HeaderDelButton headerDelButton1 = HeaderDelButton.getViewCache();
+                            if (headerDelButton1 != null) {
+                                headerDelButton1.restoreAUI();
+                            }
+                        } else {
+                            deleteAssembleParent(holder.getAdapterPosition(), lv0);
+                        }
+                    }
+                });
 
                 holder.setText(R.id.tv_item_title, lv0.title)
                         .setText(R.id.tv_pkg_name, lv0.subTitle);
@@ -138,8 +153,8 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                     flMorePicture.setBackground(mContext.getResources().getDrawable(R.drawable.basic_elements_one_bg));
                 }
                 TransitionManager.beginDelayedTransition(layoutL0, new Slide(Gravity.BOTTOM));
-                TransitionManager.beginDelayedTransition(flMorePicture, new Slide(Gravity.BOTTOM));
-                TransitionManager.beginDelayedTransition(rlHeader, new Slide(Gravity.TOP));
+                TransitionManager.beginDelayedTransition(rlHeader, new Slide(Gravity.TOP).setDuration(200));
+
                 if (lv0.isExpanded()) {
                     rlHeader.setVisibility(View.VISIBLE);
                     layoutL0.setVisibility(View.GONE);
@@ -153,7 +168,6 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                     btPlace.setVisibility(View.VISIBLE);
                     flMorePicture.setVisibility(View.VISIBLE);
                 }
-
                 //todo 展开与折叠分别是两个按钮，所以删除之后swipe状态不会混乱了
                 layoutL0.setOnClickListener(new View.OnClickListener() {
                     @Override

@@ -17,7 +17,6 @@
             android:id="@+id/rl_expand_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/holo_purple"
             android:visibility="gone">
 
             <TextView
@@ -32,19 +31,17 @@
                 android:textSize="@dimen/list_view_item_title" />
 
 
-            <com.chad.baserecyclerviewadapterhelper.animation.ItemDeleteLayout
+            <com.chad.baserecyclerviewadapterhelper.animation.HeaderDelButton
                 android:id="@+id/bt_parent_del"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="@dimen/list_view_item_margin_start" />
+                android:layout_centerInParent="true" />
 
             <Button
                 android:id="@+id/bt_header_collapse"
                 android:layout_width="@dimen/list_view_parent_collapse_width"
                 android:layout_height="@dimen/list_view_parent_collapse_height"
                 android:layout_marginEnd="@dimen/list_view_item_margin_start"
-                android:layout_toStartOf="@id/bt_parent_del"
                 android:background="@drawable/list_delete_all_rounded_shape"
                 android:text="收起"
                 android:textColor="@drawable/list_item_content_text_selector"

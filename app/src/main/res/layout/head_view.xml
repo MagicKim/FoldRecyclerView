@@ -15,11 +15,10 @@
         android:textColor="@android:color/white"
         android:textSize="25sp" />
 
-    <!--<com.chad.baserecyclerviewadapterhelper.animation.ItemMorphingButton
+    <com.chad.baserecyclerviewadapterhelper.animation.HeaderDelButton
         android:id="@+id/iv_delete_all"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true" />-->
-
+        android:layout_centerInParent="true" />
 
 </RelativeLayout>

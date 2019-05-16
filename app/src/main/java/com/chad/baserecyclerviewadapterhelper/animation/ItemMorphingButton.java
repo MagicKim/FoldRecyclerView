@@ -8,6 +8,7 @@ import android.support.annotation.IntegerRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -44,7 +45,7 @@ public class ItemMorphingButton extends RelativeLayout implements View.OnClickLi
         inflate(context, R.layout.item_parent_delete_layout, this);
         imageView = findViewById(R.id.iv_icon);
         imageView.setOnClickListener(this);
-        morphToFailure(imageView, 0);
+        morphToCircle(imageView, 200);
     }
 
     private void initTimer() {
@@ -71,7 +72,7 @@ public class ItemMorphingButton extends RelativeLayout implements View.OnClickLi
             timer.cancel();
         }
         mMorphCounter2 = 1;
-        morphToFailure(imageView, integer(R.integer.mb_animation));
+        morphToCircle(imageView, 0);
     }
 
     private void onMorphButton2Clicked() {
@@ -84,7 +85,7 @@ public class ItemMorphingButton extends RelativeLayout implements View.OnClickLi
         } else if (mMorphCounter2 == 1) {
             timer.start();
             mMorphCounter2 = 0;
-            morphToSquare(imageView, integer(R.integer.mb_animation));
+            morphToSquare(imageView, 200);
         }
     }
 
@@ -99,25 +100,24 @@ public class ItemMorphingButton extends RelativeLayout implements View.OnClickLi
     private void morphToSquare(final MorphingButton btnMorph, int duration) {
         MorphingButton.Params square = MorphingButton.Params.create()
                 .duration(duration)
+                .width(dimen(R.dimen.list_view_parent_collapse_width))
                 .cornerRadius(dimen(R.dimen.list_view_del_button_radius))
-                .width(dimen(R.dimen.list_view_del_button_width))
-                .height(dimen(R.dimen.list_view_del_button_height))
                 .color(color(R.color.notify_recycler_content_bg_normal_color))
-                .colorPressed(color(R.color.notify_recycler_content_bg_normal_color))
-                .textSize(dimen(R.dimen.list_view_item_header_del))
+                .height(dimen(R.dimen.list_view_parent_collapse_height))
                 .textColor(color(R.color.notify_recycler_view_item_header_normal_color))
-                .text("清除全部");
+                .textSize(dimen(R.dimen.list_view_parent_del))
+                .text("清除");
         btnMorph.morph(square);
     }
 
-    private void morphToFailure(final MorphingButton btnMorph, int duration) {
+    private void morphToCircle(final MorphingButton btnMorph, int duration) {
         MorphingButton.Params circle = MorphingButton.Params.create()
                 .duration(duration)
-                .cornerRadius(dimen(R.dimen.list_view_del_oval_size))
-                .width(dimen(R.dimen.list_view_del_oval_size))
-                .height(dimen(R.dimen.list_view_del_oval_size))
+                .cornerRadius(dimen(R.dimen.list_view_parent_delete_size))
+                .width(dimen(R.dimen.list_view_parent_delete_size))
+                .height(dimen(R.dimen.list_view_parent_delete_size))
                 .color(color(R.color.notify_recycler_content_bg_normal_color))
-                .icon(R.drawable.item_icon_delete_all);
+                .icon(R.drawable.notify_parent_del);
         btnMorph.morph(circle);
     }
 

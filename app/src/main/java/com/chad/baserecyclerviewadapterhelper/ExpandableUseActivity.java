@@ -15,7 +15,9 @@ import android.widget.Switch;
 
 import com.chad.baserecyclerviewadapterhelper.adapter.ExpandableItemAdapter;
 import com.chad.baserecyclerviewadapterhelper.adapter.MultipleItemQuickAdapter;
+import com.chad.baserecyclerviewadapterhelper.animation.DeleteLayout;
 import com.chad.baserecyclerviewadapterhelper.animation.FadeInDownAnimator;
+import com.chad.baserecyclerviewadapterhelper.animation.HeaderDelButton;
 import com.chad.baserecyclerviewadapterhelper.base.BaseActivity;
 import com.chad.baserecyclerviewadapterhelper.data.DataManager;
 import com.chad.baserecyclerviewadapterhelper.decoration.DividerDecoration;
@@ -84,15 +86,21 @@ public class ExpandableUseActivity extends BaseActivity {
             }
         });
     }
+    private HeaderDelButton deleteLayout;
 
     private View getHeaderView() {
         View view = getLayoutInflater().inflate(R.layout.head_view, (ViewGroup) mRecyclerView.getParent(), false);
-//        view.findViewById(R.id.iv_delete_all).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                expandableAdapter.deleteAllData();
-//            }
-//        });
+
+        deleteLayout = view.findViewById(R.id.iv_delete_all);
+
+        deleteLayout.setDeleteItemListener(new HeaderDelButton.OnDeleteItemListener() {
+            @Override
+            public void setDeleteItem(int status) {
+                if(status ==2){
+                    expandableAdapter.deleteAllData();
+                }
+            }
+        });
         return view;
     }
 

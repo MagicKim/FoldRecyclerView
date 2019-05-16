@@ -129,20 +129,16 @@ public class MorphingButton extends Button {
 
     private void finalizeMorphing(@NonNull Params params) {
         mAnimationInProgress = false;
-
         if (params.icon != 0 && params.text != null) {
             setIconLeft(params.icon);
             setText(params.text);
         } else if (params.icon != 0) {
-            setIcon(params.icon);
+            setIcon(params.icon,params.width);
         } else if (params.text != null) {
             setText(params.text);
-        } else if (params.textSize != 0) {
-            setTextSize(params.textSize);
-        } else if (params.textColor != 0) {
-            setTextColor(params.textColor);
         }
-
+        setTextSize(params.textSize);
+        setTextColor(params.textColor);
         if (params.animationListener != null) {
             params.animationListener.onAnimationEnd();
         }
@@ -212,13 +208,13 @@ public class MorphingButton extends Button {
         }
     }
 
-    public void setIcon(@DrawableRes final int icon) {
+    public void setIcon(@DrawableRes final int icon,final int width) {
         // post is necessary, to make sure getWidth() doesn't return 0
         post(new Runnable() {
             @Override
             public void run() {
                 Drawable drawable = getResources().getDrawable(icon);
-                int padding = (getWidth() / 2) - (drawable.getIntrinsicWidth() / 2);
+                int padding = (width / 2) - (drawable.getIntrinsicWidth() / 2);
                 setCompoundDrawablesWithIntrinsicBounds(icon, 0, 0, 0);
                 setPadding(padding, 0, 0, 0);
             }
