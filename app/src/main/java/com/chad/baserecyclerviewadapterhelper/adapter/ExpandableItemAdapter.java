@@ -130,7 +130,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                         if (state == 1) {
                             HeaderDelButton headerDelButton1 = HeaderDelButton.getViewCache();
                             if (headerDelButton1 != null) {
-                                headerDelButton1.restoreAUI();
+//                                headerDelButton1.restoreUI();
                             }
                         } else {
                             deleteAssembleParent(holder.getAdapterPosition(), lv0);

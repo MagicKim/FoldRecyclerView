@@ -78,6 +78,11 @@ public class HeaderDelButton extends RelativeLayout implements View.OnClickListe
     public void onClick(View v) {
         mMorphCounter++;
         if (mMorphCounter == 1) {
+            if (deleteLayoutCache != null) {
+                if (deleteLayoutCache != this) {
+                    deleteLayoutCache.restoreUI();
+                }
+            }
             timer.start();
             deleteLayoutCache = HeaderDelButton.this;
             if (isHeaderDel) {
@@ -111,18 +116,6 @@ public class HeaderDelButton extends RelativeLayout implements View.OnClickListe
             morphParentToCircle(morphingButton, 0);
         }
         mMorphCounter = 0;
-    }
-
-    public void restoreAUI() {
-        if (timer != null) {
-            timer.cancel();
-        }
-        if (isHeaderDel) {
-            deleteLayoutCache.morphToCircle(morphingButton, 0);
-        } else {
-            deleteLayoutCache.morphParentToCircle(morphingButton, 0);
-        }
-        deleteLayoutCache.mMorphCounter = 0;
     }
 
     private void morphToSquare(final MorphingButton btnMorph, int duration) {
