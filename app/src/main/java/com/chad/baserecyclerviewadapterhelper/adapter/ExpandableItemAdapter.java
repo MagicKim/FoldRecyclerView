@@ -2,10 +2,12 @@ package com.chad.baserecyclerviewadapterhelper.adapter;
 
 import android.content.Context;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.transition.AutoTransition;
 import android.support.transition.Explode;
 import android.support.transition.Fade;
 import android.support.transition.Slide;
+import android.support.transition.Transition;
 import android.support.transition.TransitionManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -152,9 +154,8 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 } else {
                     flMorePicture.setBackground(mContext.getResources().getDrawable(R.drawable.basic_elements_one_bg));
                 }
-                TransitionManager.beginDelayedTransition(layoutL0, new Slide(Gravity.BOTTOM));
-                TransitionManager.beginDelayedTransition(rlHeader, new Slide(Gravity.TOP).setDuration(200));
 
+                TransitionManager.beginDelayedTransition(rlHeader, new Fade(Fade.IN));
                 if (lv0.isExpanded()) {
                     rlHeader.setVisibility(View.VISIBLE);
                     layoutL0.setVisibility(View.GONE);
@@ -191,10 +192,40 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
 //                        }
                     }
                 });
+//                Slide slide = new Slide(Gravity.TOP);
+//                slide.addListener(new Transition.TransitionListener() {
+//                    @Override
+//                    public void onTransitionStart(@NonNull Transition transition) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onTransitionEnd(@NonNull Transition transition) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onTransitionCancel(@NonNull Transition transition) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onTransitionPause(@NonNull Transition transition) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onTransitionResume(@NonNull Transition transition) {
+//
+//                    }
+//                });
+//                TransitionManager.beginDelayedTransition(rlHeader, slide);
 
                 buttonCollapse.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
+
                         int pos = holder.getAdapterPosition();
                         if (lv0.getSubItems().size() > 2) {
                             flMorePicture.setBackground(mContext.getResources().getDrawable(R.drawable.basic_elements_two_bg));
