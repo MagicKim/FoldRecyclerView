@@ -18,6 +18,7 @@ package com.chad.baserecyclerviewadapterhelper.animation;
 
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
@@ -38,7 +39,7 @@ public class FadeInDownAnimator extends BaseItemAnimator {
                 .translationY(-holder.itemView.getHeight() * 0.25f)
                 .alpha(0)
                 .setDuration(getRemoveDuration())
-                .setInterpolator(new DecelerateInterpolator())
+                .setInterpolator(mInterpolator)
                 .setListener(new DefaultRemoveVpaListener(holder))
                 .setStartDelay(getRemoveDelay(holder))
                 .start();
@@ -46,7 +47,7 @@ public class FadeInDownAnimator extends BaseItemAnimator {
 
     @Override
     protected void preAnimateAddImpl(RecyclerView.ViewHolder holder) {
-        ViewCompat.setTranslationY(holder.itemView, -holder.itemView.getHeight() * 0.2f);
+        ViewCompat.setTranslationY(holder.itemView, -holder.itemView.getHeight() * .25f);
         ViewCompat.setAlpha(holder.itemView, 0);
     }
 

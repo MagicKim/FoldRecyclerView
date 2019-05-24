@@ -1846,6 +1846,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
         int subItemCount = recursiveCollapse(position);
         expandable.setExpanded(false);
         int parentPos = position + getHeaderLayoutCount();
+
         if (notify) {
             if (animate) {
                 notifyItemChanged(parentPos);

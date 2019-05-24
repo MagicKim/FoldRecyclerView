@@ -2,27 +2,22 @@ package com.chad.baserecyclerviewadapterhelper.adapter;
 
 import android.content.Context;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.transition.AutoTransition;
 import android.support.transition.Explode;
 import android.support.transition.Fade;
 import android.support.transition.Slide;
-import android.support.transition.Transition;
 import android.support.transition.TransitionManager;
+import android.support.v4.view.ViewCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.chad.baserecyclerviewadapterhelper.R;
 import com.chad.baserecyclerviewadapterhelper.animation.HeaderDelButton;
 import com.chad.baserecyclerviewadapterhelper.animation.SwipeMenuLayout;
-import com.chad.baserecyclerviewadapterhelper.entity.ImageItem;
 import com.chad.baserecyclerviewadapterhelper.entity.Level0Item;
 import com.chad.baserecyclerviewadapterhelper.entity.Level1Item;
 import com.chad.baserecyclerviewadapterhelper.entity.NormalItem;
@@ -119,10 +114,11 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 final SwipeMenuLayout swipeMenuLayout = holder.getView(R.id.rl_normal_root_layout);
                 final RelativeLayout layoutL0 = holder.getView(R.id.sm_root_view);
                 final FrameLayout flMorePicture = holder.getView(R.id.iv_more_picture);
+                RelativeLayout rlContentRootLayout = holder.getView(R.id.rl_view);
 
                 final RelativeLayout rlHeader = holder.getView(R.id.rl_expand_header);
-                Button btDel = holder.getView(R.id.btn_item_delete);
-                Button btPlace = holder.getView(R.id.btn_item_place);
+                final Button btDel = holder.getView(R.id.btn_item_delete);
+                final Button btPlace = holder.getView(R.id.btn_item_place);
 
                 Button buttonCollapse = holder.getView(R.id.bt_header_collapse);
                 final HeaderDelButton headerDelButton = holder.getView(R.id.bt_parent_del);
@@ -147,28 +143,31 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 } else {
                     holder.setText(R.id.tv_item_time, "时间:" + TimeUtil.getTime(lv0.time));
                 }
-
-
                 if (lv0.getSubItems().size() > 2) {
                     flMorePicture.setBackground(mContext.getResources().getDrawable(R.drawable.basic_elements_two_bg));
                 } else {
                     flMorePicture.setBackground(mContext.getResources().getDrawable(R.drawable.basic_elements_one_bg));
                 }
 
-                TransitionManager.beginDelayedTransition(rlHeader, new Fade(Fade.IN));
                 if (lv0.isExpanded()) {
+                    swipeMenuLayout.setSwipeEnable(false);
                     rlHeader.setVisibility(View.VISIBLE);
                     layoutL0.setVisibility(View.GONE);
                     btDel.setVisibility(View.GONE);
                     btPlace.setVisibility(View.GONE);
                     flMorePicture.setVisibility(View.GONE);
                 } else {
-                    rlHeader.setVisibility(View.GONE);
+                    swipeMenuLayout.setSwipeEnable(true);
                     layoutL0.setVisibility(View.VISIBLE);
+                    rlHeader.setVisibility(View.GONE);
                     btDel.setVisibility(View.VISIBLE);
                     btPlace.setVisibility(View.VISIBLE);
                     flMorePicture.setVisibility(View.VISIBLE);
                 }
+                //.removeTarget(btDel).removeTarget(btPlace).removeTarget(rlHeader)
+                TransitionManager.beginDelayedTransition(swipeMenuLayout,
+                        new Slide(Gravity.BOTTOM));
+
                 //todo 展开与折叠分别是两个按钮，所以删除之后swipe状态不会混乱了
                 layoutL0.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -179,52 +178,14 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                         } else {
                             flMorePicture.setBackground(mContext.getResources().getDrawable(R.drawable.basic_elements_one_bg));
                         }
-
                         expand(pos);
                         swipeMenuLayout.setSwipeEnable(false);
 
-//                        if (lv0.isExpanded()) {
-//                            collapse(pos);
-//                            swipeMenuLayout.setSwipeEnable(false);
-//                        } else {
-//                            expand(pos);
-//                            swipeMenuLayout.setSwipeEnable(true);
-//                        }
                     }
                 });
-//                Slide slide = new Slide(Gravity.TOP);
-//                slide.addListener(new Transition.TransitionListener() {
-//                    @Override
-//                    public void onTransitionStart(@NonNull Transition transition) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onTransitionEnd(@NonNull Transition transition) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onTransitionCancel(@NonNull Transition transition) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onTransitionPause(@NonNull Transition transition) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onTransitionResume(@NonNull Transition transition) {
-//
-//                    }
-//                });
-//                TransitionManager.beginDelayedTransition(rlHeader, slide);
-
                 buttonCollapse.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
 
                         int pos = holder.getAdapterPosition();
                         if (lv0.getSubItems().size() > 2) {
@@ -232,17 +193,11 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                         } else {
                             flMorePicture.setBackground(mContext.getResources().getDrawable(R.drawable.basic_elements_one_bg));
                         }
-
-//                        if (lv0.isExpanded()) {
-//                            collapse(pos);
-//                            swipeMenuLayout.setSwipeEnable(false);
-//                        } else {
                         collapse(pos);
                         swipeMenuLayout.setSwipeEnable(true);
-//                        }
+
                     }
                 });
-
                 btDel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -364,16 +319,43 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
 
     //动态构建聚合转换
     public void addGroupItem(TestNotification xcnRecord) {
+
+        int updateListIndex = findUpdateList(xcnRecord);
+        Log.v("updateList", "updateListIndex = " + updateListIndex);
         //添加原始数据
         if (TextUtils.equals(xcnRecord.getPkg(), OTA_PACKAGE)) {
             TestNotification testNotification = new TestNotification(xcnRecord.getId(), xcnRecord.getPkg(), xcnRecord.getContent(),
                     xcnRecord.getTitle(), xcnRecord.isExpandItem(), xcnRecord.isShield(), xcnRecord.getTime() + OTA_TIME_MARK);
-            notificationArrayList.add(testNotification);
+            if (updateListIndex != -1) {
+                Log.v("updateList", "update OTA List");
+                notificationArrayList.set(updateListIndex, new TestNotification(xcnRecord.getId(), xcnRecord.getPkg(), xcnRecord.getContent(),
+                        xcnRecord.getTitle(), xcnRecord.isExpandItem(), xcnRecord.isShield(), xcnRecord.getTime() + OTA_TIME_MARK));
+            } else {
+                notificationArrayList.add(testNotification);
+            }
         } else {
-            notificationArrayList.add(xcnRecord);
+            if (updateListIndex != -1) {
+                Log.v("updateList", "update  List");
+                notificationArrayList.set(updateListIndex, xcnRecord);
+            }else{
+                notificationArrayList.add(xcnRecord);
+            }
         }
+
         Collections.sort(notificationArrayList, SortUtils.sortChildEntityCmp);
         transformData();
+    }
+
+    private int findUpdateList(TestNotification newRecord) {
+        if (notificationArrayList.size() > 0) {
+            for (int i = 0; i < notificationArrayList.size(); i++) {
+                TestNotification record = notificationArrayList.get(i);
+                if (newRecord.getId() == record.getId()) {
+                    return i;
+                }
+            }
+        }
+        return -1;
     }
 
     public void transformGroupView() {
@@ -399,7 +381,6 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
 
         //遍历map集合
         for (String key : resultMap.keySet()) {
-            Log.e(TAG, "遍历map");
             List<TestNotification> notificationList = resultMap.get(key);
             Collections.sort(notificationList, SortUtils.sortChildEntityCmp);
             if (notificationList.size() < 2) {
