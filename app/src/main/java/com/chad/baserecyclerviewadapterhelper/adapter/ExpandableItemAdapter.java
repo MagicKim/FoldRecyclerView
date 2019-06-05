@@ -319,25 +319,24 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
 
     //动态构建聚合转换
     public void addGroupItem(TestNotification xcnRecord) {
-
         int updateListIndex = findUpdateList(xcnRecord);
         Log.v("updateList", "updateListIndex = " + updateListIndex);
         //添加原始数据
         if (TextUtils.equals(xcnRecord.getPkg(), OTA_PACKAGE)) {
-            TestNotification testNotification = new TestNotification(xcnRecord.getId(), xcnRecord.getPkg(), xcnRecord.getContent(),
-                    xcnRecord.getTitle(), xcnRecord.isExpandItem(), xcnRecord.isShield(), xcnRecord.getTime() + OTA_TIME_MARK);
             if (updateListIndex != -1) {
                 Log.v("updateList", "update OTA List");
                 notificationArrayList.set(updateListIndex, new TestNotification(xcnRecord.getId(), xcnRecord.getPkg(), xcnRecord.getContent(),
                         xcnRecord.getTitle(), xcnRecord.isExpandItem(), xcnRecord.isShield(), xcnRecord.getTime() + OTA_TIME_MARK));
             } else {
+                TestNotification testNotification = new TestNotification(xcnRecord.getId(), xcnRecord.getPkg(), xcnRecord.getContent(),
+                        xcnRecord.getTitle(), xcnRecord.isExpandItem(), xcnRecord.isShield(), xcnRecord.getTime() + OTA_TIME_MARK);
                 notificationArrayList.add(testNotification);
             }
         } else {
             if (updateListIndex != -1) {
                 Log.v("updateList", "update  List");
                 notificationArrayList.set(updateListIndex, xcnRecord);
-            }else{
+            } else {
                 notificationArrayList.add(xcnRecord);
             }
         }
