@@ -285,7 +285,12 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
         final int positionAtAll = getParentPositionInAll(pos - getHeaderLayoutCount());
         Log.w(TAG, "positionAtAll =" + positionAtAll);
         remove(pos - getHeaderLayoutCount());
-        //todo 我艹  这是什么鬼!
+        /*
+        * 构造testList 目的是为了同步视图数据getData(),然后获取index,最后根据这个index,插入数据.
+        * 但是有个问题聚合列表没有展开时候,位置是正确的.展开之后,插入的位置就有问题了.
+        * 展开之后,直接插入到了展开的数据中了.原因是排序排的这个位置是展开的位置.
+        * 那么怎么解决这个问题呢?
+        * */
         if (positionAtAll != -1) {
             final IExpandable multiItemEntity = (IExpandable) getData().get(positionAtAll);
             List<Level1Item> childList = new ArrayList<>(multiItemEntity.getSubItems());
@@ -299,7 +304,10 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                     testList.add(normalItem);
                     Collections.sort(testList, SortUtils.sortGroupEntityCmp);
                     int i = testList.indexOf(normalItem);
-                    addData(i, normalItem);
+                    getData().add(normalItem);
+                    Collections.sort(getData(), SortUtils.sortGroupEntityCmp);
+                    notifyDataSetChanged();
+                    Log.e("kim","视图数据 = "+getData().toString());
                 }
 
             }
