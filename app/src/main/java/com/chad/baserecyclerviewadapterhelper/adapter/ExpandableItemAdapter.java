@@ -182,7 +182,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                         expand(pos);
                         swipeMenuLayout.setSwipeEnable(false);
 
-                        Log.w(TAG,"EXPAND -----?"+getData().toString());
+                        Log.w(TAG, "EXPAND -----?" + getData().toString());
 
                     }
                 });
@@ -199,7 +199,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                         collapse(pos);
                         swipeMenuLayout.setSwipeEnable(true);
 
-                        Log.w(TAG,"collapse >>>>>>>?"+getData().toString());
+                        Log.w(TAG, "collapse >>>>>>>?" + getData().toString());
 
                     }
                 });
@@ -213,6 +213,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 break;
             case TYPE_LEVEL_1:
                 final Level1Item lv1 = (Level1Item) item;
+                RelativeLayout rlRoot = holder.getView(R.id.sm_root_view);
                 holder.setText(R.id.tv_item_title, lv1.title);
                 holder.setText(R.id.tv_item_content, lv1.content);
                 holder.setText(R.id.tv_pkg_name, lv1.subTitle);
@@ -222,6 +223,12 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                     holder.setText(R.id.tv_item_time, "时间：" + TimeUtil.getTime(lv1.getTime()));
                 }
                 holder.getView(R.id.btn_item_delete).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        deleteAssembleChild(holder, lv1);
+                    }
+                });
+                rlRoot.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         deleteAssembleChild(holder, lv1);
@@ -306,8 +313,8 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                     it.remove();
                 }
             }
-            Log.e("kim", "(child)视图数据 = " + getData().toString());
-            Log.w("kim", "(child)真实数据 = " + notificationArrayList.toString());
+//            Log.e("kim", "(child)视图数据 = " + getData().toString());
+//            Log.w("kim", "(child)真实数据 = " + notificationArrayList.toString());
         }
 
     }

@@ -44,11 +44,5 @@ public class Level1Item implements MultiItemEntity {
         return time;
     }
 
-    @Override
-    public String toString() {
-        return "Level1Item{" +
-                "title='" + title + '\'' +
-                ", subTitle='" + subTitle + '\'' +
-                '}';
-    }
+
 }

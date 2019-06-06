@@ -107,18 +107,18 @@ public class ExpandableUseActivity extends BaseActivity {
 
     public void getNormalData() {
         mData.add(new TestNotification(1, "com.car.cc", "周杰伦全新专辑发布 !",
-                "音乐消息1", false, false, 1557903093000L));
+                "音乐消息1", false, false, 1557903094000L));
         mData.add(new TestNotification(2, "com.car.bb", "AirPods H1芯片有多强？- 你的耳朵里是台iPhone 4",
-                "新闻消息2", true, false, 1557903093001L));
+                "新闻消息2", true, false, 1557903095001L));
         mData.add(new TestNotification(5, "com.car.bb", "坚果Pro 2系统更新：下线“残废”功能",
-                "新闻消息5", true, false, 1557903093002L));
+                "新闻消息5", true, false, 1557903096002L));
         mData.add(new TestNotification(23, "com.car.cc", "周杰伦全新专辑发布(------>更新的条目<-------)!",
-                "音乐消息23", false, false, 1557903093003L));
+                "音乐消息23", false, false, 1557903097003L));
 
         mData.add(new TestNotification(3, "com.car.dd", "您的内存满了哦，请及时清理！",
-                "系统消息3", false, false, 1557903095000L));
+                "系统消息3", false, false, 1557903098000L));
         mData.add(new TestNotification(14, "ecarx.upgrade", "您的系统需要升级!",
-                "OTA消息1", true, false, 1557903096000L));
+                "OTA消息1", true, false, 1557903099000L));
         mData.add(new TestNotification(14, "ecarx.upgrade", "您的系统需要升级!(------>更新的条目<-------)",
                 "OTA消息1", true, false, 1557903096006L));
         mData.add(new TestNotification(15, "ecarx.upgrade", "您的屏幕需要升级!",
