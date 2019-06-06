@@ -12,7 +12,7 @@ public class TimeUtil {
 
     private static final String TAG = "TimeUtil";
 
-    public static final SimpleDateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static final SimpleDateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS");
     public static final SimpleDateFormat DATE_FORMAT_DATE = new SimpleDateFormat("yyyy-MM-dd");
     public static final SimpleDateFormat HOUR_FORMAT = new SimpleDateFormat("HH:mm");
 

@@ -172,6 +172,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 layoutL0.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
                         int pos = holder.getAdapterPosition();
                         if (lv0.getSubItems().size() > 2) {
                             flMorePicture.setBackground(mContext.getResources().getDrawable(R.drawable.basic_elements_two_bg));
@@ -180,6 +181,8 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                         }
                         expand(pos);
                         swipeMenuLayout.setSwipeEnable(false);
+
+                        Log.w(TAG,"EXPAND -----?"+getData().toString());
 
                     }
                 });
@@ -195,6 +198,8 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                         }
                         collapse(pos);
                         swipeMenuLayout.setSwipeEnable(true);
+
+                        Log.w(TAG,"collapse >>>>>>>?"+getData().toString());
 
                     }
                 });
@@ -411,6 +416,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
         setNewData(getData());
         //清空数据转换集合
         entityList.clear();
+        Log.e(TAG, "GROUP ------->" + getData().toString());
     }
 
     public void setNormalData() {
