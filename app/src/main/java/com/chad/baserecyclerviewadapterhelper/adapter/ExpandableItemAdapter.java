@@ -31,6 +31,7 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -58,6 +59,8 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
     private ArrayList<TestNotification> notificationArrayList = new ArrayList<>();
 
     private Handler mHandler = new Handler();
+
+    private Map<String, Boolean> expandSetList = new HashMap<>();
 
 
     /**
@@ -136,6 +139,8 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                     }
                 });
 
+//                expandSetList.put(lv0.getPackageName(), false);
+
                 holder.setText(R.id.tv_item_title, lv0.title)
                         .setText(R.id.tv_pkg_name, lv0.subTitle);
                 if (TextUtils.equals(lv0.getPackageName(), OTA_PACKAGE)) {
@@ -181,6 +186,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                         }
                         expand(pos);
                         swipeMenuLayout.setSwipeEnable(false);
+                        expandSetList.put(lv0.getPackageName(), true);
 
                         Log.w(TAG, "EXPAND -----?" + getData().toString());
 
@@ -198,7 +204,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                         }
                         collapse(pos);
                         swipeMenuLayout.setSwipeEnable(true);
-
+                        expandSetList.put(lv0.getPackageName(), false);
                         Log.w(TAG, "collapse >>>>>>>?" + getData().toString());
 
                     }
@@ -273,6 +279,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 it.remove();
             }
         }
+        expandSetList.remove(level0Item.getPackageName());
 
         Log.e("kim", "(parent)视图数据 = " + getData().toString());
         Log.w("kim", "(parent)真实数据 = " + notificationArrayList.toString());
@@ -286,33 +293,38 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
         Log.w(TAG, "positionAtAll =" + positionAtAll);
         remove(pos - getHeaderLayoutCount());
         /*
-        * 构造testList 目的是为了同步视图数据getData(),然后获取index,最后根据这个index,插入数据.
-        * 但是有个问题聚合列表没有展开时候,位置是正确的.展开之后,插入的位置就有问题了.
-        * 展开之后,直接插入到了展开的数据中了.原因是排序排的这个位置是展开的位置.
-        * 那么怎么解决这个问题呢?
-        * */
+        //todo
+         * 构造testList 目的是为了同步视图数据getData(),然后获取index,最后根据这个index,插入数据.
+         * 但是有个问题聚合列表没有展开时候,位置是正确的.展开之后,插入的位置就有问题了.
+         * 展开之后,直接插入到了展开的数据中了.原因是排序排的这个位置是展开的位置.
+         * 那么怎么解决这个问题呢?
+         * */
         if (positionAtAll != -1) {
             final IExpandable multiItemEntity = (IExpandable) getData().get(positionAtAll);
             List<Level1Item> childList = new ArrayList<>(multiItemEntity.getSubItems());
             if (childList.size() == 1) {
                 remove(positionAtAll);
-                List<MultiItemEntity> testList = new ArrayList<>(getData());
+                expandSetList.remove(lv1.getPackageName());
+
+//                List<MultiItemEntity> testList = new ArrayList<>(getData());
                 for (Level1Item level1Item : childList) {
-                    Log.e("kim", "1 = " + level1Item.toString());
+                    Log.e("kim", "positionAtAll = " + positionAtAll + "   pos = " + pos);
                     NormalItem normalItem = new NormalItem(level1Item.title, level1Item.content, level1Item.getPackageName());
                     normalItem.setTime(level1Item.time);
-                    testList.add(normalItem);
-                    Collections.sort(testList, SortUtils.sortGroupEntityCmp);
-                    int i = testList.indexOf(normalItem);
-                    getData().add(normalItem);
-                    Collections.sort(getData(), SortUtils.sortGroupEntityCmp);
-                    notifyDataSetChanged();
-                    Log.e("kim","视图数据 = "+getData().toString());
+//                    testList.add(normalItem);
+//                    Collections.sort(testList, SortUtils.sortGroupEntityCmp);
+//                    getData().clear();
+//                    getData().addAll(testList);
+//                    setNewData(getData());
+
+                    addData(positionAtAll, normalItem);
+
+//                    Collections.sort(getData(), SortUtils.sortGroupEntityCmp);
+//                    notifyDataSetChanged();
+                    Log.e("kim", "视图数据 = " + getData().toString());
                 }
 
             }
-
-            //todo 需要删除原始数据
             //删除原数据
             Iterator<TestNotification> it = notificationArrayList.iterator();
             while (it.hasNext()) {
@@ -381,6 +393,62 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
         transformData();
     }
 
+
+    private void deleteAfterTransformData() {
+        getData().clear();
+        ArrayList<MultiItemEntity> entityList = new ArrayList<>();
+        Log.w("kim", "切换数据到聚合 = " + notificationArrayList.toString());
+        //使用map分组
+        Map<String, List<TestNotification>> resultMap = new LinkedHashMap<>();
+        for (TestNotification record : notificationArrayList) {
+            String pkg = record.getPkg();
+            if (resultMap.containsKey(pkg)) {
+                resultMap.get(pkg).add(record);
+            } else {
+                List<TestNotification> tmp = new LinkedList<>();
+                tmp.add(record);
+                resultMap.put(pkg, tmp);
+            }
+        }
+
+        //遍历map集合
+        for (String key : resultMap.keySet()) {
+            List<TestNotification> notificationList = resultMap.get(key);
+            Collections.sort(notificationList, SortUtils.sortChildEntityCmp);
+            if (notificationList.size() < 2) {
+                for (TestNotification notification : notificationList) {
+                    NormalItem normalItem = new NormalItem(notification.getTitle(), notification.getContent(), notification.getPkg());
+                    normalItem.setTime(notification.getTime());
+                    entityList.add(normalItem);
+                }
+            } else {
+                Level0Item foldParentItem = new Level0Item();
+                for (TestNotification timeNotification : notificationList) {
+                    foldParentItem.addSubItem(new Level1Item(timeNotification.getTitle(), timeNotification.getPkg(), true, timeNotification.getContent(), timeNotification.getTime()));
+                }
+                for (TestNotification timeNotification : notificationList) {
+                    boolean isExpand = expandSetList.get(timeNotification.getPkg());
+                    foldParentItem.time = timeNotification.getTime();
+                    foldParentItem.setExpanded(isExpand);
+                    foldParentItem.title = timeNotification.getTitle();
+                    foldParentItem.subTitle = timeNotification.getPkg();
+                    break;
+                }
+                entityList.add(foldParentItem);
+            }
+        }
+        //将转换的集合加入视图需要的数据源getData
+        getData().addAll(entityList);
+        //排序
+        Collections.sort(getData(), SortUtils.sortGroupEntityCmp);
+        //通知刷新UI
+        setNewData(getData());
+        //清空数据转换集合
+        entityList.clear();
+        Log.e(TAG, "GROUP ------->" + getData().toString());
+    }
+
+
     private void transformData() {
         getData().clear();
         ArrayList<MultiItemEntity> entityList = new ArrayList<>();
@@ -448,6 +516,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
         Log.d("kim", "(delete all)");
         getData().clear();
         notificationArrayList.clear();
+        expandSetList.clear();
         notifyDataSetChanged();
     }
 }
