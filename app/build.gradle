@@ -18,7 +18,27 @@ android {
         }
 
     }
+    flavorDimensions "flavor"
+
+    productFlavors {
+
+        beta {
+            applicationId "com.chad.baserecyclerviewadapterhelper"
+            dimension "flavor"
+            manifestPlaceholders = [SHARED_USERID: applicationId]
+        }
+
+        // 如果需要写Setting ,那么需要系统签名
+        beta_system {
+            applicationId "com.chad.baserecyclerviewadapterhelper"
+            dimension "flavor"
+            manifestPlaceholders = [SHARED_USERID: "android.uid.system"]
+        }
+
+    }
 }
+
+
 
 dependencies {
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')

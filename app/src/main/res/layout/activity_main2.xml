@@ -175,4 +175,14 @@
             android:textSize="@dimen/list_view_item_delete_text"
             android:visibility="gone" />
     </com.chad.baserecyclerviewadapterhelper.animation.SwipeMenuLayout>
+
+    <Switch
+        android:id="@+id/switch2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@android:color/holo_green_dark"
+        android:text="Switch" />
+
+
 </LinearLayout>
