@@ -1388,6 +1388,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
     }
 
     public void setEmptyView(View emptyView) {
+        int oldItemCount = getItemCount();
         boolean insert = false;
         if (mEmptyLayout == null) {
             mEmptyLayout = new FrameLayout(emptyView.getContext());
@@ -1408,7 +1409,11 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
             if (mHeadAndEmptyEnable && getHeaderLayoutCount() != 0) {
                 position++;
             }
-            notifyItemInserted(position);
+            if (getItemCount() > oldItemCount) {
+                notifyItemInserted(position);
+            } else {
+                notifyDataSetChanged();
+            }
         }
     }
 

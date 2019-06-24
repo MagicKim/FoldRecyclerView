@@ -50,6 +50,8 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
     //普通
     public static final int TYPE_NORMAL = 2;
 
+    public static final int TYPE_BLACK_LIST = 3;
+
     private Context mContext;
 
     private static final String OTA_PACKAGE = "ecarx.upgrade";
@@ -240,6 +242,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                         deleteAssembleChild(holder, lv1);
                     }
                 });
+
                 break;
             default:
                 break;

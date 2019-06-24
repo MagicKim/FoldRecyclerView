@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 
 import com.chad.baserecyclerviewadapterhelper.adapter.ExpandableItemAdapter;
@@ -25,6 +26,7 @@ import com.chad.baserecyclerviewadapterhelper.entity.HeaderItem;
 import com.chad.baserecyclerviewadapterhelper.entity.Level0Item;
 import com.chad.baserecyclerviewadapterhelper.entity.Level1Item;
 import com.chad.baserecyclerviewadapterhelper.entity.TestNotification;
+import com.chad.baserecyclerviewadapterhelper.view.EmptyRecyclerView;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 import java.util.ArrayList;
@@ -36,7 +38,7 @@ import java.util.Map;
  * https://github.com/CymChad/BaseRecyclerViewAdapterHelper
  */
 public class ExpandableUseActivity extends BaseActivity {
-    private RecyclerView mRecyclerView;
+    private EmptyRecyclerView mRecyclerView;
     private ExpandableItemAdapter expandableAdapter;
     private ArrayList<TestNotification> mData = new ArrayList<>();
     private Context mContext;
@@ -49,21 +51,24 @@ public class ExpandableUseActivity extends BaseActivity {
         setBackBtn();
         setTitle("ExpandableItem Activity");
         setContentView(R.layout.activity_expandable_item_use);
-
+        LinearLayout emptyView = findViewById(R.id.empty_view);
         getNormalData();
         mDataManager = new DataManager();
         mDataManager.groupEntity();
         mRecyclerView = findViewById(R.id.rv);
         expandableAdapter = new ExpandableItemAdapter(mContext);
         LinearLayoutManager manager = new LinearLayoutManager(mContext);
-        expandableAdapter.setEmptyView(R.layout.loading_view, (ViewGroup) mRecyclerView.getParent());
+
         mRecyclerView.setLayoutManager(manager);
         DividerDecoration itemDecoration = new DividerDecoration(this, LinearLayoutManager.VERTICAL);
         mRecyclerView.addItemDecoration(itemDecoration);
         FadeInDownAnimator adapterAnimator = new FadeInDownAnimator();
         mRecyclerView.setItemAnimator(adapterAnimator);
         mRecyclerView.setAdapter(expandableAdapter);
+        mRecyclerView.setEmptyView(emptyView);
         expandableAdapter.addHeaderView(getHeaderView());
+        expandableAdapter.addFooterView(getFooterView());
+        expandableAdapter.notifyDataSetChanged();
         Switch switchGroup = findViewById(R.id.switch1);
 
         switchGroup.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -86,6 +91,7 @@ public class ExpandableUseActivity extends BaseActivity {
             }
         });
     }
+
     private HeaderDelButton deleteLayout;
 
     private View getHeaderView() {
@@ -96,11 +102,16 @@ public class ExpandableUseActivity extends BaseActivity {
         deleteLayout.setDeleteItemListener(new HeaderDelButton.OnDeleteItemListener() {
             @Override
             public void setDeleteItem(int status) {
-                if(status ==2){
+                if (status == 2) {
                     expandableAdapter.deleteAllData();
                 }
             }
         });
+        return view;
+    }
+
+    private View getFooterView() {
+        View view = getLayoutInflater().inflate(R.layout.footer_view, (ViewGroup) mRecyclerView.getParent(), false);
         return view;
     }
 
@@ -140,7 +151,6 @@ public class ExpandableUseActivity extends BaseActivity {
                 "新闻消息310", true, false, 1557905095001L));
         mData.add(new TestNotification(320, "com.car.bb", "坚果Pro 2系统更新：下线“残废”功能",
                 "新闻消息320", true, false, 1557904096002L));
-
 
 
         mData.add(new TestNotification(3, "com.car.dd", "您的内存满了哦，请及时清理！",
