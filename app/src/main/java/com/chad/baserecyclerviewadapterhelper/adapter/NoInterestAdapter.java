@@ -243,6 +243,7 @@ public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
         while (it.hasNext()) {
             TestNotification next = it.next();
             if (next.getTime() == normalItem.getTime()) {
+                addInterestData(next);
                 it.remove();
             }
         }
@@ -251,12 +252,6 @@ public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
 
     }
 
-
-    /**
-     * 删除的时候,注意数据同步,默认的删除直接删除position,然后自动移除了getData()里面的数据,需要删除原始数据
-     * 如果是折叠列表,需要判断当前删除的child数量,如果数量变为1个时候,需要将那一个单独的child变成默认的布局
-     * 这时候getData()里面还有这个折叠的 数据集,需要删除?然后删除默认的数据集,更新界面.
-     */
 
     private void deleteAssembleParent(int adapterPosition, Level0Item level0Item) {
         Log.e("kim", "deleteAssembleParent");
@@ -281,13 +276,6 @@ public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
         final int positionAtAll = getParentPositionInAll(pos - getHeaderLayoutCount());
         Log.w(TAG, "positionAtAll =" + positionAtAll);
         remove(pos - getHeaderLayoutCount());
-        /*
-        //todo
-         * 构造testList 目的是为了同步视图数据getData(),然后获取index,最后根据这个index,插入数据.
-         * 但是有个问题聚合列表没有展开时候,位置是正确的.展开之后,插入的位置就有问题了.
-         * 展开之后,直接插入到了展开的数据中了.原因是排序排的这个位置是展开的位置.
-         * 那么怎么解决这个问题呢?
-         * */
         if (positionAtAll != -1) {
             final IExpandable multiItemEntity = (IExpandable) getData().get(positionAtAll);
             List<Level1Item> childList = new ArrayList<>(multiItemEntity.getSubItems());
@@ -318,40 +306,15 @@ public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
             while (it.hasNext()) {
                 TestNotification next = it.next();
                 if (next.getTime() == lv1.getTime()) {
+                    addInterestData(next);
                     it.remove();
                 }
             }
         }
     }
 
-    //动态构建聚合转换
-    public void addGroupItem(TestNotification xcnRecord) {
-        int updateListIndex = findUpdateList(xcnRecord);
-        Log.v("updateList", "updateListIndex = " + updateListIndex);
-        //添加原始数据
-        if (TextUtils.equals(xcnRecord.getPkg(), OTA_PACKAGE)) {
-            if (updateListIndex != -1) {
-                Log.v("updateList", "update OTA List");
-                mData.set(updateListIndex, new TestNotification(xcnRecord.getId(), xcnRecord.getPkg(), xcnRecord.getContent(),
-                        xcnRecord.getTitle(), xcnRecord.isExpandItem(), xcnRecord.isShield(), xcnRecord.getTime() + OTA_TIME_MARK));
-            } else {
-                TestNotification testNotification = new TestNotification(xcnRecord.getId(), xcnRecord.getPkg(), xcnRecord.getContent(),
-                        xcnRecord.getTitle(), xcnRecord.isExpandItem(), xcnRecord.isShield(), xcnRecord.getTime() + OTA_TIME_MARK);
-                mData.add(testNotification);
-            }
-        } else {
-            if (updateListIndex != -1) {
-                Log.v("updateList", "update  List");
-                mData.set(updateListIndex, xcnRecord);
-            } else {
-                mData.add(xcnRecord);
-            }
-        }
 
-        Collections.sort(mData, SortUtils.sortChildEntityCmp);
-        transformData();
-    }
-
+    // todo  无兴趣列表里面也需要更新数据?
     private int findUpdateList(TestNotification newRecord) {
         if (mData.size() > 0) {
             for (int i = 0; i < mData.size(); i++) {
@@ -428,5 +391,19 @@ public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
             normalItem.setTime(testNotification.getTime());
             addData(normalItem);
         }
+    }
+
+    private void addInterestData(TestNotification testNotification) {
+        interestViewListener.setLoadNoInterestView(testNotification);
+    }
+
+    private LoadInterestViewListener interestViewListener;
+
+    public void addLoadInterestView(LoadInterestViewListener listener) {
+        interestViewListener = listener;
+    }
+
+    public interface LoadInterestViewListener {
+        void setLoadNoInterestView(TestNotification testNotification);
     }
 }

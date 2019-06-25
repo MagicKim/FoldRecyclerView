@@ -391,7 +391,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
      */
 
     //动态构建聚合转换
-    public void addGroupItem(TestNotification xcnRecord) {
+    public synchronized void addGroupItem(TestNotification xcnRecord) {
         int updateListIndex = findUpdateList(xcnRecord);
         Log.v("updateList", "updateListIndex = " + updateListIndex);
         //添加原始数据

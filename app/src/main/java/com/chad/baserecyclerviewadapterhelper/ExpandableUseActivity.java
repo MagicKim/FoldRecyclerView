@@ -41,7 +41,8 @@ import java.util.Map;
 /**
  * https://github.com/CymChad/BaseRecyclerViewAdapterHelper
  */
-public class ExpandableUseActivity extends BaseActivity implements ExpandableItemAdapter.LoadNoInterestViewListener {
+public class ExpandableUseActivity extends BaseActivity implements ExpandableItemAdapter.
+        LoadNoInterestViewListener, NoInterestAdapter.LoadInterestViewListener {
     private EmptyRecyclerView mRecyclerView, mNoInterestRecyclerView;
     private ExpandableItemAdapter expandableAdapter;
     private NoInterestAdapter mNoInterestAdapter;
@@ -127,6 +128,50 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
     }
 
 
+    @Override
+    public void setLoadNoInterestView(List<TestNotification> lists) {
+        //控制显示隐藏
+        mRecyclerView.setVisibility(View.GONE);
+        mNoInterestRecyclerView.setVisibility(View.VISIBLE);
+        //加载adapter
+        if (mNoInterestAdapter == null) {
+            mNoInterestAdapter = new NoInterestAdapter(mContext);
+            LinearLayoutManager manager1 = new LinearLayoutManager(mContext);
+            mNoInterestRecyclerView.setLayoutManager(manager1);
+            DividerDecoration mItemDecoration = new DividerDecoration(this, LinearLayoutManager.VERTICAL);
+            mNoInterestRecyclerView.addItemDecoration(mItemDecoration);
+            FadeInDownAnimator adapterAnimator1 = new FadeInDownAnimator();
+            mNoInterestRecyclerView.setItemAnimator(adapterAnimator1);
+            mNoInterestRecyclerView.setAdapter(mNoInterestAdapter);
+            mNoInterestAdapter.addLoadInterestView(this);
+            RelativeLayout noInterestHeaderView = (RelativeLayout) getNoInterestHeaderView();
+            mNoInterestAdapter.addHeaderView(noInterestHeaderView);
+            ImageView imageView = noInterestHeaderView.findViewById(R.id.iv_back_notification_list);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mRecyclerView.setVisibility(View.VISIBLE);
+                    mNoInterestRecyclerView.setVisibility(View.GONE);
+                    expandableAdapter.notifyDataSetChanged();
+                    expandableAdapter.notifyNoInterestUI();
+                }
+            });
+        }
+        mNoInterestAdapter.setList(lists);
+        mNoInterestAdapter.transformGroupView();
+    }
+
+    @Override
+    public void setLoadNoInterestView(TestNotification testNotification) {
+        expandableAdapter.addGroupItem(testNotification);
+    }
+
+
+    private View getNoInterestHeaderView() {
+        View view = getLayoutInflater().inflate(R.layout.no_interest_head_view, (ViewGroup) mNoInterestRecyclerView.getParent(), false);
+        return view;
+    }
+
     public void getNormalData() {
         mData.add(new TestNotification(1, "com.car.cc", "周杰伦全新专辑发布 !",
                 "音乐消息1", false, false, 1557903094000L));
@@ -187,41 +232,4 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
     }
 
 
-    @Override
-    public void setLoadNoInterestView(List<TestNotification> lists) {
-        //控制显示隐藏
-        mRecyclerView.setVisibility(View.GONE);
-        mNoInterestRecyclerView.setVisibility(View.VISIBLE);
-        //加载adapter
-        if (mNoInterestAdapter == null) {
-            mNoInterestAdapter = new NoInterestAdapter(mContext);
-            LinearLayoutManager manager1 = new LinearLayoutManager(mContext);
-            mNoInterestRecyclerView.setLayoutManager(manager1);
-            DividerDecoration mItemDecoration = new DividerDecoration(this, LinearLayoutManager.VERTICAL);
-            mNoInterestRecyclerView.addItemDecoration(mItemDecoration);
-            FadeInDownAnimator adapterAnimator1 = new FadeInDownAnimator();
-            mNoInterestRecyclerView.setItemAnimator(adapterAnimator1);
-            mNoInterestRecyclerView.setAdapter(mNoInterestAdapter);
-            RelativeLayout noInterestHeaderView = (RelativeLayout) getNoInterestHeaderView();
-            mNoInterestAdapter.addHeaderView(noInterestHeaderView);
-            ImageView imageView = noInterestHeaderView.findViewById(R.id.iv_back_notification_list);
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mRecyclerView.setVisibility(View.VISIBLE);
-                    mNoInterestRecyclerView.setVisibility(View.GONE);
-                    expandableAdapter.notifyDataSetChanged();
-                    expandableAdapter.notifyNoInterestUI();
-                }
-            });
-        }
-        mNoInterestAdapter.setList(lists);
-        mNoInterestAdapter.transformGroupView();
-    }
-
-
-    private View getNoInterestHeaderView() {
-        View view = getLayoutInflater().inflate(R.layout.no_interest_head_view, (ViewGroup) mNoInterestRecyclerView.getParent(), false);
-        return view;
-    }
 }
