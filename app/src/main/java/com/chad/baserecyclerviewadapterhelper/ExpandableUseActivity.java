@@ -6,16 +6,20 @@ import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 
 import com.chad.baserecyclerviewadapterhelper.adapter.ExpandableItemAdapter;
 import com.chad.baserecyclerviewadapterhelper.adapter.MultipleItemQuickAdapter;
+import com.chad.baserecyclerviewadapterhelper.adapter.NoInterestAdapter;
 import com.chad.baserecyclerviewadapterhelper.animation.DeleteLayout;
 import com.chad.baserecyclerviewadapterhelper.animation.FadeInDownAnimator;
 import com.chad.baserecyclerviewadapterhelper.animation.HeaderDelButton;
@@ -37,9 +41,10 @@ import java.util.Map;
 /**
  * https://github.com/CymChad/BaseRecyclerViewAdapterHelper
  */
-public class ExpandableUseActivity extends BaseActivity {
-    private EmptyRecyclerView mRecyclerView;
+public class ExpandableUseActivity extends BaseActivity implements ExpandableItemAdapter.LoadNoInterestViewListener {
+    private EmptyRecyclerView mRecyclerView, mNoInterestRecyclerView;
     private ExpandableItemAdapter expandableAdapter;
+    private NoInterestAdapter mNoInterestAdapter;
     private ArrayList<TestNotification> mData = new ArrayList<>();
     private Context mContext;
     private DataManager mDataManager;
@@ -51,24 +56,30 @@ public class ExpandableUseActivity extends BaseActivity {
         setBackBtn();
         setTitle("ExpandableItem Activity");
         setContentView(R.layout.activity_expandable_item_use);
+        mNoInterestRecyclerView = findViewById(R.id.no_interest_rv);
         LinearLayout emptyView = findViewById(R.id.empty_view);
         getNormalData();
         mDataManager = new DataManager();
         mDataManager.groupEntity();
         mRecyclerView = findViewById(R.id.rv);
+        //expand adapter
         expandableAdapter = new ExpandableItemAdapter(mContext);
         LinearLayoutManager manager = new LinearLayoutManager(mContext);
-
         mRecyclerView.setLayoutManager(manager);
-        DividerDecoration itemDecoration = new DividerDecoration(this, LinearLayoutManager.VERTICAL);
-        mRecyclerView.addItemDecoration(itemDecoration);
+        DividerDecoration mItemDecoration = new DividerDecoration(this, LinearLayoutManager.VERTICAL);
+        mRecyclerView.addItemDecoration(mItemDecoration);
         FadeInDownAnimator adapterAnimator = new FadeInDownAnimator();
         mRecyclerView.setItemAnimator(adapterAnimator);
         mRecyclerView.setAdapter(expandableAdapter);
+        expandableAdapter.addLoadNoInterestView(this);
+        expandableAdapter.setRecyclerView(mRecyclerView);
         mRecyclerView.setEmptyView(emptyView);
         expandableAdapter.addHeaderView(getHeaderView());
-        expandableAdapter.addFooterView(getFooterView());
+        expandableAdapter.setFooterLayout(getFooterView());
         expandableAdapter.notifyDataSetChanged();
+        // no interest
+
+
         Switch switchGroup = findViewById(R.id.switch1);
 
         switchGroup.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -110,9 +121,9 @@ public class ExpandableUseActivity extends BaseActivity {
         return view;
     }
 
-    private View getFooterView() {
-        View view = getLayoutInflater().inflate(R.layout.footer_view, (ViewGroup) mRecyclerView.getParent(), false);
-        return view;
+    private RelativeLayout getFooterView() {
+        return (RelativeLayout) getLayoutInflater().inflate(R.layout.footer_view,
+                (ViewGroup) mRecyclerView.getParent(), false);
     }
 
 
@@ -175,4 +186,42 @@ public class ExpandableUseActivity extends BaseActivity {
                 "娱乐消息13", false, false, 1557903108000L));
     }
 
+
+    @Override
+    public void setLoadNoInterestView(List<TestNotification> lists) {
+        //控制显示隐藏
+        mRecyclerView.setVisibility(View.GONE);
+        mNoInterestRecyclerView.setVisibility(View.VISIBLE);
+        //加载adapter
+        if (mNoInterestAdapter == null) {
+            mNoInterestAdapter = new NoInterestAdapter(mContext);
+            LinearLayoutManager manager1 = new LinearLayoutManager(mContext);
+            mNoInterestRecyclerView.setLayoutManager(manager1);
+            DividerDecoration mItemDecoration = new DividerDecoration(this, LinearLayoutManager.VERTICAL);
+            mNoInterestRecyclerView.addItemDecoration(mItemDecoration);
+            FadeInDownAnimator adapterAnimator1 = new FadeInDownAnimator();
+            mNoInterestRecyclerView.setItemAnimator(adapterAnimator1);
+            mNoInterestRecyclerView.setAdapter(mNoInterestAdapter);
+            RelativeLayout noInterestHeaderView = (RelativeLayout) getNoInterestHeaderView();
+            mNoInterestAdapter.addHeaderView(noInterestHeaderView);
+            ImageView imageView = noInterestHeaderView.findViewById(R.id.iv_back_notification_list);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mRecyclerView.setVisibility(View.VISIBLE);
+                    mNoInterestRecyclerView.setVisibility(View.GONE);
+                    expandableAdapter.notifyDataSetChanged();
+                    expandableAdapter.notifyNoInterestUI();
+                }
+            });
+        }
+        mNoInterestAdapter.setList(lists);
+        mNoInterestAdapter.transformGroupView();
+    }
+
+
+    private View getNoInterestHeaderView() {
+        View view = getLayoutInflater().inflate(R.layout.no_interest_head_view, (ViewGroup) mNoInterestRecyclerView.getParent(), false);
+        return view;
+    }
 }

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <com.chad.baserecyclerviewadapterhelper.animation.SwipeMenuLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rl_normal_root_layout"
@@ -136,9 +137,7 @@
         android:layout_width="@dimen/list_view_item_delete_width"
         android:layout_height="match_parent"
         android:background="@drawable/list_item_delete_selector"
-        android:maxHeight="@dimen/item_delete_max_height"
-        android:minHeight="@dimen/item_delete_min_height"
-        android:text="不感兴趣"
+        android:text="很重要"
         android:textColor="@drawable/list_item_delete_text_selector"
         android:textSize="@dimen/list_view_item_delete_text" />
 
@@ -148,13 +147,11 @@
         android:background="@null" />
 
     <Button
-        android:id="@+id/btn_item_"
         android:layout_width="@dimen/list_view_item_delete_width"
         android:layout_height="match_parent"
         android:background="@drawable/list_item_delete_selector"
-        android:maxHeight="@dimen/item_delete_max_height"
-        android:minHeight="@dimen/item_delete_min_height"
         android:text="快捷设置"
+        android:textAlignment="center"
         android:textColor="@drawable/list_item_delete_text_selector"
         android:textSize="@dimen/list_view_item_delete_text" />
 </com.chad.baserecyclerviewadapterhelper.animation.SwipeMenuLayout>

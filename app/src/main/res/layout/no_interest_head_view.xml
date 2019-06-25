@@ -2,31 +2,30 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/list_view_width"
     android:layout_height="100dp"
+    android:layout_gravity="center_horizontal"
     android:layout_marginBottom="1dp"
-    android:background="@color/dull_blue"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:background="@color/cardview_dark_background">
 
 
-    <TextView
-        android:id="@+id/footer_tv"
+    <ImageView
+        android:id="@+id/iv_back_notification_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
+        android:layout_marginStart="50dp"
         android:layout_centerInParent="true"
-        android:textColor="@android:color/white"
-        android:textSize="25sp" />
+        android:scaleX="3"
+        android:scaleY="3"
+        android:src="@android:drawable/ic_popup_reminder" />
 
-    <ImageView
-        android:id="@+id/footer_iv"
+
+    <TextView
+        android:id="@+id/tv_no"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="50dp"
         android:layout_centerInParent="true"
-        android:scaleX="2"
-        android:scaleY="2"
-        android:src="@mipmap/add_icon" />
-
+        android:text="通知中心"
+        android:textColor="@android:color/white"
+        android:textSize="25sp" />
 
 </RelativeLayout>

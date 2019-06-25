@@ -1,24 +1,15 @@
 package com.chad.baserecyclerviewadapterhelper.adapter;
 
 import android.content.Context;
-import android.os.Handler;
-import android.support.transition.Explode;
-import android.support.transition.Fade;
 import android.support.transition.Slide;
 import android.support.transition.TransitionManager;
-import android.support.v4.view.ViewCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.chad.baserecyclerviewadapterhelper.R;
 import com.chad.baserecyclerviewadapterhelper.animation.HeaderDelButton;
@@ -29,7 +20,6 @@ import com.chad.baserecyclerviewadapterhelper.entity.NormalItem;
 import com.chad.baserecyclerviewadapterhelper.entity.TestNotification;
 import com.chad.baserecyclerviewadapterhelper.util.SortUtils;
 import com.chad.baserecyclerviewadapterhelper.util.TimeUtil;
-import com.chad.baserecyclerviewadapterhelper.view.EmptyRecyclerView;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.entity.IExpandable;
@@ -37,18 +27,19 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+
 /**
- * Created by luoxw on 2016/8/9.
+ * Created by ${Kim} on 19-6-25.
  */
-public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder> {
-    private static final String TAG = ExpandableItemAdapter.class.getSimpleName();
+public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder> {
+
+    private List<TestNotification> mData;
 
     //聚合
     public static final int TYPE_LEVEL_0 = 0;
@@ -56,37 +47,23 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
     //普通
     public static final int TYPE_NORMAL = 2;
 
-    public static final int TYPE_BLACK_LIST = 3;
-
     private Context mContext;
 
     private static final String OTA_PACKAGE = "ecarx.upgrade";
     private static final long OTA_TIME_MARK = 864000000L;
 
-    //原始数据
-    private ArrayList<TestNotification> notificationArrayList = new ArrayList<>();
-
-    private List<TestNotification> noInterestingList = new ArrayList<>();
-
-    private Handler mHandler = new Handler();
-
-
-    private EmptyRecyclerView emptyRecyclerView;
-
-    private RelativeLayout mFooterLayout;
-
-
-    /**
-     * Same as QuickAdapter#QuickAdapter(Context,int) but with
-     * some initialization data.
-     */
-    public ExpandableItemAdapter(Context context) {
+    public NoInterestAdapter(Context context) {
         super(null);
         mContext = context;
-        addItemType(TYPE_NORMAL, R.layout.item_text_view);
+        addItemType(TYPE_NORMAL, R.layout.item_no_interest_text_view);
         addItemType(TYPE_LEVEL_0, R.layout.item_assemble_parent);
-        addItemType(TYPE_LEVEL_1, R.layout.item_assemble_child);
+        addItemType(TYPE_LEVEL_1, R.layout.item_no_interest_assemble_child);
     }
+
+    public void setList(List<TestNotification> lists) {
+        mData = lists;
+    }
+
 
     @Override
     protected void convert(final BaseViewHolder holder, final MultiItemEntity item) {
@@ -262,17 +239,15 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
         //删除视图数据
         remove(adapterPosition - getHeaderLayoutCount());
         //删除原数据
-        Iterator<TestNotification> it = notificationArrayList.iterator();
+        Iterator<TestNotification> it = mData.iterator();
         while (it.hasNext()) {
             TestNotification next = it.next();
             if (next.getTime() == normalItem.getTime()) {
-                noInterestingList.add(next);
                 it.remove();
             }
         }
-        notifyNoInterestUI();
 
-        Log.e("kim", "删除默认布局之后 = " + notificationArrayList.toString());
+        Log.e("kim", "删除默认布局之后 = " + mData.toString());
 
     }
 
@@ -287,7 +262,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
         Log.e("kim", "deleteAssembleParent");
         remove(adapterPosition - getHeaderLayoutCount());
         //删除原数据
-        Iterator<TestNotification> it = notificationArrayList.iterator();
+        Iterator<TestNotification> it = mData.iterator();
         while (it.hasNext()) {
             TestNotification next = it.next();
             if (TextUtils.equals(next.getPkg(), level0Item.getPackageName())) {
@@ -296,7 +271,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
         }
 
         Log.e("kim", "(parent)视图数据 = " + getData().toString());
-        Log.w("kim", "(parent)真实数据 = " + notificationArrayList.toString());
+        Log.w("kim", "(parent)真实数据 = " + mData.toString());
 
     }
 
@@ -339,56 +314,15 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
 
             }
             //删除原数据
-            Iterator<TestNotification> it = notificationArrayList.iterator();
+            Iterator<TestNotification> it = mData.iterator();
             while (it.hasNext()) {
                 TestNotification next = it.next();
                 if (next.getTime() == lv1.getTime()) {
-                    noInterestingList.add(next);
                     it.remove();
                 }
             }
-            notifyNoInterestUI();
-        }
-
-    }
-
-    public void setRecyclerView(EmptyRecyclerView recyclerView) {
-        emptyRecyclerView = recyclerView;
-    }
-
-    public void setFooterLayout(RelativeLayout footerView) {
-        mFooterLayout = footerView;
-    }
-
-
-    //刷新底部UI的
-    public void notifyNoInterestUI() {
-        if (noInterestingList.size() > 0) {
-            if (getFooterLayoutCount() == 0) {
-                addFooterView(mFooterLayout);
-            }
-            TextView textView = mFooterLayout.findViewById(R.id.footer_tv);
-            ImageView imageView = mFooterLayout.findViewById(R.id.footer_iv);
-            textView.setText("当前有" + noInterestingList.size() + "条不重要的通知");
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    emptyRecyclerView.setVisibility(View.GONE);
-                    noInterestViewListener.setLoadNoInterestView(noInterestingList);
-                }
-            });
         }
     }
-
-
-    /**
-     * add:
-     * 默认是非聚合的状态，所以有这几种情况。1.直接添加默认布局 2.添加聚合布局
-     * 3.默认布局里面有了数据然后点击为聚合   4.聚合布局下点击为默认布局
-     * <p>
-     * del:
-     * 直接删除原始数据，然后刷新界面。1.默认布局下，刷新布局。2.聚合布局下，刷新布局
-     */
 
     //动态构建聚合转换
     public void addGroupItem(TestNotification xcnRecord) {
@@ -398,30 +332,30 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
         if (TextUtils.equals(xcnRecord.getPkg(), OTA_PACKAGE)) {
             if (updateListIndex != -1) {
                 Log.v("updateList", "update OTA List");
-                notificationArrayList.set(updateListIndex, new TestNotification(xcnRecord.getId(), xcnRecord.getPkg(), xcnRecord.getContent(),
+                mData.set(updateListIndex, new TestNotification(xcnRecord.getId(), xcnRecord.getPkg(), xcnRecord.getContent(),
                         xcnRecord.getTitle(), xcnRecord.isExpandItem(), xcnRecord.isShield(), xcnRecord.getTime() + OTA_TIME_MARK));
             } else {
                 TestNotification testNotification = new TestNotification(xcnRecord.getId(), xcnRecord.getPkg(), xcnRecord.getContent(),
                         xcnRecord.getTitle(), xcnRecord.isExpandItem(), xcnRecord.isShield(), xcnRecord.getTime() + OTA_TIME_MARK);
-                notificationArrayList.add(testNotification);
+                mData.add(testNotification);
             }
         } else {
             if (updateListIndex != -1) {
                 Log.v("updateList", "update  List");
-                notificationArrayList.set(updateListIndex, xcnRecord);
+                mData.set(updateListIndex, xcnRecord);
             } else {
-                notificationArrayList.add(xcnRecord);
+                mData.add(xcnRecord);
             }
         }
 
-        Collections.sort(notificationArrayList, SortUtils.sortChildEntityCmp);
+        Collections.sort(mData, SortUtils.sortChildEntityCmp);
         transformData();
     }
 
     private int findUpdateList(TestNotification newRecord) {
-        if (notificationArrayList.size() > 0) {
-            for (int i = 0; i < notificationArrayList.size(); i++) {
-                TestNotification record = notificationArrayList.get(i);
+        if (mData.size() > 0) {
+            for (int i = 0; i < mData.size(); i++) {
+                TestNotification record = mData.get(i);
                 if (newRecord.getId() == record.getId()) {
                     return i;
                 }
@@ -434,14 +368,13 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
         transformData();
     }
 
-
     private void transformData() {
         getData().clear();
         ArrayList<MultiItemEntity> entityList = new ArrayList<>();
-        Log.w("kim", "切换数据到聚合 = " + notificationArrayList.toString());
+        Log.w("kim", "切换数据到聚合 = " + mData.toString());
         //使用map分组
         Map<String, List<TestNotification>> resultMap = new LinkedHashMap<>();
-        for (TestNotification record : notificationArrayList) {
+        for (TestNotification record : mData) {
             String pkg = record.getPkg();
             if (resultMap.containsKey(pkg)) {
                 resultMap.get(pkg).add(record);
@@ -490,28 +423,10 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
 
     public void setNormalData() {
         getData().clear();
-        for (TestNotification testNotification : notificationArrayList) {
+        for (TestNotification testNotification : mData) {
             NormalItem normalItem = new NormalItem(testNotification.getTitle(), testNotification.getContent(), testNotification.getPkg());
             normalItem.setTime(testNotification.getTime());
             addData(normalItem);
         }
-    }
-
-
-    public void deleteAllData() {
-        Log.d("kim", "(delete all)");
-        getData().clear();
-        notificationArrayList.clear();
-        notifyDataSetChanged();
-    }
-
-    private LoadNoInterestViewListener noInterestViewListener;
-
-    public void addLoadNoInterestView(LoadNoInterestViewListener listener) {
-        noInterestViewListener = listener;
-    }
-
-    public interface LoadNoInterestViewListener {
-        void setLoadNoInterestView(List<TestNotification> lists);
     }
 }
