@@ -49,6 +49,7 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
     private ArrayList<TestNotification> mData = new ArrayList<>();
     private Context mContext;
     private DataManager mDataManager;
+    private boolean checked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,24 +83,22 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
 
 
         Switch switchGroup = findViewById(R.id.switch1);
+        checked = switchGroup.isChecked();
+        expandableAdapter.selectListView(checked);
 
         switchGroup.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    expandableAdapter.transformGroupView();
-                } else {
-                    expandableAdapter.setNormalData();
-                }
+                expandableAdapter.selectListView(isChecked);
             }
         });
 
-        final int[] group = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+        final int[] group = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
         Button addNotificationButton = findViewById(R.id.bt_add_notification);
         addNotificationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                expandableAdapter.addGroupItem(mData.get(group[0]++));
+                expandableAdapter.loadNotificationList(mData.get(group[0]++), checked);
             }
         });
     }
@@ -163,7 +162,7 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
 
     @Override
     public void setLoadNoInterestView(TestNotification testNotification) {
-        expandableAdapter.addGroupItem(testNotification);
+        expandableAdapter.loadNotificationList(testNotification, checked);
     }
 
 

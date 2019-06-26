@@ -347,14 +347,12 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
 
     //刷新底部UI的
     public void notifyNoInterestUI() {
-//        if (noInterestingList.size() > 0) {
         if (getFooterLayoutCount() == 0) {
             addFooterView(mFooterLayout);
         }
         TextView textView = mFooterLayout.findViewById(R.id.footer_tv);
         ImageView imageView = mFooterLayout.findViewById(R.id.footer_iv);
         textView.setText("当前有" + noInterestingList.size() + "条不重要的通知");
-        Log.e("jin", "noInterestingList.size() = " + noInterestingList.size());
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -362,21 +360,10 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 noInterestViewListener.setLoadNoInterestView(noInterestingList);
             }
         });
-//        }
     }
 
 
-    /**
-     * add:
-     * 默认是非聚合的状态，所以有这几种情况。1.直接添加默认布局 2.添加聚合布局
-     * 3.默认布局里面有了数据然后点击为聚合   4.聚合布局下点击为默认布局
-     * <p>
-     * del:
-     * 直接删除原始数据，然后刷新界面。1.默认布局下，刷新布局。2.聚合布局下，刷新布局
-     */
-
-    //动态构建聚合转换
-    public synchronized void addGroupItem(TestNotification xcnRecord) {
+    public void loadNotificationList(TestNotification xcnRecord, boolean isGroup) {
         int updateListIndex = findUpdateList(xcnRecord);
         Log.v("updateList", "updateListIndex = " + updateListIndex);
         //添加原始数据
@@ -387,9 +374,17 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
             notificationArrayList.add(xcnRecord);
         }
 
-        Collections.sort(notificationArrayList, SortUtils.sortChildEntityCmp);
-        transformData();
+        selectListView(isGroup);
     }
+
+    public void selectListView(boolean isGroup) {
+        if (isGroup) {
+            transformGroupView();
+        } else {
+            setNormalData();
+        }
+    }
+
 
     private int findUpdateList(TestNotification newRecord) {
         if (notificationArrayList.size() > 0) {
@@ -403,7 +398,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
         return -1;
     }
 
-    public void transformGroupView() {
+    private void transformGroupView() {
         transformData();
     }
 
@@ -463,7 +458,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
         Log.e(TAG, "GROUP ------->" + getData().toString());
     }
 
-    public void setNormalData() {
+    private void setNormalData() {
         getData().clear();
         for (TestNotification testNotification : notificationArrayList) {
             NormalItem normalItem = new NormalItem(testNotification.getTitle(), testNotification.getContent(),
