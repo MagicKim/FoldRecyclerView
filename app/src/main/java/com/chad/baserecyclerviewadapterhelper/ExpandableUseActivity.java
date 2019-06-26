@@ -2,10 +2,13 @@ package com.chad.baserecyclerviewadapterhelper;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.transition.Slide;
+import android.support.transition.TransitionManager;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +53,7 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
     private Context mContext;
     private DataManager mDataManager;
     private boolean checked;
+    private LinearLayout rootLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +62,7 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
         setBackBtn();
         setTitle("ExpandableItem Activity");
         setContentView(R.layout.activity_expandable_item_use);
+        rootLayout = findViewById(R.id.root_layout);
         mNoInterestRecyclerView = findViewById(R.id.no_interest_rv);
         LinearLayout emptyView = findViewById(R.id.empty_view);
         getNormalData();
@@ -80,8 +85,6 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
         expandableAdapter.setFooterLayout(getFooterView());
         expandableAdapter.notifyDataSetChanged();
         // no interest
-
-
         Switch switchGroup = findViewById(R.id.switch1);
         checked = switchGroup.isChecked();
         expandableAdapter.selectListView(checked);
@@ -130,6 +133,8 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
     @Override
     public void setLoadNoInterestView(List<TestNotification> lists) {
         //控制显示隐藏
+        TransitionManager.beginDelayedTransition(rootLayout,
+                new Slide(Gravity.RIGHT));
         mRecyclerView.setVisibility(View.GONE);
         mNoInterestRecyclerView.setVisibility(View.VISIBLE);
         //加载adapter
@@ -149,6 +154,8 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    TransitionManager.beginDelayedTransition(rootLayout,
+                            new Slide(Gravity.RIGHT));
                     mRecyclerView.setVisibility(View.VISIBLE);
                     mNoInterestRecyclerView.setVisibility(View.GONE);
                     expandableAdapter.notifyDataSetChanged();
@@ -165,6 +172,16 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
         expandableAdapter.loadNotificationList(testNotification, checked);
     }
 
+    @Override
+    public void showNoInterestView(boolean isShow) {
+        if (isShow) {
+            //控制显示隐藏
+            mNoInterestRecyclerView.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.VISIBLE);
+            expandableAdapter.notifyDataSetChanged();
+            expandableAdapter.notifyNoInterestUI();
+        }
+    }
 
     private View getNoInterestHeaderView() {
         View view = getLayoutInflater().inflate(R.layout.no_interest_head_view, (ViewGroup) mNoInterestRecyclerView.getParent(), false);

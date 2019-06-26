@@ -139,18 +139,22 @@
         android:background="@drawable/list_item_delete_selector"
         android:maxHeight="@dimen/item_delete_max_height"
         android:minHeight="@dimen/item_delete_min_height"
-        android:text="删除"
+        android:text="不感兴趣"
         android:textColor="@drawable/list_item_delete_text_selector"
         android:textSize="@dimen/list_view_item_delete_text" />
+
+    <Button
+        android:layout_width="@dimen/list_view_place_button_width"
+        android:layout_height="match_parent"
+        android:background="@null" />
 
     <Button
         android:id="@+id/bt_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/list_item_delete_selector"
-        android:text="删除"
+        android:text="快捷设置"
         android:textAlignment="center"
         android:textColor="@drawable/list_item_delete_text_selector"
-        android:textSize="@dimen/list_view_item_delete_text"
-        android:visibility="gone" />
+        android:textSize="@dimen/list_view_item_delete_text" />
 </com.chad.baserecyclerviewadapterhelper.animation.SwipeMenuLayout>

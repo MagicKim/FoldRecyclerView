@@ -58,21 +58,14 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
 
     private Context mContext;
 
-    private static final String OTA_PACKAGE = "ecarx.upgrade";
-    private static final long OTA_TIME_MARK = 864000000L;
-
     //原始数据
     private ArrayList<TestNotification> notificationArrayList = new ArrayList<>();
 
     private List<TestNotification> noInterestingList = new ArrayList<>();
 
-    private Handler mHandler = new Handler();
-
-
     private EmptyRecyclerView emptyRecyclerView;
 
     private RelativeLayout mFooterLayout;
-
 
     /**
      * Same as QuickAdapter#QuickAdapter(Context,int) but with
@@ -218,11 +211,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 holder.setText(R.id.tv_item_title, lv1.title);
                 holder.setText(R.id.tv_item_content, lv1.content);
                 holder.setText(R.id.tv_pkg_name, lv1.pkg);
-                if (TextUtils.equals(lv1.getPackageName(), OTA_PACKAGE)) {
-                    holder.setText(R.id.tv_item_time, "时间：" + TimeUtil.getTime(lv1.getTime() - OTA_TIME_MARK));
-                } else {
-                    holder.setText(R.id.tv_item_time, "时间：" + TimeUtil.getTime(lv1.getTime()));
-                }
+                holder.setText(R.id.tv_item_time, "时间：" + TimeUtil.getTime(lv1.getTime()));
                 holder.getView(R.id.btn_item_delete).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -349,6 +338,11 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
     public void notifyNoInterestUI() {
         if (getFooterLayoutCount() == 0) {
             addFooterView(mFooterLayout);
+        }
+        if (noInterestingList.size() == 0) {
+            if (getFooterLayoutCount() > 0) {
+                removeAllFooterView();
+            }
         }
         TextView textView = mFooterLayout.findViewById(R.id.footer_tv);
         ImageView imageView = mFooterLayout.findViewById(R.id.footer_iv);

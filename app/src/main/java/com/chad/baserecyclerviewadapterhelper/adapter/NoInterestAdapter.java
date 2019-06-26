@@ -51,9 +51,6 @@ public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
 
     private Context mContext;
 
-    private static final String OTA_PACKAGE = "ecarx.upgrade";
-    private static final long OTA_TIME_MARK = 864000000L;
-
     public NoInterestAdapter(Context context) {
         super(null);
         mContext = context;
@@ -76,12 +73,7 @@ public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
                 holder.setText(R.id.tv_item_title, normalItem.getTitle());
                 holder.setText(R.id.tv_item_content, normalItem.getContent());
                 holder.setText(R.id.tv_pkg_name, normalItem.getPkg());
-                if (TextUtils.equals(normalItem.getPkg(), OTA_PACKAGE)) {
-                    holder.setText(R.id.tv_item_time, "时间：" + TimeUtil.getTime(normalItem.getTime() - OTA_TIME_MARK));
-                } else {
-                    holder.setText(R.id.tv_item_time, "时间：" + TimeUtil.getTime(normalItem.getTime()));
-                }
-
+                holder.setText(R.id.tv_item_time, "时间：" + TimeUtil.getTime(normalItem.getTime()));
                 Button buttonViewDel = holder.getView(R.id.btn_item_delete);
                 buttonViewDel.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -135,11 +127,7 @@ public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
 
                 holder.setText(R.id.tv_item_title, lv0.title)
                         .setText(R.id.tv_pkg_name, lv0.pkg);
-                if (TextUtils.equals(lv0.getPackageName(), OTA_PACKAGE)) {
-                    holder.setText(R.id.tv_item_time, "时间:" + TimeUtil.getTime(lv0.time - OTA_TIME_MARK));
-                } else {
-                    holder.setText(R.id.tv_item_time, "时间:" + TimeUtil.getTime(lv0.time));
-                }
+                holder.setText(R.id.tv_item_time, "时间:" + TimeUtil.getTime(lv0.time));
                 if (lv0.getSubItems().size() > 2) {
                     flMorePicture.setBackground(mContext.getResources().getDrawable(R.drawable.basic_elements_two_bg));
                 } else {
@@ -213,11 +201,7 @@ public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
                 holder.setText(R.id.tv_item_title, lv1.title);
                 holder.setText(R.id.tv_item_content, lv1.content);
                 holder.setText(R.id.tv_pkg_name, lv1.pkg);
-                if (TextUtils.equals(lv1.getPackageName(), OTA_PACKAGE)) {
-                    holder.setText(R.id.tv_item_time, "时间：" + TimeUtil.getTime(lv1.getTime() - OTA_TIME_MARK));
-                } else {
-                    holder.setText(R.id.tv_item_time, "时间：" + TimeUtil.getTime(lv1.getTime()));
-                }
+                holder.setText(R.id.tv_item_time, "时间：" + TimeUtil.getTime(lv1.getTime()));
                 holder.getView(R.id.btn_item_delete).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -249,11 +233,10 @@ public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
                 it.remove();
             }
         }
-
+        getDataSize();
         Log.e("kim", "删除默认布局之后 = " + mData.toString());
 
     }
-
 
     private void deleteAssembleParent(int adapterPosition, Level0Item level0Item) {
         Log.e("kim", "deleteAssembleParent");
@@ -266,10 +249,8 @@ public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
                 it.remove();
             }
         }
-
         Log.e("kim", "(parent)视图数据 = " + getData().toString());
         Log.w("kim", "(parent)真实数据 = " + mData.toString());
-
     }
 
     private void deleteAssembleChild(BaseViewHolder holder, Level1Item lv1) {
@@ -313,6 +294,7 @@ public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
                     it.remove();
                 }
             }
+            getDataSize();
         }
     }
 
@@ -404,6 +386,15 @@ public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
         interestViewListener.setLoadNoInterestView(testNotification);
     }
 
+    private void getDataSize() {
+        if (mData.size() == 0) {
+            interestViewListener.showNoInterestView(true);
+        } else {
+            interestViewListener.showNoInterestView(false);
+        }
+    }
+
+
     private LoadInterestViewListener interestViewListener;
 
     public void addLoadInterestView(LoadInterestViewListener listener) {
@@ -412,5 +403,7 @@ public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
 
     public interface LoadInterestViewListener {
         void setLoadNoInterestView(TestNotification testNotification);
+
+        void showNoInterestView(boolean isShow);
     }
 }
