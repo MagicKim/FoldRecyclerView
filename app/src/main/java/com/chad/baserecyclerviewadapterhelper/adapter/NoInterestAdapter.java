@@ -39,6 +39,8 @@ import java.util.Map;
  */
 public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder> {
 
+    private String TAG = "NoInterestAdapter";
+
     private List<TestNotification> mData;
 
     //聚合
@@ -132,7 +134,7 @@ public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
 //                expandSetList.put(lv0.getPackageName(), false);
 
                 holder.setText(R.id.tv_item_title, lv0.title)
-                        .setText(R.id.tv_pkg_name, lv0.subTitle);
+                        .setText(R.id.tv_pkg_name, lv0.pkg);
                 if (TextUtils.equals(lv0.getPackageName(), OTA_PACKAGE)) {
                     holder.setText(R.id.tv_item_time, "时间:" + TimeUtil.getTime(lv0.time - OTA_TIME_MARK));
                 } else {
@@ -210,7 +212,7 @@ public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
                 RelativeLayout rlRoot = holder.getView(R.id.sm_root_view);
                 holder.setText(R.id.tv_item_title, lv1.title);
                 holder.setText(R.id.tv_item_content, lv1.content);
-                holder.setText(R.id.tv_pkg_name, lv1.subTitle);
+                holder.setText(R.id.tv_pkg_name, lv1.pkg);
                 if (TextUtils.equals(lv1.getPackageName(), OTA_PACKAGE)) {
                     holder.setText(R.id.tv_item_time, "时间：" + TimeUtil.getTime(lv1.getTime() - OTA_TIME_MARK));
                 } else {
@@ -285,7 +287,8 @@ public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
 //                List<MultiItemEntity> testList = new ArrayList<>(getData());
                 for (Level1Item level1Item : childList) {
                     Log.e("kim", "positionAtAll = " + positionAtAll + "   pos = " + pos);
-                    NormalItem normalItem = new NormalItem(level1Item.title, level1Item.content, level1Item.getPackageName());
+                    NormalItem normalItem = new NormalItem(level1Item.title, level1Item.content,
+                            level1Item.getPackageName(), level1Item.itemLevel);
                     normalItem.setTime(level1Item.time);
 //                    testList.add(normalItem);
 //                    Collections.sort(testList, SortUtils.sortGroupEntityCmp);
@@ -334,7 +337,6 @@ public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
     private void transformData() {
         getData().clear();
         ArrayList<MultiItemEntity> entityList = new ArrayList<>();
-        Log.w("kim", "切换数据到聚合 = " + mData.toString());
         //使用map分组
         Map<String, List<TestNotification>> resultMap = new LinkedHashMap<>();
         for (TestNotification record : mData) {
@@ -354,20 +356,24 @@ public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
             Collections.sort(notificationList, SortUtils.sortChildEntityCmp);
             if (notificationList.size() < 2) {
                 for (TestNotification notification : notificationList) {
-                    NormalItem normalItem = new NormalItem(notification.getTitle(), notification.getContent(), notification.getPkg());
+                    NormalItem normalItem = new NormalItem(notification.getTitle(),
+                            notification.getContent(), notification.getPkg(), notification.getLevel());
                     normalItem.setTime(notification.getTime());
                     entityList.add(normalItem);
                 }
             } else {
                 Level0Item foldParentItem = new Level0Item();
                 for (TestNotification timeNotification : notificationList) {
-                    foldParentItem.addSubItem(new Level1Item(timeNotification.getTitle(), timeNotification.getPkg(), true, timeNotification.getContent(), timeNotification.getTime()));
+                    foldParentItem.addSubItem(new Level1Item(timeNotification.getTitle(),
+                            timeNotification.getPkg(),
+                            timeNotification.getContent(), timeNotification.getTime(), timeNotification.getLevel()));
                 }
                 for (TestNotification timeNotification : notificationList) {
                     foldParentItem.time = timeNotification.getTime();
                     foldParentItem.setExpanded(false);
                     foldParentItem.title = timeNotification.getTitle();
-                    foldParentItem.subTitle = timeNotification.getPkg();
+                    foldParentItem.pkg = timeNotification.getPkg();
+                    foldParentItem.itemLevel = timeNotification.getLevel();
                     break;
                 }
                 entityList.add(foldParentItem);
@@ -387,7 +393,8 @@ public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
     public void setNormalData() {
         getData().clear();
         for (TestNotification testNotification : mData) {
-            NormalItem normalItem = new NormalItem(testNotification.getTitle(), testNotification.getContent(), testNotification.getPkg());
+            NormalItem normalItem = new NormalItem(testNotification.getTitle(), testNotification.getContent(),
+                    testNotification.getPkg(), testNotification.getLevel());
             normalItem.setTime(testNotification.getTime());
             addData(normalItem);
         }

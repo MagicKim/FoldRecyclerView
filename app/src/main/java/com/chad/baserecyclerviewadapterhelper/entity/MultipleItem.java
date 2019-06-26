@@ -61,6 +61,12 @@ public class MultipleItem implements MultiItemEntity {
     }
 
     @Override
+    public int getItemLevel() {
+        return 0;
+    }
+
+
+    @Override
     public String toString() {
         return "MultipleItem{" +
                 "itemType=" + itemType +

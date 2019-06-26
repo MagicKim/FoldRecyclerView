@@ -8,17 +8,22 @@ public class NormalItem implements MultiItemEntity {
     private String title;
     private long time;
     private String content;
-
     private String pkg;
+    private int itemLevel;
 
     public NormalItem() {
 
     }
 
-    public NormalItem(String title, String content, String pkg) {
+    public void setItemLevel(int itemLevel) {
+        this.itemLevel = itemLevel;
+    }
+
+    public NormalItem(String title, String content, String pkg, int itemLevel) {
         this.title = title;
         this.content = content;
         this.pkg = pkg;
+        this.itemLevel = itemLevel;
     }
 
     public void setTime(Long time) {
@@ -63,6 +68,12 @@ public class NormalItem implements MultiItemEntity {
     public long getTime() {
         return time;
     }
+
+    @Override
+    public int getItemLevel() {
+        return itemLevel;
+    }
+
 
     @Override
     public String toString() {

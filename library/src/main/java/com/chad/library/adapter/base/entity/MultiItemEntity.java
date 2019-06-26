@@ -10,4 +10,6 @@ public interface MultiItemEntity {
     String getPackageName();
 
     long getTime();
+
+    int getItemLevel();
 }

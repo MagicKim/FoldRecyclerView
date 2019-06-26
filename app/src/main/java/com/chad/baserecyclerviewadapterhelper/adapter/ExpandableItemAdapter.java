@@ -56,8 +56,6 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
     //普通
     public static final int TYPE_NORMAL = 2;
 
-    public static final int TYPE_BLACK_LIST = 3;
-
     private Context mContext;
 
     private static final String OTA_PACKAGE = "ecarx.upgrade";
@@ -97,17 +95,11 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 holder.setText(R.id.tv_item_title, normalItem.getTitle());
                 holder.setText(R.id.tv_item_content, normalItem.getContent());
                 holder.setText(R.id.tv_pkg_name, normalItem.getPkg());
-                if (TextUtils.equals(normalItem.getPkg(), OTA_PACKAGE)) {
-                    holder.setText(R.id.tv_item_time, "时间：" + TimeUtil.getTime(normalItem.getTime() - OTA_TIME_MARK));
-                } else {
-                    holder.setText(R.id.tv_item_time, "时间：" + TimeUtil.getTime(normalItem.getTime()));
-                }
-
+                holder.setText(R.id.tv_item_time, "时间：" + TimeUtil.getTime(normalItem.getTime()));
                 Button buttonViewDel = holder.getView(R.id.btn_item_delete);
                 buttonViewDel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        setItemDel(holder.getAdapterPosition(), normalItem);
                         deleteNormalItem(holder.getAdapterPosition(), normalItem);
                     }
                 });
@@ -130,8 +122,6 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 final SwipeMenuLayout swipeMenuLayout = holder.getView(R.id.rl_normal_root_layout);
                 final RelativeLayout layoutL0 = holder.getView(R.id.sm_root_view);
                 final FrameLayout flMorePicture = holder.getView(R.id.iv_more_picture);
-                RelativeLayout rlContentRootLayout = holder.getView(R.id.rl_view);
-
                 final RelativeLayout rlHeader = holder.getView(R.id.rl_expand_header);
                 final Button btDel = holder.getView(R.id.btn_item_delete);
                 final Button btPlace = holder.getView(R.id.btn_item_place);
@@ -152,15 +142,9 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                     }
                 });
 
-//                expandSetList.put(lv0.getPackageName(), false);
-
                 holder.setText(R.id.tv_item_title, lv0.title)
-                        .setText(R.id.tv_pkg_name, lv0.subTitle);
-                if (TextUtils.equals(lv0.getPackageName(), OTA_PACKAGE)) {
-                    holder.setText(R.id.tv_item_time, "时间:" + TimeUtil.getTime(lv0.time - OTA_TIME_MARK));
-                } else {
-                    holder.setText(R.id.tv_item_time, "时间:" + TimeUtil.getTime(lv0.time));
-                }
+                        .setText(R.id.tv_pkg_name, lv0.pkg);
+                holder.setText(R.id.tv_item_time, "时间:" + TimeUtil.getTime(lv0.time));
                 if (lv0.getSubItems().size() > 2) {
                     flMorePicture.setBackground(mContext.getResources().getDrawable(R.drawable.basic_elements_two_bg));
                 } else {
@@ -233,7 +217,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 RelativeLayout rlRoot = holder.getView(R.id.sm_root_view);
                 holder.setText(R.id.tv_item_title, lv1.title);
                 holder.setText(R.id.tv_item_content, lv1.content);
-                holder.setText(R.id.tv_pkg_name, lv1.subTitle);
+                holder.setText(R.id.tv_pkg_name, lv1.pkg);
                 if (TextUtils.equals(lv1.getPackageName(), OTA_PACKAGE)) {
                     holder.setText(R.id.tv_item_time, "时间：" + TimeUtil.getTime(lv1.getTime() - OTA_TIME_MARK));
                 } else {
@@ -322,7 +306,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
 //                List<MultiItemEntity> testList = new ArrayList<>(getData());
                 for (Level1Item level1Item : childList) {
                     Log.e("kim", "positionAtAll = " + positionAtAll + "   pos = " + pos);
-                    NormalItem normalItem = new NormalItem(level1Item.title, level1Item.content, level1Item.getPackageName());
+                    NormalItem normalItem = new NormalItem(level1Item.title, level1Item.content, level1Item.getPackageName(), level1Item.itemLevel);
                     normalItem.setTime(level1Item.time);
 //                    testList.add(normalItem);
 //                    Collections.sort(testList, SortUtils.sortGroupEntityCmp);
@@ -363,21 +347,22 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
 
     //刷新底部UI的
     public void notifyNoInterestUI() {
-        if (noInterestingList.size() > 0) {
-            if (getFooterLayoutCount() == 0) {
-                addFooterView(mFooterLayout);
-            }
-            TextView textView = mFooterLayout.findViewById(R.id.footer_tv);
-            ImageView imageView = mFooterLayout.findViewById(R.id.footer_iv);
-            textView.setText("当前有" + noInterestingList.size() + "条不重要的通知");
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    emptyRecyclerView.setVisibility(View.GONE);
-                    noInterestViewListener.setLoadNoInterestView(noInterestingList);
-                }
-            });
+//        if (noInterestingList.size() > 0) {
+        if (getFooterLayoutCount() == 0) {
+            addFooterView(mFooterLayout);
         }
+        TextView textView = mFooterLayout.findViewById(R.id.footer_tv);
+        ImageView imageView = mFooterLayout.findViewById(R.id.footer_iv);
+        textView.setText("当前有" + noInterestingList.size() + "条不重要的通知");
+        Log.e("jin", "noInterestingList.size() = " + noInterestingList.size());
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                emptyRecyclerView.setVisibility(View.GONE);
+                noInterestViewListener.setLoadNoInterestView(noInterestingList);
+            }
+        });
+//        }
     }
 
 
@@ -395,23 +380,11 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
         int updateListIndex = findUpdateList(xcnRecord);
         Log.v("updateList", "updateListIndex = " + updateListIndex);
         //添加原始数据
-        if (TextUtils.equals(xcnRecord.getPkg(), OTA_PACKAGE)) {
-            if (updateListIndex != -1) {
-                Log.v("updateList", "update OTA List");
-                notificationArrayList.set(updateListIndex, new TestNotification(xcnRecord.getId(), xcnRecord.getPkg(), xcnRecord.getContent(),
-                        xcnRecord.getTitle(), xcnRecord.isExpandItem(), xcnRecord.isShield(), xcnRecord.getTime() + OTA_TIME_MARK));
-            } else {
-                TestNotification testNotification = new TestNotification(xcnRecord.getId(), xcnRecord.getPkg(), xcnRecord.getContent(),
-                        xcnRecord.getTitle(), xcnRecord.isExpandItem(), xcnRecord.isShield(), xcnRecord.getTime() + OTA_TIME_MARK);
-                notificationArrayList.add(testNotification);
-            }
+        if (updateListIndex != -1) {
+            Log.v("updateList", "update  List");
+            notificationArrayList.set(updateListIndex, xcnRecord);
         } else {
-            if (updateListIndex != -1) {
-                Log.v("updateList", "update  List");
-                notificationArrayList.set(updateListIndex, xcnRecord);
-            } else {
-                notificationArrayList.add(xcnRecord);
-            }
+            notificationArrayList.add(xcnRecord);
         }
 
         Collections.sort(notificationArrayList, SortUtils.sortChildEntityCmp);
@@ -458,20 +431,22 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
             Collections.sort(notificationList, SortUtils.sortChildEntityCmp);
             if (notificationList.size() < 2) {
                 for (TestNotification notification : notificationList) {
-                    NormalItem normalItem = new NormalItem(notification.getTitle(), notification.getContent(), notification.getPkg());
+                    NormalItem normalItem = new NormalItem(notification.getTitle(), notification.getContent(),
+                            notification.getPkg(), notification.getLevel());
                     normalItem.setTime(notification.getTime());
                     entityList.add(normalItem);
                 }
             } else {
                 Level0Item foldParentItem = new Level0Item();
                 for (TestNotification timeNotification : notificationList) {
-                    foldParentItem.addSubItem(new Level1Item(timeNotification.getTitle(), timeNotification.getPkg(), true, timeNotification.getContent(), timeNotification.getTime()));
+                    foldParentItem.addSubItem(new Level1Item(timeNotification.getTitle(), timeNotification.getPkg(),
+                            timeNotification.getContent(), timeNotification.getTime(), timeNotification.getLevel()));
                 }
                 for (TestNotification timeNotification : notificationList) {
                     foldParentItem.time = timeNotification.getTime();
-                    foldParentItem.setExpanded(false);
                     foldParentItem.title = timeNotification.getTitle();
-                    foldParentItem.subTitle = timeNotification.getPkg();
+                    foldParentItem.pkg = timeNotification.getPkg();
+                    foldParentItem.itemLevel = timeNotification.getLevel();
                     break;
                 }
                 entityList.add(foldParentItem);
@@ -491,7 +466,8 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
     public void setNormalData() {
         getData().clear();
         for (TestNotification testNotification : notificationArrayList) {
-            NormalItem normalItem = new NormalItem(testNotification.getTitle(), testNotification.getContent(), testNotification.getPkg());
+            NormalItem normalItem = new NormalItem(testNotification.getTitle(), testNotification.getContent(),
+                    testNotification.getPkg(), testNotification.getLevel());
             normalItem.setTime(testNotification.getTime());
             addData(normalItem);
         }

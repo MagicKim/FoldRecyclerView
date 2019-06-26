@@ -83,6 +83,12 @@ public class ImageItem implements MultiItemEntity {
     }
 
     @Override
+    public int getItemLevel() {
+        return 0;
+    }
+
+
+    @Override
     public String toString() {
         return "ImageItem{" +
                 "time=" + time +

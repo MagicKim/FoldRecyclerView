@@ -28,6 +28,12 @@ public class HeaderItem implements MultiItemEntity {
         return time;
     }
 
+    @Override
+    public int getItemLevel() {
+        return 0;
+    }
+
+
     public void setTime(Long time) {
         this.time = time;
     }

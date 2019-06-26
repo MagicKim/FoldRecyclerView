@@ -170,60 +170,59 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<MultiIte
     }
 
     //切换过来，加载数据源，排序
-    public void setOriginListData(List<TestNotification> mData) {
-        getData().clear();
-        mDatas.clear();
-        mDatas.addAll(mData);
-        if (mDatas.size() > 0) {
-            getTransferData(mDatas, true);
-        } else {
-            getTransferData(mDatas, false);
-        }
-    }
+//    public void setOriginListData(List<TestNotification> mData) {
+//        getData().clear();
+//        mDatas.clear();
+//        mDatas.addAll(mData);
+//        if (mDatas.size() > 0) {
+//            getTransferData(mDatas, true);
+//        } else {
+//            getTransferData(mDatas, false);
+//        }
+//    }
 
     //非聚合数据
-    private void getTransferData(List<TestNotification> data, boolean isHeader) {
-        ArrayList<MultiItemEntity> res = new ArrayList<>();
-        Log.w("kim", "----------------->" + res.hashCode());
-        for (TestNotification testNotification : data) {
-            if (testNotification.isExpandItem()) {
-                ImageItem iItem = new ImageItem(testNotification.getTitle(), testNotification.getContent(), testNotification.getPkg());
-                iItem.setTime(testNotification.getTime());
-                res.add(iItem);
-            } else {
-                NormalItem nItem = new NormalItem(testNotification.getTitle(), testNotification.getContent(), testNotification.getPkg());
-                nItem.setTime(testNotification.getTime());
-                res.add(nItem);
-            }
-        }
-        if (isHeader) {
-            res.add(headerItem);
-        }
-        Collections.sort(res, mGroupEntityCmp);
-        setNewData(res);
-    }
-
-    public void addAdapterOriginData(TestNotification testNotification) {
-        mDatas.add(testNotification);
-        setTransferData(testNotification);
-    }
-
-    //非聚合数据
-    private void setTransferData(TestNotification testNotification) {
-        if (!getData().contains(headerItem)) {
+//    private void getTransferData(List<TestNotification> data, boolean isHeader) {
+//        ArrayList<MultiItemEntity> res = new ArrayList<>();
+//        Log.w("kim", "----------------->" + res.hashCode());
+//        for (TestNotification testNotification : data) {
+//            if (testNotification.isExpandItem()) {
+//                ImageItem iItem = new ImageItem(testNotification.getTitle(), testNotification.getContent(), testNotification.getPkg());
+//                iItem.setTime(testNotification.getTime());
+//                res.add(iItem);
+//            } else {
+//                NormalItem nItem = new NormalItem(testNotification.getTitle(), testNotification.getContent(), testNotification.getPkg());
+//                nItem.setTime(testNotification.getTime());
+//                res.add(nItem);
+//            }
+//        }
+//        if (isHeader) {
 //            res.add(headerItem);
-            addData(headerItem);
-        }
-        if (testNotification.isExpandItem()) {
-            ImageItem iItem = new ImageItem(testNotification.getTitle(), testNotification.getContent(), testNotification.getPkg());
-            iItem.setTime(testNotification.getTime());
-            addData(iItem);
-        } else {
-            NormalItem nItem = new NormalItem(testNotification.getTitle(), testNotification.getContent(), testNotification.getPkg());
-            nItem.setTime(testNotification.getTime());
-            addData(nItem);
-        }
-    }
+//        }
+//        Collections.sort(res, mGroupEntityCmp);
+//        setNewData(res);
+//    }
+
+//    public void addAdapterOriginData(TestNotification testNotification) {
+//        mDatas.add(testNotification);
+//        setTransferData(testNotification);
+//    }
+
+    //非聚合数据
+//    private void setTransferData(TestNotification testNotification) {
+//        if (!getData().contains(headerItem)) {
+//            addData(headerItem);
+//        }
+//        if (testNotification.isExpandItem()) {
+//            ImageItem iItem = new ImageItem(testNotification.getTitle(), testNotification.getContent(), testNotification.getPkg());
+//            iItem.setTime(testNotification.getTime());
+//            addData(iItem);
+//        } else {
+//            NormalItem nItem = new NormalItem(testNotification.getTitle(), testNotification.getContent(), testNotification.getPkg());
+//            nItem.setTime(testNotification.getTime());
+//            addData(nItem);
+//        }
+//    }
 
     private Comparator<MultiItemEntity> mGroupEntityCmp = new Comparator<MultiItemEntity>() {
         SimpleDateFormat format = new SimpleDateFormat("yyyy/M/d H:mm:ss");

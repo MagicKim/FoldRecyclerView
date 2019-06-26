@@ -12,21 +12,18 @@ public class Level1Item implements MultiItemEntity {
     public long time;
     public String title;
     public String content;
-    public String subTitle;
-
-    public boolean isExpand;
-
-    public boolean hasExpand;
+    public String pkg;
+    public int itemLevel;
 
     public Level1Item() {
     }
 
-    public Level1Item(String title, String subTitle, boolean expand, String content, long time) {
-        this.subTitle = subTitle;
+    public Level1Item(String title, String pkg, String content, long time, int itemLevel) {
+        this.pkg = pkg;
         this.title = title;
-        this.isExpand = expand;
         this.content = content;
         this.time = time;
+        this.itemLevel = itemLevel;
     }
 
     @Override
@@ -36,12 +33,17 @@ public class Level1Item implements MultiItemEntity {
 
     @Override
     public String getPackageName() {
-        return subTitle;
+        return pkg;
     }
 
     @Override
     public long getTime() {
         return time;
+    }
+
+    @Override
+    public int getItemLevel() {
+        return itemLevel;
     }
 
 
@@ -51,9 +53,7 @@ public class Level1Item implements MultiItemEntity {
                 "time=" + time +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
-                ", subTitle='" + subTitle + '\'' +
-                ", isExpand=" + isExpand +
-                ", hasExpand=" + hasExpand +
+                ", subTitle='" + pkg + '\'' +
                 '}';
     }
 }

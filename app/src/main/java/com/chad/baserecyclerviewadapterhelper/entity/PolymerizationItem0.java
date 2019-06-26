@@ -62,6 +62,11 @@ public class PolymerizationItem0 extends AbstractExpandableItem<PolymerizationIt
     }
 
     @Override
+    public int getItemLevel() {
+        return 0;
+    }
+
+    @Override
     public String toString() {
         return "PolymerizationItem0{" +
                 "time=" + time +

@@ -12,18 +12,18 @@ public class TestNotification {
     private String pkg;
     private String content;
     private String title;
-    private boolean isExpandItem;
     private boolean isShield;
+    private int level;
 
 
-    public TestNotification(int id, String pkg, String content, String title, boolean isExpandItem, boolean isShield, long time) {
+    public TestNotification(int id, String pkg, String content, String title, boolean isShield, long time, int level) {
         this.id = id;
         this.pkg = pkg;
         this.content = content;
         this.title = title;
-        this.isExpandItem = isExpandItem;
         this.isShield = isShield;
         this.time = time;
+        this.level = level;
     }
 
     public int getId() {
@@ -58,14 +58,6 @@ public class TestNotification {
         this.title = title;
     }
 
-    public boolean isExpandItem() {
-        return isExpandItem;
-    }
-
-    public void setExpandItem(boolean expandItem) {
-        isExpandItem = expandItem;
-    }
-
     public boolean isShield() {
         return isShield;
     }
@@ -82,6 +74,13 @@ public class TestNotification {
         this.time = time;
     }
 
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
 
     @Override
     public String toString() {
@@ -91,7 +90,6 @@ public class TestNotification {
                 ", pkg='" + pkg + '\'' +
                 ", content='" + content + '\'' +
                 ", title='" + title + '\'' +
-                ", isExpandItem=" + isExpandItem +
                 ", isShield=" + isShield +
                 '}';
     }

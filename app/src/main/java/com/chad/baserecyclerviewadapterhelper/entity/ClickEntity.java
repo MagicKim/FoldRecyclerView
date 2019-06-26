@@ -50,4 +50,11 @@ public class ClickEntity implements MultiItemEntity {
     public long getTime() {
         return 1;
     }
+
+    @Override
+    public int getItemLevel() {
+        return 0;
+    }
+
+
 }
