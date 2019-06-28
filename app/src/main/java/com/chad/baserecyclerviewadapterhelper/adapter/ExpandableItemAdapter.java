@@ -344,6 +344,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 removeAllFooterView();
             }
         }
+
         TextView textView = mFooterLayout.findViewById(R.id.footer_tv);
         ImageView imageView = mFooterLayout.findViewById(R.id.footer_iv);
         textView.setText("当前有" + noInterestingList.size() + "条不重要的通知");

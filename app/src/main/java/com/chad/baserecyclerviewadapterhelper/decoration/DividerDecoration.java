@@ -3,6 +3,7 @@ package com.chad.baserecyclerviewadapterhelper.decoration;
 import android.content.Context;
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.chad.baserecyclerviewadapterhelper.R;
@@ -32,8 +33,7 @@ public class DividerDecoration extends RecyclerView.ItemDecoration {
 
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         int layoutPosition = parent.getChildLayoutPosition(view);
-        int itemViewType = parent.getAdapter().getItemViewType(layoutPosition);
-
+        int childCount = state.getItemCount() - 1;
         if (this.mOrientation == 1) {
             if (layoutPosition == 0) {
                 outRect.set(0, 0, 0, 0);
