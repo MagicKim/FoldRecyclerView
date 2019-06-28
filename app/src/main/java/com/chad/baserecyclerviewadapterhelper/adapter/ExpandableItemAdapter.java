@@ -235,7 +235,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
         while (it.hasNext()) {
             TestNotification next = it.next();
             if (next.getTime() == normalItem.getTime()) {
-                addNoInterestList(next);
+                addNoInterestList(next, null);
                 it.remove();
             }
         }
@@ -254,18 +254,24 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
 
     private void deleteAssembleParent(int adapterPosition, Level0Item level0Item) {
         Log.e("kim", "deleteAssembleParent");
+        ArrayList<TestNotification> list = new ArrayList<>();
         remove(adapterPosition - getHeaderLayoutCount());
         //删除原数据
         Iterator<TestNotification> it = notificationArrayList.iterator();
         while (it.hasNext()) {
             TestNotification next = it.next();
             if (TextUtils.equals(next.getPkg(), level0Item.getPackageName())) {
+                list.add(next);
                 it.remove();
             }
         }
 
-        Log.e("kim", "(parent)视图数据 = " + getData().toString());
-        Log.w("kim", "(parent)真实数据 = " + notificationArrayList.toString());
+        addNoInterestList(null, list);
+
+        notifyNoInterestUI();
+
+//        Log.e("kim", "(parent)视图数据 = " + getData().toString());
+//        Log.w("kim", "(parent)真实数据 = " + notificationArrayList.toString());
 
     }
 
@@ -312,7 +318,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
             while (it.hasNext()) {
                 TestNotification next = it.next();
                 if (next.getTime() == lv1.getTime()) {
-                    addNoInterestList(next);
+                    addNoInterestList(next, null);
                     it.remove();
                 }
             }
@@ -333,7 +339,15 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
     private void addNoInterestList(TestNotification testNotification) {
         noInterestingList.add(testNotification);
         noInterestViewListener.setLoadNoInterestView(noInterestingList);
+    }
 
+    private void addNoInterestList(TestNotification testNotification, List<TestNotification> lists) {
+        if (lists == null) {
+            addNoInterestList(testNotification);
+        } else {
+            noInterestingList.addAll(lists);
+            noInterestViewListener.setLoadNoInterestView(noInterestingList);
+        }
     }
 
     //刷新底部UI的
