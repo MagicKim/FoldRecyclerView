@@ -2,6 +2,7 @@ package com.chad.baserecyclerviewadapterhelper;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.transition.Fade;
 import android.support.transition.Slide;
 import android.support.transition.TransitionManager;
 import android.support.v7.util.DiffUtil;
@@ -84,6 +85,31 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
         expandableAdapter.addHeaderView(getHeaderView());
         expandableAdapter.setFooterLayout(getFooterView());
         expandableAdapter.notifyDataSetChanged();
+
+        if (mNoInterestAdapter == null) {
+            mNoInterestAdapter = new NoInterestAdapter(mContext);
+            LinearLayoutManager manager1 = new LinearLayoutManager(mContext);
+            mNoInterestRecyclerView.setLayoutManager(manager1);
+            DividerDecoration mItemDecoration1 = new DividerDecoration(this, LinearLayoutManager.VERTICAL);
+            mNoInterestRecyclerView.addItemDecoration(mItemDecoration1);
+            FadeInDownAnimator adapterAnimator1 = new FadeInDownAnimator();
+            mNoInterestRecyclerView.setItemAnimator(adapterAnimator1);
+            mNoInterestRecyclerView.setAdapter(mNoInterestAdapter);
+            mNoInterestAdapter.addLoadInterestView(this);
+            RelativeLayout noInterestHeaderView = (RelativeLayout) getNoInterestHeaderView();
+            mNoInterestAdapter.addHeaderView(noInterestHeaderView);
+            ImageView imageView = noInterestHeaderView.findViewById(R.id.iv_back_notification_list);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mRecyclerView.setVisibility(View.VISIBLE);
+                    mNoInterestRecyclerView.setVisibility(View.GONE);
+                    expandableAdapter.notifyDataSetChanged();
+                    expandableAdapter.notifyNoInterestUI();
+                }
+            });
+        }
+
         // no interest
         Switch switchGroup = findViewById(R.id.switch1);
         checked = switchGroup.isChecked();
@@ -92,7 +118,9 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
         switchGroup.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                checked = isChecked;
                 expandableAdapter.selectListView(isChecked);
+                mNoInterestAdapter.selectListView(checked);
             }
         });
 
@@ -132,39 +160,15 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
 
     @Override
     public void setLoadNoInterestView(List<TestNotification> lists) {
+        mNoInterestAdapter.setList(lists);
+        mNoInterestAdapter.selectListView(checked);
+    }
+
+    @Override
+    public void showNoInterestView() {
         //控制显示隐藏
-        TransitionManager.beginDelayedTransition(rootLayout,
-                new Slide(Gravity.RIGHT));
         mRecyclerView.setVisibility(View.GONE);
         mNoInterestRecyclerView.setVisibility(View.VISIBLE);
-        //加载adapter
-        if (mNoInterestAdapter == null) {
-            mNoInterestAdapter = new NoInterestAdapter(mContext);
-            LinearLayoutManager manager1 = new LinearLayoutManager(mContext);
-            mNoInterestRecyclerView.setLayoutManager(manager1);
-            DividerDecoration mItemDecoration = new DividerDecoration(this, LinearLayoutManager.VERTICAL);
-            mNoInterestRecyclerView.addItemDecoration(mItemDecoration);
-            FadeInDownAnimator adapterAnimator1 = new FadeInDownAnimator();
-            mNoInterestRecyclerView.setItemAnimator(adapterAnimator1);
-            mNoInterestRecyclerView.setAdapter(mNoInterestAdapter);
-            mNoInterestAdapter.addLoadInterestView(this);
-            RelativeLayout noInterestHeaderView = (RelativeLayout) getNoInterestHeaderView();
-            mNoInterestAdapter.addHeaderView(noInterestHeaderView);
-            ImageView imageView = noInterestHeaderView.findViewById(R.id.iv_back_notification_list);
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    TransitionManager.beginDelayedTransition(rootLayout,
-                            new Slide(Gravity.RIGHT));
-                    mRecyclerView.setVisibility(View.VISIBLE);
-                    mNoInterestRecyclerView.setVisibility(View.GONE);
-                    expandableAdapter.notifyDataSetChanged();
-                    expandableAdapter.notifyNoInterestUI();
-                }
-            });
-        }
-        mNoInterestAdapter.setList(lists);
-        mNoInterestAdapter.transformGroupView();
     }
 
     @Override
@@ -197,16 +201,16 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
                 "新闻消息24", false, 1557903123002L, 1));
         mData.add(new TestNotification(28, "com.car.cc", "周杰伦全新专辑发布(------>更新的条目<-------)!",
                 "音乐消息28", false, 1557903197323L, 1));
-
         mData.add(new TestNotification(46, "com.car.bb", "AirPods H1芯片有多强？- 你的耳朵里是台iPhone 4",
                 "新闻消息46", false, 1557903095561L, 1));
         mData.add(new TestNotification(45, "com.car.cc", "陈奕迅全新专辑发布!",
                 "音乐消息45", false, 1557903099034L, 1));
         mData.add(new TestNotification(30, "com.car.bb", "坚果Pro 2系统更新：下线“残废”功能",
                 "新闻消息30", false, 1557953096852L, 1));
+        mData.add(new TestNotification(6, "com.car.dd", "有新的OTA升级包哦！",
+                "系统消息6", false, 1557903101000L, 1));
         mData.add(new TestNotification(49, "com.car.cc", "陈奕迅全新专辑发布!(------>更新的条目<-------)",
                 "音乐消息49", false, 1557983299020L, 1));
-
         mData.add(new TestNotification(200, "com.car.bb", "AirPods H1芯片有多强？- 你的耳朵里是台iPhone 4",
                 "新闻消息200", false, 1557923095001L, 1));
         mData.add(new TestNotification(500, "com.car.bb", "坚果Pro 2系统更新：下线“残废”功能",
@@ -217,36 +221,30 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
                 "音乐消息80", false, 1557973893000L, 1));
         mData.add(new TestNotification(90, "com.car.cc", "朴树全新专辑发布!",
                 "音乐消息90", false, 1557913634000L, 1));
+        mData.add(new TestNotification(14, "ecarx.upgrade", "您的系统需要升级!",
+                "OTA消息1", false, 1557903099000L, 2));
+        mData.add(new TestNotification(14, "ecarx.upgrade", "您的系统需要升级!(------>更新的条目<-------)",
+                "OTA消息1", false, 1557903096006L, 2));
+        mData.add(new TestNotification(13, "com.car.ee", "18万只蜜蜂在巴黎圣母院大火幸存 因没有肺脏不怕烟",
+                "娱乐消息13", false, 1557903108000L, 1));
         mData.add(new TestNotification(100, "com.car.cc", "LadyGaga全新专辑发布!",
                 "音乐消息100", false, 1557923545000L, 1));
         mData.add(new TestNotification(310, "com.car.bb", "AirPods H1芯片有多强？- 你的耳朵里是台iPhone 4",
                 "新闻消息310", false, 1557905095001L, 1));
         mData.add(new TestNotification(320, "com.car.bb", "坚果Pro 2系统更新：下线“残废”功能",
                 "新闻消息320", false, 1557904096002L, 1));
-
-
         mData.add(new TestNotification(3, "com.car.dd", "您的内存满了哦，请及时清理！",
                 "系统消息3", false, 1557903098000L, 1));
-
-        mData.add(new TestNotification(14, "ecarx.upgrade", "您的系统需要升级!",
-                "OTA消息1", false, 1557903099000L, 2));
-        mData.add(new TestNotification(14, "ecarx.upgrade", "您的系统需要升级!(------>更新的条目<-------)",
-                "OTA消息1", false, 1557903096006L, 2));
         mData.add(new TestNotification(15, "ecarx.upgrade", "您的屏幕需要升级!",
                 "OTA消息2", false, 1557903097000L, 2));
         mData.add(new TestNotification(16, "ecarx.upgrade", "您的mcu需要升级!",
                 "OTA消息3", false, 1557903098000L, 2));
         mData.add(new TestNotification(16, "ecarx.upgrade", "您的mcu需要升级!(------>更新的条目<-------)",
                 "OTA消息3", false, 1557903098010L, 2));
-
-        mData.add(new TestNotification(6, "com.car.dd", "有新的OTA升级包哦！",
-                "系统消息6", false, 1557903101000L, 1));
         mData.add(new TestNotification(11, "com.car.ee", "2019日本小姐冠军出炉 网友：越看越像吴京！",
                 "娱乐消息11", false, 1557903106000L, 1));
         mData.add(new TestNotification(12, "com.car.ee", "微软公布Windows 10的活跃设备数已经超过9亿 但可能是个乌龙",
                 "娱乐消息12", false, 1557903107000L, 1));
-        mData.add(new TestNotification(13, "com.car.ee", "18万只蜜蜂在巴黎圣母院大火幸存 因没有肺脏不怕烟",
-                "娱乐消息13", false, 1557903108000L, 1));
     }
 
 

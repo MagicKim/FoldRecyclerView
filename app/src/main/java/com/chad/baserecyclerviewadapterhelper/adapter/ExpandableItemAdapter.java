@@ -176,9 +176,6 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                         }
                         expand(pos);
                         swipeMenuLayout.setSwipeEnable(false);
-
-                        Log.w(TAG, "EXPAND -----?" + getData().toString());
-
                     }
                 });
                 buttonCollapse.setOnClickListener(new View.OnClickListener() {
@@ -193,7 +190,6 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                         }
                         collapse(pos);
                         swipeMenuLayout.setSwipeEnable(true);
-                        Log.w(TAG, "collapse >>>>>>>?" + getData().toString());
 
                     }
                 });
@@ -239,7 +235,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
         while (it.hasNext()) {
             TestNotification next = it.next();
             if (next.getTime() == normalItem.getTime()) {
-                noInterestingList.add(next);
+                addNoInterestList(next);
                 it.remove();
             }
         }
@@ -316,7 +312,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
             while (it.hasNext()) {
                 TestNotification next = it.next();
                 if (next.getTime() == lv1.getTime()) {
-                    noInterestingList.add(next);
+                    addNoInterestList(next);
                     it.remove();
                 }
             }
@@ -333,6 +329,12 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
         mFooterLayout = footerView;
     }
 
+    //监听不感兴趣动作
+    private void addNoInterestList(TestNotification testNotification) {
+        noInterestingList.add(testNotification);
+        noInterestViewListener.setLoadNoInterestView(noInterestingList);
+
+    }
 
     //刷新底部UI的
     public void notifyNoInterestUI() {
@@ -351,8 +353,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                emptyRecyclerView.setVisibility(View.GONE);
-                noInterestViewListener.setLoadNoInterestView(noInterestingList);
+                noInterestViewListener.showNoInterestView();
             }
         });
     }
@@ -479,5 +480,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
 
     public interface LoadNoInterestViewListener {
         void setLoadNoInterestView(List<TestNotification> lists);
+
+        void showNoInterestView();
     }
 }

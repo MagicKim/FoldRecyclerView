@@ -123,8 +123,6 @@ public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
                     }
                 });
 
-//                expandSetList.put(lv0.getPackageName(), false);
-
                 holder.setText(R.id.tv_item_title, lv0.title)
                         .setText(R.id.tv_pkg_name, lv0.pkg);
                 holder.setText(R.id.tv_item_time, "时间:" + TimeUtil.getTime(lv0.time));
@@ -264,23 +262,12 @@ public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
             List<Level1Item> childList = new ArrayList<>(multiItemEntity.getSubItems());
             if (childList.size() == 1) {
                 remove(positionAtAll);
-
-//                List<MultiItemEntity> testList = new ArrayList<>(getData());
                 for (Level1Item level1Item : childList) {
                     Log.e("kim", "positionAtAll = " + positionAtAll + "   pos = " + pos);
                     NormalItem normalItem = new NormalItem(level1Item.title, level1Item.content,
                             level1Item.getPackageName(), level1Item.itemLevel);
                     normalItem.setTime(level1Item.time);
-//                    testList.add(normalItem);
-//                    Collections.sort(testList, SortUtils.sortGroupEntityCmp);
-//                    getData().clear();
-//                    getData().addAll(testList);
-//                    setNewData(getData());
-
                     addData(positionAtAll, normalItem);
-
-//                    Collections.sort(getData(), SortUtils.sortGroupEntityCmp);
-//                    notifyDataSetChanged();
                     Log.e("kim", "视图数据 = " + getData().toString());
                 }
 
@@ -295,6 +282,28 @@ public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
                 }
             }
             getDataSize();
+        }
+    }
+
+    public void loadNotificationList(TestNotification xcnRecord, boolean isGroup) {
+//        int updateListIndex = findUpdateList(xcnRecord);
+//        Log.v("updateList", "updateListIndex = " + updateListIndex);
+        //添加原始数据
+//        if (updateListIndex != -1) {
+        Log.v("updateList", "update  List");
+//            notificationArrayList.set(updateListIndex, xcnRecord);
+//        } else {
+        mData.add(xcnRecord);
+//        }
+
+        selectListView(isGroup);
+    }
+
+    public void selectListView(boolean isGroup) {
+        if (isGroup) {
+            transformGroupView();
+        } else {
+            setNormalData();
         }
     }
 
@@ -319,6 +328,10 @@ public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
     private void transformData() {
         getData().clear();
         ArrayList<MultiItemEntity> entityList = new ArrayList<>();
+        if (mData == null) {
+            return;
+        }
+        Log.w("jin", "切换数据到聚合 = " + mData.toString());
         //使用map分组
         Map<String, List<TestNotification>> resultMap = new LinkedHashMap<>();
         for (TestNotification record : mData) {
@@ -352,7 +365,6 @@ public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
                 }
                 for (TestNotification timeNotification : notificationList) {
                     foldParentItem.time = timeNotification.getTime();
-                    foldParentItem.setExpanded(false);
                     foldParentItem.title = timeNotification.getTitle();
                     foldParentItem.pkg = timeNotification.getPkg();
                     foldParentItem.itemLevel = timeNotification.getLevel();
@@ -374,6 +386,9 @@ public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
 
     public void setNormalData() {
         getData().clear();
+        if (mData == null) {
+            return;
+        }
         for (TestNotification testNotification : mData) {
             NormalItem normalItem = new NormalItem(testNotification.getTitle(), testNotification.getContent(),
                     testNotification.getPkg(), testNotification.getLevel());
