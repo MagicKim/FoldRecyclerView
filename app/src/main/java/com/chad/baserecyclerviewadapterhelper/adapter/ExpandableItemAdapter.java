@@ -116,9 +116,10 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 final RelativeLayout layoutL0 = holder.getView(R.id.sm_root_view);
                 final FrameLayout flMorePicture = holder.getView(R.id.iv_more_picture);
                 final RelativeLayout rlHeader = holder.getView(R.id.rl_expand_header);
+                final TextView textCount = holder.getView(R.id.tv_parent_count);
                 final Button btDel = holder.getView(R.id.btn_item_delete);
                 final Button btPlace = holder.getView(R.id.btn_item_place);
-
+                textCount.setText(lv0.getSubItems().size()+"个通知");
                 Button buttonCollapse = holder.getView(R.id.bt_header_collapse);
                 final HeaderDelButton headerDelButton = holder.getView(R.id.bt_parent_del);
                 headerDelButton.setDeleteItemListener(new HeaderDelButton.OnDeleteItemListener() {
@@ -181,8 +182,8 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 buttonCollapse.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
                         int pos = holder.getAdapterPosition();
+                        textCount.setText(lv0.getSubItems().size()+"个通知");
                         if (lv0.getSubItems().size() > 2) {
                             flMorePicture.setBackground(mContext.getResources().getDrawable(R.drawable.basic_elements_two_bg));
                         } else {
@@ -370,6 +371,19 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 noInterestViewListener.showNoInterestView();
             }
         });
+    }
+
+    public void loadNotificationList(TestNotification xcnRecord, List<TestNotification> curList, boolean isGroup) {
+        if (curList == null) {
+            Log.i(TAG, "load data");
+            loadNotificationList(xcnRecord, isGroup);
+        } else {
+            Log.i(TAG, "load list");
+            notificationArrayList.addAll(curList);
+            selectListView(isGroup);
+        }
+
+
     }
 
 

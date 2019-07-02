@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.chad.baserecyclerviewadapterhelper.R;
 import com.chad.baserecyclerviewadapterhelper.animation.HeaderDelButton;
@@ -55,7 +56,7 @@ public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
         super(null);
         mContext = context;
         addItemType(TYPE_NORMAL, R.layout.item_no_interest_text_view);
-        addItemType(TYPE_LEVEL_0, R.layout.item_assemble_parent);
+        addItemType(TYPE_LEVEL_0, R.layout.item_assemble_no_interest_parent);
         addItemType(TYPE_LEVEL_1, R.layout.item_no_interest_assemble_child);
     }
 
@@ -67,7 +68,6 @@ public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
     @Override
     protected void convert(final BaseViewHolder holder, final MultiItemEntity item) {
         switch (holder.getItemViewType()) {
-
             case TYPE_NORMAL:
                 final NormalItem normalItem = (NormalItem) item;
                 holder.setText(R.id.tv_item_title, normalItem.getTitle());
@@ -106,9 +106,10 @@ public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
                 final RelativeLayout rlHeader = holder.getView(R.id.rl_expand_header);
                 final Button btDel = holder.getView(R.id.btn_item_delete);
                 final Button btPlace = holder.getView(R.id.btn_item_place);
-
+                final TextView textCount = holder.getView(R.id.tv_parent_count);
                 Button buttonCollapse = holder.getView(R.id.bt_header_collapse);
                 final HeaderDelButton headerDelButton = holder.getView(R.id.bt_parent_del);
+                textCount.setText(lv0.getSubItems().size() + "个通知");
                 headerDelButton.setDeleteItemListener(new HeaderDelButton.OnDeleteItemListener() {
                     @Override
                     public void setDeleteItem(int state) {
@@ -164,16 +165,13 @@ public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
                         }
                         expand(pos);
                         swipeMenuLayout.setSwipeEnable(false);
-
-                        Log.w(TAG, "EXPAND -----?" + getData().toString());
-
                     }
                 });
                 buttonCollapse.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
                         int pos = holder.getAdapterPosition();
+                        textCount.setText(lv0.getSubItems().size() + "个通知");
                         if (lv0.getSubItems().size() > 2) {
                             flMorePicture.setBackground(mContext.getResources().getDrawable(R.drawable.basic_elements_two_bg));
                         } else {
@@ -181,8 +179,6 @@ public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
                         }
                         collapse(pos);
                         swipeMenuLayout.setSwipeEnable(true);
-                        Log.w(TAG, "collapse >>>>>>>?" + getData().toString());
-
                     }
                 });
                 btDel.setOnClickListener(new View.OnClickListener() {
@@ -227,7 +223,7 @@ public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
         while (it.hasNext()) {
             TestNotification next = it.next();
             if (next.getTime() == normalItem.getTime()) {
-                addInterestData(next);
+                addInterestData(next, null);
                 it.remove();
             }
         }
@@ -238,17 +234,21 @@ public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
 
     private void deleteAssembleParent(int adapterPosition, Level0Item level0Item) {
         Log.e("kim", "deleteAssembleParent");
+        ArrayList<TestNotification> list = new ArrayList<>();
         remove(adapterPosition - getHeaderLayoutCount());
         //删除原数据
         Iterator<TestNotification> it = mData.iterator();
         while (it.hasNext()) {
             TestNotification next = it.next();
             if (TextUtils.equals(next.getPkg(), level0Item.getPackageName())) {
+                list.add(next);
                 it.remove();
             }
         }
-        Log.e("kim", "(parent)视图数据 = " + getData().toString());
-        Log.w("kim", "(parent)真实数据 = " + mData.toString());
+        addInterestData(null, list);
+        getDataSize();
+//        Log.e("kim", "(parent)视图数据 = " + getData().toString());
+//        Log.w("kim", "(parent)真实数据 = " + mData.toString());
     }
 
     private void deleteAssembleChild(BaseViewHolder holder, Level1Item lv1) {
@@ -277,7 +277,7 @@ public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
             while (it.hasNext()) {
                 TestNotification next = it.next();
                 if (next.getTime() == lv1.getTime()) {
-                    addInterestData(next);
+                    addInterestData(next, null);
                     it.remove();
                 }
             }
@@ -397,15 +397,20 @@ public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
         }
     }
 
-    private void addInterestData(TestNotification testNotification) {
-        interestViewListener.setLoadNoInterestView(testNotification);
+
+    private void addInterestData(TestNotification testNotification, List<TestNotification> list) {
+        if (list == null) {
+            interestViewListener.setLoadInterestView(testNotification, null);
+        } else {
+            interestViewListener.setLoadInterestView(null, list);
+        }
     }
 
     private void getDataSize() {
         if (mData.size() == 0) {
-            interestViewListener.showNoInterestView(true);
+            interestViewListener.showInterestView(true);
         } else {
-            interestViewListener.showNoInterestView(false);
+            interestViewListener.showInterestView(false);
         }
     }
 
@@ -417,8 +422,8 @@ public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
     }
 
     public interface LoadInterestViewListener {
-        void setLoadNoInterestView(TestNotification testNotification);
+        void setLoadInterestView(TestNotification testNotification, List<TestNotification> data);
 
-        void showNoInterestView(boolean isShow);
+        void showInterestView(boolean isShow);
     }
 }

@@ -129,7 +129,7 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
         addNotificationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                expandableAdapter.loadNotificationList(mData.get(group[0]++), checked);
+                expandableAdapter.loadNotificationList(mData.get(group[0]++), null, checked);
             }
         });
     }
@@ -172,12 +172,17 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
     }
 
     @Override
-    public void setLoadNoInterestView(TestNotification testNotification) {
-        expandableAdapter.loadNotificationList(testNotification, checked);
+    public void setLoadInterestView(TestNotification testNotification, List<TestNotification> list) {
+        if (list == null) {
+            expandableAdapter.loadNotificationList(testNotification, checked);
+        } else {
+            expandableAdapter.loadNotificationList(null, list, checked);
+        }
+
     }
 
     @Override
-    public void showNoInterestView(boolean isShow) {
+    public void showInterestView(boolean isShow) {
         if (isShow) {
             //控制显示隐藏
             mNoInterestRecyclerView.setVisibility(View.GONE);
