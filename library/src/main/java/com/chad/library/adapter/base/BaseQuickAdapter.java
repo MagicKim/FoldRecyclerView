@@ -1658,15 +1658,24 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
 
     @SuppressWarnings("unchecked")
     private int recursiveExpand(int position, @NonNull List list) {
+        //获取子类的数量
         int count = list.size();
+        //列表里面的位置是每个父类的+集合数量-1.
         int pos = position + list.size() - 1;
         for (int i = list.size() - 1; i >= 0; i--, pos--) {
+            //如果当前item是折叠布局的实现类
             if (list.get(i) instanceof IExpandable) {
+                //获取折叠布局
                 IExpandable item = (IExpandable) list.get(i);
+                //如果这个item是父类并且有自己的子类集合
                 if (item.isExpanded() && hasSubItems(item)) {
+                    //那么获取子类集合
                     List subList = item.getSubItems();
+                    //视图数据加入,父类起始位置+1,数量是子类集合数量
                     mData.addAll(pos + 1, subList);
+                    //迭代每个折叠布局,因为要展开
                     int subItemCount = recursiveExpand(pos + 1, subList);
+                    //把计算出的数量增加
                     count += subItemCount;
                 }
             }
@@ -1701,9 +1710,10 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
         int subItemCount = 0;
         if (!expandable.isExpanded()) {
             List list = expandable.getSubItems();
+            //这里把父类的第一个子类加入到视图数据中
             mData.addAll(position + 1, list);
             subItemCount += recursiveExpand(position + 1, list);
-
+            Log.e("TAG", "subItemCount = " + subItemCount);
             expandable.setExpanded(true);
 //            subItemCount += list.size();
         }
@@ -1711,6 +1721,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
         if (shouldNotify) {
             if (animate) {
                 notifyItemChanged(parentPos);
+                //插入的位置是折叠布局的父类的位置,位置是加上了header,插入数量是子类的数量
                 notifyItemRangeInserted(parentPos + 1, subItemCount);
             } else {
                 notifyDataSetChanged();
@@ -1802,18 +1813,25 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
 
     @SuppressWarnings("unchecked")
     private int recursiveCollapse(@IntRange(from = 0) int position) {
+        //获取当前的position位置代表的item
         T item = getItem(position);
+        //如果不是折叠布局,就返回0
         if (!isExpandable(item)) {
             return 0;
         }
         IExpandable expandable = (IExpandable) item;
+        //定义子布局数量为0
         int subItemCount = 0;
+        //如果是已经展开的布局
         if (expandable.isExpanded()) {
+            //获取子类数量
             List<T> subItems = expandable.getSubItems();
             if (null == subItems) return 0;
-
             for (int i = subItems.size() - 1; i >= 0; i--) {
                 T subItem = subItems.get(i);
+                //获取当前item的pos
+                // 这里需要注意获取的位置有可能是-1或者非正确的pos,因为如果列表里面有完全相同的两个对象,那么获取的位置会有误.indexOf
+                //是根据对象相等来判断的.如果出现,需要重写equal
                 int pos = getItemPosition(subItem);
                 if (pos < 0) {
                     continue;
@@ -1826,6 +1844,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
                 if (subItem instanceof IExpandable) {
                     subItemCount += recursiveCollapse(pos);
                 }
+                //因为展开的时候,把数据开箱,分开加入视图数据,所以这里面删除数据
                 mData.remove(pos);
                 subItemCount++;
             }
@@ -1842,16 +1861,19 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
      * @return the number of subItems collapsed.
      */
     public int collapse(@IntRange(from = 0) int position, boolean animate, boolean notify) {
+        //position需要获取真实的位置
         position -= getHeaderLayoutCount();
 
         IExpandable expandable = getExpandableItem(position);
         if (expandable == null) {
             return 0;
         }
+        //获取子item数量
         int subItemCount = recursiveCollapse(position);
+        //设置未展开的标识
         expandable.setExpanded(false);
+        //获取当前父item的位置
         int parentPos = position + getHeaderLayoutCount();
-
         if (notify) {
             if (animate) {
                 notifyItemChanged(parentPos);
