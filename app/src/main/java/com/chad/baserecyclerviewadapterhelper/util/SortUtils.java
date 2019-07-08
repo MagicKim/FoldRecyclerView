@@ -2,8 +2,10 @@ package com.chad.baserecyclerviewadapterhelper.util;
 
 import android.util.Log;
 
+import com.chad.baserecyclerviewadapterhelper.entity.Level0Item;
 import com.chad.baserecyclerviewadapterhelper.entity.Level1Item;
 import com.chad.baserecyclerviewadapterhelper.entity.TestNotification;
+import com.chad.library.adapter.base.entity.IExpandable;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 import java.text.ParseException;
@@ -26,6 +28,34 @@ public class SortUtils {
             if (level != 0) {
                 sort = (level > 0) ? 2 : -1;
             } else {
+                if (a instanceof Level0Item || b instanceof Level0Item) {
+                    Log.e("SortUtils", "----------find Level0Item");
+                }
+                Date d1, d2;
+                try {
+                    d1 = format.parse(format.format(a.getTime()));
+                    d2 = format.parse(format.format(b.getTime()));
+                    sort = (d1.before(d2)) ? 1 : -2;
+                } catch (ParseException e) {
+                    // 解析出错，则不进行排序
+                    Log.e("kim", "ComparatorDate--compare--SimpleDateFormat.parse--error");
+                    return sort;
+                }
+            }
+            return sort;
+        }
+    };
+
+    public static Comparator<MultiItemEntity> sortDelGroupEntityCmp = new Comparator<MultiItemEntity>() {
+        public int compare(MultiItemEntity a, MultiItemEntity b) {
+            int sort = 0;
+            int level = b.getItemLevel() - a.getItemLevel();
+            if (level != 0) {
+                sort = (level > 0) ? 2 : -1;
+            } else {
+                if (a instanceof Level1Item || b instanceof Level1Item) {
+                    return sort;
+                }
                 Date d1, d2;
                 try {
                     d1 = format.parse(format.format(a.getTime()));

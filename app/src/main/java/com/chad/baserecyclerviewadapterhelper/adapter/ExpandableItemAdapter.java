@@ -119,7 +119,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 final TextView textCount = holder.getView(R.id.tv_parent_count);
                 final Button btDel = holder.getView(R.id.btn_item_delete);
                 final Button btPlace = holder.getView(R.id.btn_item_place);
-                textCount.setText(lv0.getSubItems().size()+"个通知");
+                textCount.setText(lv0.getSubItems().size() + "个通知");
                 Button buttonCollapse = holder.getView(R.id.bt_header_collapse);
                 final HeaderDelButton headerDelButton = holder.getView(R.id.bt_parent_del);
                 headerDelButton.setDeleteItemListener(new HeaderDelButton.OnDeleteItemListener() {
@@ -183,7 +183,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                     @Override
                     public void onClick(View v) {
                         int pos = holder.getAdapterPosition();
-                        textCount.setText(lv0.getSubItems().size()+"个通知");
+                        textCount.setText(lv0.getSubItems().size() + "个通知");
                         if (lv0.getSubItems().size() > 2) {
                             flMorePicture.setBackground(mContext.getResources().getDrawable(R.drawable.basic_elements_two_bg));
                         } else {
@@ -295,21 +295,17 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
             if (childList.size() == 1) {
                 remove(positionAtAll);
 
-//                List<MultiItemEntity> testList = new ArrayList<>(getData());
+                List<MultiItemEntity> testList = new ArrayList<>(getData());
                 for (Level1Item level1Item : childList) {
                     Log.e("kim", "positionAtAll = " + positionAtAll + "   pos = " + pos);
                     NormalItem normalItem = new NormalItem(level1Item.title, level1Item.content, level1Item.getPackageName(), level1Item.itemLevel);
                     normalItem.setTime(level1Item.time);
-//                    testList.add(normalItem);
-//                    Collections.sort(testList, SortUtils.sortGroupEntityCmp);
-//                    getData().clear();
-//                    getData().addAll(testList);
-//                    setNewData(getData());
-
-                    addData(positionAtAll, normalItem);
-
-//                    Collections.sort(getData(), SortUtils.sortGroupEntityCmp);
-//                    notifyDataSetChanged();
+                    testList.add(normalItem);
+//                    Collections.sort(testList, SortUtils.sortDelGroupEntityCmp);
+                    Collections.sort(testList, SortUtils.sortDelGroupEntityCmp);
+                    int noPos = testList.indexOf(normalItem);
+                    Log.i(TAG, "NOPOS = " + noPos);
+                    addData(noPos, normalItem);
                     Log.e("kim", "视图数据 = " + getData().toString());
                 }
 
