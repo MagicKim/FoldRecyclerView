@@ -10,14 +10,39 @@ android {
         versionCode 5
         versionName "2.1"
     }
-    buildTypes {
-        release {
-            minifyEnabled true
-            zipAlignEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+    signingConfigs {
+
+        debugSignCfg {
+            storeFile file(System.getenv("ECARX_PLATFORM_KEYSTORE") == null ? "/dev/null" : System.getenv("ECARX_PLATFORM_KEYSTORE"))
+            storePassword System.getenv("ECARX_PLATFORM_KEYSTORE_PASSWORD")
+            keyAlias System.getenv("ECARX_PLATFORM_KEY_ALIAS")
+            keyPassword System.getenv("ECARX_PLATFORM_KEY_PASSWORD")
+        }
+
+        releaseSignCfg {
+            storeFile file(System.getenv("ECARX_PLATFORM_KEYSTORE") == null ? "/dev/null" : System.getenv("ECARX_PLATFORM_KEYSTORE"))
+            storePassword System.getenv("ECARX_PLATFORM_KEYSTORE_PASSWORD")
+            keyAlias System.getenv("ECARX_PLATFORM_KEY_ALIAS")
+            keyPassword System.getenv("ECARX_PLATFORM_KEY_PASSWORD")
         }
 
     }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig localDebug() ? signingConfigs.debugSignCfg : signingConfigs.releaseSignCfg
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.debugSignCfg
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
     flavorDimensions "flavor"
 
     productFlavors {
@@ -36,6 +61,21 @@ android {
         }
 
     }
+}
+
+boolean localDebug() {
+    Properties properties = new Properties()
+    File file = project.rootProject.file('local.properties')
+    if (file == null || !file.exists()) {
+        println "localDebug= null"
+        return false
+    }
+    InputStream inputStream = file.newDataInputStream()
+    properties.load(inputStream)
+    def localDebugProperty = properties.getProperty('localDebug')
+    def localDebug = localDebugProperty != null ? localDebugProperty.toBoolean() : false
+    println "localDebug= " + localDebug
+    return localDebug
 }
 
 
