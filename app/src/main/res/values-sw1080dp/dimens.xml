@@ -63,7 +63,7 @@
 
 
     <!--删除按钮 -->
-    <dimen name="list_view_item_delete_width">160dp</dimen>
+    <dimen name="list_view_item_delete_width">60dp</dimen>
     <dimen name="item_delete_max_height">221dp</dimen>
     <dimen name="item_delete_min_height">168dp</dimen>
     <dimen name="list_view_item_delete_text">30sp</dimen>
