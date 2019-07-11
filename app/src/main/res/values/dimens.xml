@@ -17,7 +17,7 @@
     <dimen name="list_view_item_content">32sp</dimen>
     <dimen name="list_view_item_time">30sp</dimen>
 
-    <dimen name="list_view_item_header_del">33sp</dimen>
+    <dimen name="list_view_item_header_del">23sp</dimen>
     <!-- header 高度-->
     <dimen name="list_view_item_header_height">114dp</dimen>
     <!-- header 大标题-->
@@ -80,8 +80,8 @@
 
     <dimen name="list_view_del_button_height">80dp</dimen>
     <dimen name="list_view_del_oval_size">80dp</dimen>
-    <dimen name="list_view_del_button_width">200dp</dimen>
-    <dimen name="list_view_del_button_radius">40dp</dimen>
+    <dimen name="list_view_del_button_width">140dp</dimen>
+    <dimen name="list_view_del_button_radius">44dp</dimen>
     <dimen name="list_del_button_radius">20dp</dimen>
 
     <dimen name="list_item_button_radius">6dp</dimen>

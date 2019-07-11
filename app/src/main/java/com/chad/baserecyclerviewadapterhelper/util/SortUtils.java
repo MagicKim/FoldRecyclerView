@@ -53,7 +53,7 @@ public class SortUtils {
             if (level != 0) {
                 sort = (level > 0) ? 2 : -1;
             } else {
-                if (a instanceof Level1Item || b instanceof Level1Item) {
+                if (a instanceof Level1Item && b instanceof Level1Item) {
                     return sort;
                 }
                 Date d1, d2;

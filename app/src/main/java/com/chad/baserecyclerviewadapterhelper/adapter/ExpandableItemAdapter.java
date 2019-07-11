@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chad.baserecyclerviewadapterhelper.R;
+import com.chad.baserecyclerviewadapterhelper.animation.DeleteLayout;
 import com.chad.baserecyclerviewadapterhelper.animation.HeaderDelButton;
 import com.chad.baserecyclerviewadapterhelper.animation.SwipeMenuLayout;
 import com.chad.baserecyclerviewadapterhelper.entity.Level0Item;
@@ -121,16 +122,11 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 final Button btPlace = holder.getView(R.id.btn_item_place);
                 textCount.setText(lv0.getSubItems().size() + "个通知");
                 Button buttonCollapse = holder.getView(R.id.bt_header_collapse);
-                final HeaderDelButton headerDelButton = holder.getView(R.id.bt_parent_del);
-                headerDelButton.setDeleteItemListener(new HeaderDelButton.OnDeleteItemListener() {
+                final DeleteLayout headerDelButton = holder.getView(R.id.bt_parent_del);
+                headerDelButton.setDeleteItemListener(new DeleteLayout.OnDeleteItemListener() {
                     @Override
                     public void setDeleteItem(int state) {
-                        if (state == 1) {
-                            HeaderDelButton headerDelButton1 = HeaderDelButton.getViewCache();
-                            if (headerDelButton1 != null) {
-//                                headerDelButton1.restoreUI();
-                            }
-                        } else {
+                        if(state ==2){
                             deleteAssembleParent(holder.getAdapterPosition(), lv0);
                         }
                     }
@@ -285,9 +281,8 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
         /*
         //todo
          * 构造testList 目的是为了同步视图数据getData(),然后获取index,最后根据这个index,插入数据.
-         * 但是有个问题聚合列表没有展开时候,位置是正确的.展开之后,插入的位置就有问题了.
-         * 展开之后,直接插入到了展开的数据中了.原因是排序排的这个位置是展开的位置.
-         * 那么怎么解决这个问题呢?
+         * 但是有个问题聚合列表没有展开时候,位置是正确的.展开之后,因为MultiItemEntity中插入了Level1 item 所以排序的时候插入的位置就有问题了.
+         *
          * */
         if (positionAtAll != -1) {
             final IExpandable multiItemEntity = (IExpandable) getData().get(positionAtAll);
@@ -302,11 +297,10 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                     normalItem.setTime(level1Item.time);
                     testList.add(normalItem);
 //                    Collections.sort(testList, SortUtils.sortDelGroupEntityCmp);
-                    Collections.sort(testList, SortUtils.sortDelGroupEntityCmp);
-                    int noPos = testList.indexOf(normalItem);
-                    Log.i(TAG, "NOPOS = " + noPos);
-                    addData(noPos, normalItem);
-                    Log.e("kim", "视图数据 = " + getData().toString());
+//                    int noPos = testList.indexOf(normalItem);
+//                    Log.i(TAG, "NOPOS = " + noPos);
+                    addData(positionAtAll, normalItem);
+//                    Log.e("kim", "视图数据 = " + getData().toString());
                 }
 
             }

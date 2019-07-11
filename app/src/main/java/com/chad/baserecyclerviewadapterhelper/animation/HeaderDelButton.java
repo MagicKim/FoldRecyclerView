@@ -2,6 +2,8 @@ package com.chad.baserecyclerviewadapterhelper.animation;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.CountDownTimer;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
@@ -102,7 +104,6 @@ public class HeaderDelButton extends RelativeLayout implements View.OnClickListe
             }
             mMorphCounter = 0;
             deleteLayoutCache = null;
-//            restoreUI();
         }
     }
 
@@ -121,13 +122,14 @@ public class HeaderDelButton extends RelativeLayout implements View.OnClickListe
     private void morphToSquare(final MorphingButton btnMorph, int duration) {
         MorphingButton.Params square = MorphingButton.Params.create()
                 .duration(duration)
-                .color(color(R.color.notify_recycler_content_bg_normal_color))
+                .strokeColor(R.color.white_text_color)
+                .color(R.color.colorAccent)
                 .cornerRadius(dimen(R.dimen.list_view_del_button_width))
                 .width(dimen(R.dimen.list_view_del_button_width))
                 .height(dimen(R.dimen.list_view_del_button_height))
                 .textColor(color(R.color.notify_recycler_view_item_header_normal_color))
                 .textSize(dimen(R.dimen.list_view_item_header_del))
-                .text("全部清空");
+                .text("清空");
         btnMorph.morph(square);
     }
 

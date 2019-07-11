@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?><!-- 圆角矩形 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:shape="oval"
+    android:useLevel="true"
+    tools:ignore="MissingDefaultResource">
+
+    <size
+        android:width="@dimen/list_view_del_oval_size"
+        android:height="@dimen/list_view_del_oval_size" />
+
+    <solid android:color="@color/notify_recycler_content_bg_normal_color" />
+
+
+</shape>

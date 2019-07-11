@@ -134,14 +134,14 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
         });
     }
 
-    private HeaderDelButton deleteLayout;
+    private DeleteLayout deleteLayout;
 
     private View getHeaderView() {
         View view = getLayoutInflater().inflate(R.layout.head_view, (ViewGroup) mRecyclerView.getParent(), false);
 
         deleteLayout = view.findViewById(R.id.iv_delete_all);
 
-        deleteLayout.setDeleteItemListener(new HeaderDelButton.OnDeleteItemListener() {
+        deleteLayout.setDeleteItemListener(new DeleteLayout.OnDeleteItemListener() {
             @Override
             public void setDeleteItem(int status) {
                 if (status == 2) {

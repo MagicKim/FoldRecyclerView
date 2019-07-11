@@ -30,13 +30,6 @@
                 android:textColor="@drawable/list_item_pkg_text_selector"
                 android:textSize="@dimen/list_view_item_title" />
 
-
-            <com.chad.baserecyclerviewadapterhelper.animation.HeaderDelButton
-                android:id="@+id/bt_parent_del"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true" />
-
             <Button
                 android:id="@+id/bt_header_collapse"
                 android:layout_width="@dimen/list_view_parent_collapse_width"
@@ -47,6 +40,14 @@
                 android:text="收起"
                 android:textColor="@drawable/list_item_content_text_selector"
                 android:textSize="@dimen/list_view_parent_del" />
+
+            <com.chad.baserecyclerviewadapterhelper.animation.DeleteLayout
+                android:id="@+id/bt_parent_del"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:background="@color/colorPrimary" />
+
         </RelativeLayout>
 
         <RelativeLayout
@@ -85,15 +86,6 @@
                 android:background="@drawable/list_circle_shape" />
 
             <TextView
-                android:id="@+id/tv_parent_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/list_view_item_margin_start"
-                android:layout_toEndOf="@id/tv_point"
-                android:textColor="@drawable/list_item_pkg_text_selector"
-                android:textSize="@dimen/list_view_item_time" />
-
-            <TextView
                 android:id="@+id/tv_item_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -127,6 +119,16 @@
                 android:text="没有设置内容"
                 android:textColor="@drawable/list_item_content_text_selector"
                 android:textSize="@dimen/list_view_item_content" />
+
+            <TextView
+                android:id="@+id/tv_parent_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/tv_item_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:textColor="@drawable/list_item_pkg_text_selector"
+                android:textSize="@dimen/list_view_item_time" />
         </RelativeLayout>
 
         <FrameLayout

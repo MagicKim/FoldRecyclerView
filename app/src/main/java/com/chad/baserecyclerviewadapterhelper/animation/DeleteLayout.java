@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.chad.baserecyclerviewadapterhelper.R;
 
@@ -18,7 +19,8 @@ public class DeleteLayout extends FrameLayout implements View.OnClickListener {
     private CountDownTimer timer;
     private ImageView imageView;
     private Button button;
-    private boolean isDeleteAllShow = false;
+    private static DeleteLayout deleteLayoutCache;
+    private int mMorphCounter;
 
     public DeleteLayout(@NonNull Context context) {
         super(context);
@@ -47,6 +49,10 @@ public class DeleteLayout extends FrameLayout implements View.OnClickListener {
         button.setVisibility(GONE);
     }
 
+    public static DeleteLayout getViewCache() {
+        return deleteLayoutCache;
+    }
+
     private void initTimer() {
         timer = new CountDownTimer(5000, 1000) {
             @Override
@@ -64,19 +70,29 @@ public class DeleteLayout extends FrameLayout implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.iv_icon:
-                isDeleteAllShow = true;
-                imageView.setVisibility(GONE);
-                button.setVisibility(VISIBLE);
-                timer.start();
-                break;
-            case R.id.bt_del:
-                if (onDeleteItemListener != null) {
-                    onDeleteItemListener.setDeleteItem();
+        mMorphCounter++;
+        if (mMorphCounter == 1) {
+            if (deleteLayoutCache != null) {
+                if (deleteLayoutCache != this) {
+                    deleteLayoutCache.restoreUI();
                 }
-                restoreUI();
-                break;
+            }
+            timer.start();
+            deleteLayoutCache = DeleteLayout.this;
+            imageView.setVisibility(GONE);
+            button.setVisibility(VISIBLE);
+            if (onDeleteItemListener != null) {
+                onDeleteItemListener.setDeleteItem(1);
+            }
+        } else if (mMorphCounter == 2) {
+            if (onDeleteItemListener != null) {
+                onDeleteItemListener.setDeleteItem(2);
+            }
+            if (timer != null) {
+                timer.cancel();
+            }
+            mMorphCounter = 0;
+            deleteLayoutCache = null;
         }
     }
 
@@ -84,31 +100,23 @@ public class DeleteLayout extends FrameLayout implements View.OnClickListener {
         if (timer != null) {
             timer.cancel();
         }
-        isDeleteAllShow = false;
+        mMorphCounter = 0;
         button.setVisibility(GONE);
         imageView.setVisibility(VISIBLE);
     }
 
-    public void setRestoreUI(boolean isRestore) {
-        if (isRestore) {
-            restoreUI();
-        }
-    }
 
     public void setDeleteItemListener(OnDeleteItemListener deleteItemListener) {
         onDeleteItemListener = deleteItemListener;
     }
 
     public interface OnDeleteItemListener {
-        void setDeleteItem();
+        void setDeleteItem(int status);
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        isDeleteAllShow = false;
-        restoreUI();
-
     }
 
 
