@@ -73,6 +73,7 @@ public class HeaderDelButton extends RelativeLayout implements View.OnClickListe
                 restoreUI();
 
             }
+
         };
     }
 
@@ -99,10 +100,7 @@ public class HeaderDelButton extends RelativeLayout implements View.OnClickListe
             if (onDeleteItemListener != null) {
                 onDeleteItemListener.setDeleteItem(2);
             }
-            if (timer != null) {
-                timer.cancel();
-            }
-            mMorphCounter = 0;
+            restoreUI();
             deleteLayoutCache = null;
         }
     }

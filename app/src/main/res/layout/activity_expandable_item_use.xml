@@ -35,6 +35,12 @@
             android:layout_height="wrap_content"
             android:text="删除一条消息"
             android:textColor="@color/colorPrimary" />
+        <Button
+            android:id="@+id/bt_expand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="展开一条消息"
+            android:textColor="@color/colorPrimary" />
     </LinearLayout>
 
     <LinearLayout

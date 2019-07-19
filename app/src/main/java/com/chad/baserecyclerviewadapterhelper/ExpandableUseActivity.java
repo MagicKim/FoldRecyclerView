@@ -65,6 +65,13 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
         setContentView(R.layout.activity_expandable_item_use);
         rootLayout = findViewById(R.id.root_layout);
         mNoInterestRecyclerView = findViewById(R.id.no_interest_rv);
+        Button buttonExpand = findViewById(R.id.bt_expand);
+        buttonExpand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         LinearLayout emptyView = findViewById(R.id.empty_view);
         getNormalData();
         mDataManager = new DataManager();
@@ -130,6 +137,13 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
             @Override
             public void onClick(View v) {
                 expandableAdapter.loadNotificationList(mData.get(group[0]++), null, checked);
+            }
+        });
+
+        buttonExpand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expandableAdapter.expand(2,false,true);
             }
         });
     }

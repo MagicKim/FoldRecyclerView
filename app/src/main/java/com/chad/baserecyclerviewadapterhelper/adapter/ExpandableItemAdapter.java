@@ -126,7 +126,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 headerDelButton.setDeleteItemListener(new DeleteLayout.OnDeleteItemListener() {
                     @Override
                     public void setDeleteItem(int state) {
-                        if(state ==2){
+                        if (state == 2) {
                             deleteAssembleParent(holder.getAdapterPosition(), lv0);
                         }
                     }
@@ -290,12 +290,12 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
             if (childList.size() == 1) {
                 remove(positionAtAll);
 
-                List<MultiItemEntity> testList = new ArrayList<>(getData());
+//                List<MultiItemEntity> testList = new ArrayList<>(getData());
                 for (Level1Item level1Item : childList) {
                     Log.e("kim", "positionAtAll = " + positionAtAll + "   pos = " + pos);
                     NormalItem normalItem = new NormalItem(level1Item.title, level1Item.content, level1Item.getPackageName(), level1Item.itemLevel);
                     normalItem.setTime(level1Item.time);
-                    testList.add(normalItem);
+//                    testList.add(normalItem);
 //                    Collections.sort(testList, SortUtils.sortDelGroupEntityCmp);
 //                    int noPos = testList.indexOf(normalItem);
 //                    Log.i(TAG, "NOPOS = " + noPos);
@@ -416,8 +416,20 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
         transformData();
     }
 
+    //构造展开的集合
+    private List<String> Level0DataList = new ArrayList<>();
 
     private void transformData() {
+        for (MultiItemEntity multiItemEntity : getData()) {
+            if (multiItemEntity instanceof Level0Item) {
+                Level0Item level0Item = (Level0Item) multiItemEntity;
+                if (level0Item.isExpanded()) {
+                    Log.e("kim", "-------------->" + level0Item.pkg);
+                    //如果展开
+                    Level0DataList.add(level0Item.pkg);
+                }
+            }
+        }
         getData().clear();
         ArrayList<MultiItemEntity> entityList = new ArrayList<>();
         Log.w("kim", "切换数据到聚合 = " + notificationArrayList.toString());
@@ -467,10 +479,23 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
         Collections.sort(getData(), SortUtils.sortGroupEntityCmp);
         //通知刷新UI
         setNewData(getData());
-        //清空数据转换集合
-        entityList.clear();
+        //然后再把之前展开的数据一条一条展开
+        for (String beforeExpand : Level0DataList) {
+            for (int i = 0; i < getData().size(); i++) {
+                MultiItemEntity multiItemEntity = getData().get(i);
+                if (multiItemEntity instanceof Level0Item) {
+                    Level0Item level0Item = (Level0Item) multiItemEntity;
+                    if (level0Item.pkg.equals(beforeExpand)) {
+//                        level0Item.setExpanded(true);
+                        Log.e("kim", "===============>" + level0Item.pkg);
+                        expand(i+getHeaderLayoutCount(), false, true);
+                    }
+                }
+            }
+        }
         Log.e(TAG, "GROUP ------->" + getData().toString());
     }
+
 
     private void setNormalData() {
         getData().clear();

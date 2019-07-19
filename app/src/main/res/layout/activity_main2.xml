@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="270dp" />
 
-        <com.chad.baserecyclerviewadapterhelper.animation.SwipeMenuLayout
+        <!--<com.chad.baserecyclerviewadapterhelper.animation.SwipeMenuLayout
             android:id="@+id/item_root_view"
             android:layout_width="1300dp"
             android:layout_height="wrap_content"
@@ -177,7 +177,7 @@
                 android:textColor="@drawable/list_item_delete_text_selector"
                 android:textSize="@dimen/list_view_item_delete_text"
                 android:visibility="gone" />
-        </com.chad.baserecyclerviewadapterhelper.animation.SwipeMenuLayout>
+        </com.chad.baserecyclerviewadapterhelper.animation.SwipeMenuLayout>-->
 
         <Switch
             android:id="@+id/switch2"
