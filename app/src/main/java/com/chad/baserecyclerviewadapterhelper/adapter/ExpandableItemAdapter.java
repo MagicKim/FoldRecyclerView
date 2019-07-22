@@ -276,46 +276,40 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
         int pos = holder.getAdapterPosition();
         // 先获取到当前 item 的父 positon，再移除自己
         final int positionAtAll = getParentPositionInAll(pos - getHeaderLayoutCount());
-        Log.w(TAG, "positionAtAll =" + positionAtAll);
         remove(pos - getHeaderLayoutCount());
-        /*
-        //todo
-         * 构造testList 目的是为了同步视图数据getData(),然后获取index,最后根据这个index,插入数据.
-         * 但是有个问题聚合列表没有展开时候,位置是正确的.展开之后,因为MultiItemEntity中插入了Level1 item 所以排序的时候插入的位置就有问题了.
-         *
-         * */
+        //删除原数据
+        Iterator<TestNotification> it = notificationArrayList.iterator();
+        while (it.hasNext()) {
+            TestNotification next = it.next();
+            if (next.getTime() == lv1.getTime()) {
+                addNoInterestList(next, null);
+                it.remove();
+            }
+        }
         if (positionAtAll != -1) {
             final IExpandable multiItemEntity = (IExpandable) getData().get(positionAtAll);
             List<Level1Item> childList = new ArrayList<>(multiItemEntity.getSubItems());
             if (childList.size() == 1) {
-                remove(positionAtAll);
-
-//                List<MultiItemEntity> testList = new ArrayList<>(getData());
-                for (Level1Item level1Item : childList) {
-                    Log.e("kim", "positionAtAll = " + positionAtAll + "   pos = " + pos);
-                    NormalItem normalItem = new NormalItem(level1Item.title, level1Item.content, level1Item.getPackageName(), level1Item.itemLevel);
-                    normalItem.setTime(level1Item.time);
+                transformGroupView();
+                SwipeMenuLayout.getViewCache().quickClose();
+                /*
+                 * 构造testList 目的是为了同步视图数据getData(),然后获取index,最后根据这个index,插入数据.
+                 * 但是有个问题聚合列表没有展开时候,位置是正确的.展开之后,因为MultiItemEntity中插入了Level1 item 所以排序的时候插入的位置就有问题了.
+                 *
+                 */
+//                for (Level1Item level1Item : childList) {
+//                    Log.e("kim", "positionAtAll = " + positionAtAll + "   pos = " + pos);
+//                    NormalItem normalItem = new NormalItem(level1Item.title, level1Item.content, level1Item.getPackageName(), level1Item.itemLevel);
+//                    normalItem.setTime(level1Item.time);
 //                    testList.add(normalItem);
 //                    Collections.sort(testList, SortUtils.sortDelGroupEntityCmp);
 //                    int noPos = testList.indexOf(normalItem);
 //                    Log.i(TAG, "NOPOS = " + noPos);
-                    addData(positionAtAll, normalItem);
-//                    Log.e("kim", "视图数据 = " + getData().toString());
-                }
-
-            }
-            //删除原数据
-            Iterator<TestNotification> it = notificationArrayList.iterator();
-            while (it.hasNext()) {
-                TestNotification next = it.next();
-                if (next.getTime() == lv1.getTime()) {
-                    addNoInterestList(next, null);
-                    it.remove();
-                }
+//                    addData(positionAtAll, normalItem);
+//                }
             }
             notifyNoInterestUI();
         }
-
     }
 
     public void setRecyclerView(EmptyRecyclerView recyclerView) {
