@@ -2,6 +2,7 @@ package com.chad.baserecyclerviewadapterhelper.animation;
 
 import android.content.Context;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -14,13 +15,14 @@ import android.widget.RelativeLayout;
 import com.chad.baserecyclerviewadapterhelper.R;
 
 
-public class DeleteLayout extends FrameLayout implements View.OnClickListener {
+public class DeleteLayout extends RelativeLayout implements View.OnClickListener {
     private OnDeleteItemListener onDeleteItemListener;
     private CountDownTimer timer;
     private ImageView imageView;
     private Button button;
     private static DeleteLayout deleteLayoutCache;
     private int mMorphCounter;
+    private Handler mHandler = new Handler();
 
     public DeleteLayout(@NonNull Context context) {
         super(context);
@@ -43,9 +45,10 @@ public class DeleteLayout extends FrameLayout implements View.OnClickListener {
     private void initView(Context context) {
         inflate(context, R.layout.delete_custom_layout, this);
         imageView = findViewById(R.id.iv_icon);
-        imageView.setOnClickListener(this);
         button = findViewById(R.id.bt_del);
+        imageView.setOnClickListener(this);
         button.setOnClickListener(this);
+        imageView.setVisibility(VISIBLE);
         button.setVisibility(GONE);
     }
 
@@ -62,8 +65,7 @@ public class DeleteLayout extends FrameLayout implements View.OnClickListener {
 
             @Override
             public void onFinish() {
-                button.setVisibility(GONE);
-                imageView.setVisibility(VISIBLE);
+                restoreUI();
             }
         };
     }
@@ -88,15 +90,16 @@ public class DeleteLayout extends FrameLayout implements View.OnClickListener {
             if (onDeleteItemListener != null) {
                 onDeleteItemListener.setDeleteItem(2);
             }
-            if (timer != null) {
-                timer.cancel();
-            }
-            mMorphCounter = 0;
-            deleteLayoutCache = null;
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    restoreUI();
+                }
+            }, 500);
         }
     }
 
-    private void restoreUI() {
+    public void restoreUI() {
         if (timer != null) {
             timer.cancel();
         }

@@ -17,7 +17,7 @@
     <dimen name="list_view_item_content">18sp</dimen>
     <dimen name="list_view_item_time">18sp</dimen>
 
-    <dimen name="list_view_item_header_del">23sp</dimen>
+    <dimen name="list_view_item_header_del">18sp</dimen>
     <!-- header 高度-->
     <dimen name="list_view_item_header_height">114dp</dimen>
     <!-- header 大标题-->
@@ -73,7 +73,7 @@
     <dimen name="list_view_item_delete_width">60dp</dimen>
     <dimen name="item_delete_max_height">221dp</dimen>
     <dimen name="item_delete_min_height">168dp</dimen>
-    <dimen name="list_view_item_delete_text">30sp</dimen>
+    <dimen name="list_view_item_delete_text">18sp</dimen>
     <dimen name="list_view_place_button_width">20dp</dimen>
 
     <!-- dcy11 item 删除按钮样式-->

@@ -89,7 +89,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 holder.setText(R.id.tv_item_title, normalItem.getTitle());
                 holder.setText(R.id.tv_item_content, normalItem.getContent());
                 holder.setText(R.id.tv_pkg_name, normalItem.getPkg());
-                holder.setText(R.id.tv_item_time, "时间：" + TimeUtil.getTime(normalItem.getTime()));
+                holder.setText(R.id.tv_item_time, TimeUtil.getTime(normalItem.getTime()));
                 Button buttonViewDel = holder.getView(R.id.btn_item_delete);
                 buttonViewDel.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -134,7 +134,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
 
                 holder.setText(R.id.tv_item_title, lv0.title)
                         .setText(R.id.tv_pkg_name, lv0.pkg);
-                holder.setText(R.id.tv_item_time, "时间:" + TimeUtil.getTime(lv0.time));
+                holder.setText(R.id.tv_item_time, TimeUtil.getTime(lv0.time));
                 if (lv0.getSubItems().size() > 2) {
                     flMorePicture.setBackground(mContext.getResources().getDrawable(R.drawable.basic_elements_two_bg));
                 } else {
@@ -204,7 +204,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 holder.setText(R.id.tv_item_title, lv1.title);
                 holder.setText(R.id.tv_item_content, lv1.content);
                 holder.setText(R.id.tv_pkg_name, lv1.pkg);
-                holder.setText(R.id.tv_item_time, "时间：" + TimeUtil.getTime(lv1.getTime()));
+                holder.setText(R.id.tv_item_time, TimeUtil.getTime(lv1.getTime()));
                 holder.getView(R.id.btn_item_delete).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

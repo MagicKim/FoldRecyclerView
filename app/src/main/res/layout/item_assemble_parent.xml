@@ -25,8 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_centerInParent="true"
-                android:background="@android:color/holo_green_light"
-                android:text="这是标题"
+                android:text="标题"
                 android:textColor="@drawable/list_item_pkg_text_selector"
                 android:textSize="@dimen/list_view_item_title" />
 
@@ -43,10 +42,9 @@
 
             <com.chad.baserecyclerviewadapterhelper.animation.DeleteLayout
                 android:id="@+id/bt_parent_del"
-                android:layout_width="170dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:background="@color/colorPrimary" />
+                android:layout_alignParentEnd="true" />
 
         </RelativeLayout>
 
@@ -141,15 +139,15 @@
     <Button
         android:id="@+id/btn_item_place"
         android:layout_width="@dimen/list_view_place_button_width"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@null" />
 
     <Button
         android:id="@+id/btn_item_delete"
         android:layout_width="@dimen/list_view_item_delete_width"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@drawable/list_item_delete_selector"
-        android:text="不感兴趣"
+        android:text="无兴趣"
         android:textColor="@drawable/list_item_delete_text_selector"
         android:textSize="@dimen/list_view_item_delete_text" />
 

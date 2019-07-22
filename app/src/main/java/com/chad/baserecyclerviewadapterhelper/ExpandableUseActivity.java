@@ -136,14 +136,17 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
         addNotificationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                expandableAdapter.loadNotificationList(mData.get(group[0]++), null, checked);
+                int i = group[0]++;
+                if (i <= group.length) {
+                    expandableAdapter.loadNotificationList(mData.get(i), null, checked);
+                }
             }
         });
 
         buttonExpand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                expandableAdapter.expand(2,false,true);
+                expandableAdapter.expand(2, false, true);
             }
         });
     }
