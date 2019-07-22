@@ -137,7 +137,7 @@
         android:layout_width="@dimen/list_view_item_delete_width"
         android:layout_height="match_parent"
         android:background="@drawable/list_item_delete_selector"
-        android:text="不感兴趣"
+        android:text="无兴趣"
         android:textColor="@drawable/list_item_delete_text_selector"
         android:textSize="@dimen/list_view_item_delete_text" />
 
@@ -151,7 +151,7 @@
         android:layout_width="@dimen/list_view_item_delete_width"
         android:layout_height="match_parent"
         android:background="@drawable/list_item_delete_selector"
-        android:text="快捷设置"
+        android:text="设置"
         android:textAlignment="center"
         android:textColor="@drawable/list_item_delete_text_selector"
         android:textSize="@dimen/list_view_item_delete_text" />
