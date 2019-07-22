@@ -416,10 +416,9 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
         transformData();
     }
 
-    //构造展开的集合
-    private List<String> Level0DataList = new ArrayList<>();
-
     private void transformData() {
+        //构造展开的集合
+        List<String> Level0DataList = new ArrayList<>();
         for (MultiItemEntity multiItemEntity : getData()) {
             if (multiItemEntity instanceof Level0Item) {
                 Level0Item level0Item = (Level0Item) multiItemEntity;
@@ -488,7 +487,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                     if (level0Item.pkg.equals(beforeExpand)) {
 //                        level0Item.setExpanded(true);
                         Log.e("kim", "===============>" + level0Item.pkg);
-                        expand(i+getHeaderLayoutCount(), false, true);
+                        expand(i + getHeaderLayoutCount(), false, true);
                     }
                 }
             }
