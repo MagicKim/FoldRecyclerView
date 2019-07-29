@@ -119,7 +119,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 final RelativeLayout rlHeader = holder.getView(R.id.rl_expand_header);
                 final TextView textCount = holder.getView(R.id.tv_parent_count);
                 final Button btDel = holder.getView(R.id.btn_item_delete);
-                final Button btPlace = holder.getView(R.id.btn_item_place);
+                final LinearLayout swipeRightLayout = holder.getView(R.id.ll_swipe_right_layout);
                 textCount.setText(lv0.getSubItems().size() + "个通知");
                 Button buttonCollapse = holder.getView(R.id.bt_header_collapse);
                 final DeleteLayout headerDelButton = holder.getView(R.id.bt_parent_del);
@@ -145,15 +145,13 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                     swipeMenuLayout.setSwipeEnable(false);
                     rlHeader.setVisibility(View.VISIBLE);
                     layoutL0.setVisibility(View.GONE);
-                    btDel.setVisibility(View.GONE);
-                    btPlace.setVisibility(View.GONE);
+                    swipeRightLayout.setVisibility(View.GONE);
                     flMorePicture.setVisibility(View.GONE);
                 } else {
                     swipeMenuLayout.setSwipeEnable(true);
                     layoutL0.setVisibility(View.VISIBLE);
                     rlHeader.setVisibility(View.GONE);
-                    btDel.setVisibility(View.VISIBLE);
-                    btPlace.setVisibility(View.VISIBLE);
+                    swipeRightLayout.setVisibility(View.VISIBLE);
                     flMorePicture.setVisibility(View.VISIBLE);
                 }
                 //.removeTarget(btDel).removeTarget(btPlace).removeTarget(rlHeader)
@@ -262,14 +260,8 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 it.remove();
             }
         }
-
         addNoInterestList(null, list);
-
         notifyNoInterestUI();
-
-//        Log.e("kim", "(parent)视图数据 = " + getData().toString());
-//        Log.w("kim", "(parent)真实数据 = " + notificationArrayList.toString());
-
     }
 
     private void deleteAssembleChild(BaseViewHolder holder, Level1Item lv1) {
@@ -291,7 +283,10 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
             List<Level1Item> childList = new ArrayList<>(multiItemEntity.getSubItems());
             if (childList.size() == 1) {
                 transformGroupView();
-                SwipeMenuLayout.getViewCache().quickClose();
+                SwipeMenuLayout viewCache = SwipeMenuLayout.getViewCache();
+                if (viewCache != null) {
+                    viewCache.quickClose();
+                }
                 /*
                  * 构造testList 目的是为了同步视图数据getData(),然后获取index,最后根据这个index,插入数据.
                  * 但是有个问题聚合列表没有展开时候,位置是正确的.展开之后,因为MultiItemEntity中插入了Level1 item 所以排序的时候插入的位置就有问题了.

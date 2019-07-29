@@ -126,31 +126,31 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <Button
-        android:layout_width="@dimen/list_view_place_button_width"
-        android:layout_height="match_parent"
-        android:background="@null" />
 
-    <Button
-        android:id="@+id/btn_item_delete"
-        android:layout_width="@dimen/list_view_item_delete_width"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:background="@drawable/list_item_delete_selector"
-        android:text="无兴趣"
-        android:textColor="@drawable/list_item_delete_text_selector"
-        android:textSize="@dimen/list_view_item_delete_text" />
+        android:orientation="horizontal">
 
-    <Button
-        android:layout_width="@dimen/list_view_place_button_width"
-        android:layout_height="match_parent"
-        android:background="@null" />
+        <Button
+            android:id="@+id/btn_item_delete"
+            android:layout_width="@dimen/list_view_item_delete_width"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/list_view_place_button_width"
+            android:background="@drawable/list_item_delete_selector"
+            android:text="无兴趣"
+            android:textColor="@drawable/list_item_delete_text_selector"
+            android:textSize="@dimen/list_view_item_delete_text" />
 
-    <Button
-        android:id="@+id/btn_item_"
-        android:layout_width="@dimen/list_view_item_delete_width"
-        android:layout_height="match_parent"
-        android:background="@drawable/list_item_delete_selector"
-        android:text="设置"
-        android:textColor="@drawable/list_item_delete_text_selector"
-        android:textSize="@dimen/list_view_item_delete_text" />
+        <Button
+            android:id="@+id/btn_item_"
+            android:layout_width="@dimen/list_view_item_delete_width"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/list_view_place_button_width"
+            android:background="@drawable/list_item_delete_selector"
+            android:text="设置"
+            android:textColor="@drawable/list_item_delete_text_selector"
+            android:textSize="@dimen/list_view_item_delete_text" />
+
+    </LinearLayout>
 </com.chad.baserecyclerviewadapterhelper.animation.SwipeMenuLayout>
