@@ -77,9 +77,12 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
         mDataManager = new DataManager();
         mDataManager.groupEntity();
         mRecyclerView = findViewById(R.id.rv);
+
         //expand adapter
         expandableAdapter = new ExpandableItemAdapter(mContext);
+        //manager
         LinearLayoutManager manager = new LinearLayoutManager(mContext);
+        manager.setRecycleChildrenOnDetach(true);
         mRecyclerView.setLayoutManager(manager);
         DividerDecoration mItemDecoration = new DividerDecoration(this, LinearLayoutManager.VERTICAL);
         mRecyclerView.addItemDecoration(mItemDecoration);
@@ -96,12 +99,16 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
         if (mNoInterestAdapter == null) {
             mNoInterestAdapter = new NoInterestAdapter(mContext);
             LinearLayoutManager manager1 = new LinearLayoutManager(mContext);
+
             mNoInterestRecyclerView.setLayoutManager(manager1);
+
             DividerDecoration mItemDecoration1 = new DividerDecoration(this, LinearLayoutManager.VERTICAL);
             mNoInterestRecyclerView.addItemDecoration(mItemDecoration1);
             FadeInDownAnimator adapterAnimator1 = new FadeInDownAnimator();
             mNoInterestRecyclerView.setItemAnimator(adapterAnimator1);
+
             mNoInterestRecyclerView.setAdapter(mNoInterestAdapter);
+
             mNoInterestAdapter.addLoadInterestView(this);
             RelativeLayout noInterestHeaderView = (RelativeLayout) getNoInterestHeaderView();
             mNoInterestAdapter.addHeaderView(noInterestHeaderView);

@@ -9,11 +9,12 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chad.baserecyclerviewadapterhelper.R;
-import com.chad.baserecyclerviewadapterhelper.animation.HeaderDelButton;
+import com.chad.baserecyclerviewadapterhelper.animation.DeleteLayout;
 import com.chad.baserecyclerviewadapterhelper.animation.SwipeMenuLayout;
 import com.chad.baserecyclerviewadapterhelper.entity.Level0Item;
 import com.chad.baserecyclerviewadapterhelper.entity.Level1Item;
@@ -105,20 +106,15 @@ public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
 
                 final RelativeLayout rlHeader = holder.getView(R.id.rl_expand_header);
                 final Button btDel = holder.getView(R.id.btn_item_delete);
-                final Button btPlace = holder.getView(R.id.btn_item_place);
                 final TextView textCount = holder.getView(R.id.tv_parent_count);
-                Button buttonCollapse = holder.getView(R.id.bt_header_collapse);
-                final HeaderDelButton headerDelButton = holder.getView(R.id.bt_parent_del);
+                LinearLayout linearLayoutRight = holder.getView(R.id.ll_swipe_right_layout);
                 textCount.setText(lv0.getSubItems().size() + "个通知");
-                headerDelButton.setDeleteItemListener(new HeaderDelButton.OnDeleteItemListener() {
+                Button buttonCollapse = holder.getView(R.id.bt_header_collapse);
+                DeleteLayout headerDelButton = holder.getView(R.id.bt_no_interest_parent_del);
+                headerDelButton.setDeleteItemListener(new DeleteLayout.OnDeleteItemListener() {
                     @Override
                     public void setDeleteItem(int state) {
-                        if (state == 1) {
-                            HeaderDelButton headerDelButton1 = HeaderDelButton.getViewCache();
-                            if (headerDelButton1 != null) {
-//                                headerDelButton1.restoreUI();
-                            }
-                        } else {
+                        if (state == 2) {
                             deleteAssembleParent(holder.getAdapterPosition(), lv0);
                         }
                     }
@@ -137,15 +133,13 @@ public class NoInterestAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
                     swipeMenuLayout.setSwipeEnable(false);
                     rlHeader.setVisibility(View.VISIBLE);
                     layoutL0.setVisibility(View.GONE);
-                    btDel.setVisibility(View.GONE);
-                    btPlace.setVisibility(View.GONE);
+                    linearLayoutRight.setVisibility(View.GONE);
                     flMorePicture.setVisibility(View.GONE);
                 } else {
                     swipeMenuLayout.setSwipeEnable(true);
                     layoutL0.setVisibility(View.VISIBLE);
                     rlHeader.setVisibility(View.GONE);
-                    btDel.setVisibility(View.VISIBLE);
-                    btPlace.setVisibility(View.VISIBLE);
+                    linearLayoutRight.setVisibility(View.VISIBLE);
                     flMorePicture.setVisibility(View.VISIBLE);
                 }
                 //.removeTarget(btDel).removeTarget(btPlace).removeTarget(rlHeader)
