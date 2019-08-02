@@ -138,7 +138,7 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
             }
         });
 
-        final int[] group = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
+        final int[] group = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
         Button addNotificationButton = findViewById(R.id.bt_add_notification);
         addNotificationButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -273,6 +273,9 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
         mData.add(new TestNotification(11, "com.car.ee", "2019日本小姐冠军出炉 网友：越看越像吴京！",
                 "娱乐消息11", false, 1557903106000L, 1));
         mData.add(new TestNotification(12, "com.car.ee", "微软公布Windows 10的活跃设备数已经超过9亿 但可能是个乌龙",
+                "娱乐消息12", false, 1557903107000L, 1));
+
+        mData.add(new TestNotification(1212, "com.car.ee", "微软公布Windows 10的活跃设备数已经超过9亿 但可能是个乌龙",
                 "娱乐消息12", false, 1557903107000L, 1));
     }
 
