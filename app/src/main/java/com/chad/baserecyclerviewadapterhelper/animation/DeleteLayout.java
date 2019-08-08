@@ -21,7 +21,7 @@ public class DeleteLayout extends RelativeLayout implements View.OnClickListener
     private ImageView imageView;
     private Button button;
     private static DeleteLayout deleteLayoutCache;
-    private int mMorphCounter;
+    private int mMorphCounter = 0;
     private Handler mHandler = new Handler();
 
     public DeleteLayout(@NonNull Context context) {
@@ -81,8 +81,7 @@ public class DeleteLayout extends RelativeLayout implements View.OnClickListener
             }
             timer.start();
             deleteLayoutCache = DeleteLayout.this;
-            imageView.setVisibility(GONE);
-            button.setVisibility(VISIBLE);
+            setSquareIcon();
             if (onDeleteItemListener != null) {
                 onDeleteItemListener.setDeleteItem(1);
             }
@@ -104,8 +103,7 @@ public class DeleteLayout extends RelativeLayout implements View.OnClickListener
             timer.cancel();
         }
         mMorphCounter = 0;
-        button.setVisibility(GONE);
-        imageView.setVisibility(VISIBLE);
+        setCircleIcon();
     }
 
 
@@ -120,6 +118,20 @@ public class DeleteLayout extends RelativeLayout implements View.OnClickListener
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
+    }
+
+    public void setSquareIcon() {
+        imageView.setVisibility(GONE);
+        button.setVisibility(VISIBLE);
+    }
+
+    public void setCircleIcon() {
+        button.setVisibility(GONE);
+        imageView.setVisibility(VISIBLE);
+    }
+
+    public CountDownTimer getCountDownTimer() {
+        return timer;
     }
 
 

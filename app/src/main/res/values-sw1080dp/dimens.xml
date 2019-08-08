@@ -149,5 +149,5 @@
     <dimen name="list_view_parent_collapse_width">124dp</dimen>
     <dimen name="list_view_parent_collapse_height">66dp</dimen>
     <dimen name="list_view_item_header_text_time_margin_start">40dp</dimen>
-    <dimen name="list_view_parent_del">24sp</dimen>
+    <dimen name="list_view_parent_del">29sp</dimen>
 </resources>

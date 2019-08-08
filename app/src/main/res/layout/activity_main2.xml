@@ -8,14 +8,22 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/notify_bg_color"
         android:orientation="vertical">
 
-        <com.chad.baserecyclerviewadapterhelper.animation.DeleteLayout
+        <!--<com.chad.baserecyclerviewadapterhelper.animation.DeleteLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="270dp" />-->
+
+        <com.chad.baserecyclerviewadapterhelper.animation.HeaderDelButton
             android:layout_width="wrap_content"
             android:layout_height="270dp" />
 
-        <!--<com.chad.baserecyclerviewadapterhelper.animation.SwipeMenuLayout
+        <com.chad.baserecyclerviewadapterhelper.animation.HeaderDelButton
+            android:layout_width="wrap_content"
+            android:layout_height="270dp"
+            app:dl_header="false" />
+
+  <com.chad.baserecyclerviewadapterhelper.animation.SwipeMenuLayout
             android:id="@+id/item_root_view"
             android:layout_width="1300dp"
             android:layout_height="wrap_content"
@@ -153,31 +161,18 @@
                     android:layout_below="@id/sm_root_view" />
             </RelativeLayout>
 
-            <Button
-                android:layout_width="@dimen/list_view_place_button_width"
-                android:layout_height="match_parent"
-                android:background="@null" />
 
-            <Button
-                android:id="@+id/btn_item_delete"
-                android:layout_width="@dimen/list_view_item_delete_width"
-                android:layout_height="221dp"
-                android:background="@drawable/list_item_delete_selector"
-                android:text="删除"
-                android:textColor="@drawable/list_item_delete_text_selector"
-                android:textSize="@dimen/list_view_item_delete_text" />
-
-            <Button
+            <ImageButton
                 android:id="@+id/bt_bg"
-                android:layout_width="match_parent"
+                android:layout_width="@dimen/list_view_del_button_width"
                 android:layout_height="221dp"
+                android:gravity="center"
+                android:src="@drawable/item_icon_delete_all"
                 android:background="@drawable/list_item_delete_selector"
-                android:text="删除"
                 android:textAlignment="center"
                 android:textColor="@drawable/list_item_delete_text_selector"
-                android:textSize="@dimen/list_view_item_delete_text"
-                android:visibility="gone" />
-        </com.chad.baserecyclerviewadapterhelper.animation.SwipeMenuLayout>-->
+                android:textSize="@dimen/list_view_item_delete_text" />
+        </com.chad.baserecyclerviewadapterhelper.animation.SwipeMenuLayout>
 
         <Switch
             android:id="@+id/switch2"
@@ -189,12 +184,12 @@
 
 
         <Button
-            android:layout_gravity="center"
             android:layout_width="190dp"
             android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/expand_arrow"
+            android:layout_gravity="center"
             android:layout_marginTop="30dp"
             android:background="@drawable/notification_button_selector"
+            android:drawableEnd="@drawable/expand_arrow"
             android:text="折叠"
             android:textSize="25sp" />
 

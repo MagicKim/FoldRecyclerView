@@ -144,7 +144,7 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
             @Override
             public void onClick(View v) {
                 int i = group[0]++;
-                if (i <= group.length) {
+                if (i <= group.length - 1) {
                     expandableAdapter.loadNotificationList(mData.get(i), null, checked);
                 }
             }
@@ -234,20 +234,20 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
                 "新闻消息46", false, 1557903095561L, 1));
         mData.add(new TestNotification(45, "com.car.cc", "陈奕迅全新专辑发布!",
                 "音乐消息45", false, 1557903099034L, 1));
-        mData.add(new TestNotification(30, "com.car.bb", "坚果Pro 2系统更新：下线“残废”功能",
-                "新闻消息30", false, 1557953696852L, 1));
+        mData.add(new TestNotification(30, "com.car.kk", "今天天气好!",
+                "天气消息30", false, 1557953696852L, 1));
         mData.add(new TestNotification(6, "com.car.dd", "有新的OTA升级包哦！",
                 "系统消息6", false, 1557903141000L, 1));
         mData.add(new TestNotification(49, "com.car.cc", "陈奕迅全新专辑发布!(------>更新的条目<-------)",
                 "音乐消息49", false, 1557983299020L, 1));
-        mData.add(new TestNotification(200, "com.car.bb", "AirPods H1芯片有多强？- 你的耳朵里是台iPhone 4",
-                "新闻消息200", false, 1557923095001L, 1));
-        mData.add(new TestNotification(500, "com.car.bb", "坚果Pro 2系统更新：下线“残废”功能",
-                "新闻消息500", false, 1557913096002L, 1));
-        mData.add(new TestNotification(70, "com.car.cc", "蔡依林全新专辑发布!",
-                "音乐消息70", false, 1557914992000L, 1));
-        mData.add(new TestNotification(80, "com.car.cc", "陶喆全新专辑发布!",
-                "音乐消息80", false, 1557973893000L, 1));
+        mData.add(new TestNotification(200, "com.car.kk", "今天天气热!",
+                "天气消息200", false, 1557923095001L, 1));
+        mData.add(new TestNotification(500, "com.car.kk", "今天有大暴雨!",
+                "天气消息500", false, 1557913096002L, 1));
+        mData.add(new TestNotification(70, "com.car.ff", "还有100公里到达目的地!",
+                "导航消息70", false, 1557914992000L, 1));
+        mData.add(new TestNotification(80, "com.car.ff", "还有70公里到达目的地!!",
+                "导航消息80", false, 1557973893000L, 1));
         mData.add(new TestNotification(90, "com.car.cc", "朴树全新专辑发布!",
                 "音乐消息90", false, 1557913634000L, 1));
         mData.add(new TestNotification(14, "ecarx.upgrade", "您的系统需要升级!",
@@ -256,8 +256,8 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
                 "OTA消息1", false, 1557903096006L, 2));
         mData.add(new TestNotification(13, "com.car.ee", "18万只蜜蜂在巴黎圣母院大火幸存 因没有肺脏不怕烟",
                 "娱乐消息13", false, 1557903108000L, 1));
-        mData.add(new TestNotification(100, "com.car.cc", "LadyGaga全新专辑发布!",
-                "音乐消息100", false, 1557923545000L, 1));
+        mData.add(new TestNotification(100, "com.car.ff", "前方道路拥堵请注意绕行!",
+                "导航消息100", false, 1557923545000L, 1));
         mData.add(new TestNotification(310, "com.car.bb", "AirPods H1芯片有多强？- 你的耳朵里是台iPhone 4",
                 "新闻消息310", false, 1557905195001L, 1));
         mData.add(new TestNotification(320, "com.car.bb", "坚果Pro 2系统更新：下线“残废”功能",

@@ -13,6 +13,7 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.StateSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,6 +21,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.chad.baserecyclerviewadapterhelper.R;
+import com.chad.baserecyclerviewadapterhelper.animation.MorphingAnimation;
+import com.chad.baserecyclerviewadapterhelper.animation.StrokeGradientDrawable;
+
 
 @SuppressLint("AppCompatCustomView")
 public class MorphingButton extends Button {
@@ -133,11 +137,13 @@ public class MorphingButton extends Button {
             setIconLeft(params.icon);
             setText(params.text);
         } else if (params.icon != 0) {
-            setIcon(params.icon,params.width);
-        } else if (params.text != null) {
+            setIcon(params.icon, params.width);
+        } else if (params.text != null && params.textSize != 0) {
             setText(params.text);
+            setTextSize(params.textSize);
         }
-        setTextSize(params.textSize);
+        Log.e("MorphingButton", "params.textSize = " + params.textSize);
+
         setTextColor(params.textColor);
         if (params.animationListener != null) {
             params.animationListener.onAnimationEnd();
@@ -170,9 +176,9 @@ public class MorphingButton extends Button {
         mPadding.bottom = getPaddingBottom();
 
         Resources resources = getResources();
-        int cornerRadius = (int) resources.getDimension(R.dimen.mb_corner_radius_2);
-        int blue = resources.getColor(R.color.mb_blue);
-        int blueDark = resources.getColor(R.color.mb_blue_dark);
+        int cornerRadius = (int) resources.getDimension(R.dimen.dp_4);
+        int blue = resources.getColor(R.color.colorAccent);
+        int blueDark = resources.getColor(R.color.colorAccent);
 
         StateListDrawable background = new StateListDrawable();
         mDrawableNormal = createDrawable(blue, cornerRadius, 0);
@@ -181,7 +187,7 @@ public class MorphingButton extends Button {
         mColor = blue;
         mStrokeColor = blue;
         mCornerRadius = cornerRadius;
-
+        setAllCaps(false);
         background.addState(new int[]{android.R.attr.state_pressed}, mDrawablePressed.getGradientDrawable());
         background.addState(StateSet.WILD_CARD, mDrawableNormal.getGradientDrawable());
 
@@ -208,7 +214,7 @@ public class MorphingButton extends Button {
         }
     }
 
-    public void setIcon(@DrawableRes final int icon,final int width) {
+    public void setIcon(@DrawableRes final int icon, final int width) {
         // post is necessary, to make sure getWidth() doesn't return 0
         post(new Runnable() {
             @Override

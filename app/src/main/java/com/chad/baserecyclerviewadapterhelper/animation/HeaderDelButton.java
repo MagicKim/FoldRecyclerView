@@ -121,13 +121,13 @@ public class HeaderDelButton extends RelativeLayout implements View.OnClickListe
         MorphingButton.Params square = MorphingButton.Params.create()
                 .duration(duration)
                 .strokeColor(R.color.white_text_color)
-                .color(R.color.colorAccent)
-                .cornerRadius(dimen(R.dimen.list_view_del_button_width))
+                .color(R.color.header_text)
+//                .cornerRadius(dimen(R.dimen.list_view_del_button_width))
                 .width(dimen(R.dimen.list_view_del_button_width))
                 .height(dimen(R.dimen.list_view_del_button_height))
                 .textColor(color(R.color.notify_recycler_view_item_header_normal_color))
                 .textSize(dimen(R.dimen.list_view_item_header_del))
-                .text("清空");
+                .text("全部清空");
         btnMorph.morph(square);
     }
 
@@ -146,7 +146,7 @@ public class HeaderDelButton extends RelativeLayout implements View.OnClickListe
         MorphingButton.Params square = MorphingButton.Params.create()
                 .duration(duration)
                 .width(dimen(R.dimen.list_view_parent_collapse_width))
-                .cornerRadius(dimen(R.dimen.list_view_del_button_radius))
+//                .cornerRadius(dimen(R.dimen.list_view_del_button_radius))
                 .color(color(R.color.notify_recycler_content_bg_normal_color))
                 .height(dimen(R.dimen.list_view_parent_collapse_height))
                 .textColor(color(R.color.notify_recycler_view_item_header_normal_color))

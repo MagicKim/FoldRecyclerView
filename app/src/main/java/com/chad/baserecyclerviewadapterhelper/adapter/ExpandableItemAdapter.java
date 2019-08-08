@@ -91,12 +91,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 holder.setText(R.id.tv_pkg_name, normalItem.getPkg());
                 holder.setText(R.id.tv_item_time, TimeUtil.getTime(normalItem.getTime()));
                 Button buttonViewDel = holder.getView(R.id.btn_item_delete);
-                buttonViewDel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        deleteNormalItem(holder.getAdapterPosition(), normalItem);
-                    }
-                });
+                buttonViewDel.setOnClickListener(v -> deleteNormalItem(holder.getAdapterPosition(), normalItem));
                 break;
             case TYPE_LEVEL_0:
                 switch (holder.getLayoutPosition() % 3) {
@@ -122,13 +117,13 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 final LinearLayout swipeRightLayout = holder.getView(R.id.ll_swipe_right_layout);
                 textCount.setText(lv0.getSubItems().size() + "个通知");
                 Button buttonCollapse = holder.getView(R.id.bt_header_collapse);
-                final DeleteLayout headerDelButton = holder.getView(R.id.bt_parent_del);
-                headerDelButton.setDeleteItemListener(new DeleteLayout.OnDeleteItemListener() {
-                    @Override
-                    public void setDeleteItem(int state) {
-                        if (state == 2) {
-                            deleteAssembleParent(holder.getAdapterPosition(), lv0);
-                        }
+                final DeleteLayout parentDelButton = holder.getView(R.id.bt_parent_del);
+                if(parentDelButton.getCountDownTimer()!=null){
+                    parentDelButton.restoreUI();
+                }
+                parentDelButton.setDeleteItemListener(state -> {
+                    if (state == 2) {
+                        deleteAssembleParent(holder.getAdapterPosition(), lv0);
                     }
                 });
 
@@ -159,41 +154,31 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                         new Slide(Gravity.BOTTOM));
 
                 //todo 展开与折叠分别是两个按钮，所以删除之后swipe状态不会混乱了
-                layoutL0.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        int pos = holder.getAdapterPosition();
-                        if (lv0.getSubItems().size() > 2) {
-                            flMorePicture.setBackground(mContext.getResources().getDrawable(R.drawable.basic_elements_two_bg));
-                        } else {
-                            flMorePicture.setBackground(mContext.getResources().getDrawable(R.drawable.basic_elements_one_bg));
-                        }
-                        expand(pos);
-                        swipeMenuLayout.setSwipeEnable(false);
+                layoutL0.setOnClickListener(v -> {
+                    int pos = holder.getAdapterPosition();
+                    if (lv0.getSubItems().size() > 2) {
+                        flMorePicture.setBackground(mContext.getResources().getDrawable(R.drawable.basic_elements_two_bg));
+                    } else {
+                        flMorePicture.setBackground(mContext.getResources().getDrawable(R.drawable.basic_elements_one_bg));
                     }
+                    expand(pos);
+                    swipeMenuLayout.setSwipeEnable(false);
                 });
-                buttonCollapse.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int pos = holder.getAdapterPosition();
-                        textCount.setText(lv0.getSubItems().size() + "个通知");
-                        if (lv0.getSubItems().size() > 2) {
-                            flMorePicture.setBackground(mContext.getResources().getDrawable(R.drawable.basic_elements_two_bg));
-                        } else {
-                            flMorePicture.setBackground(mContext.getResources().getDrawable(R.drawable.basic_elements_one_bg));
-                        }
-                        collapse(pos);
-                        swipeMenuLayout.setSwipeEnable(true);
+                buttonCollapse.setOnClickListener(v -> {
+                    int pos = holder.getAdapterPosition();
+                    textCount.setText(lv0.getSubItems().size() + "个通知");
+                    if (lv0.getSubItems().size() > 2) {
+                        flMorePicture.setBackground(mContext.getResources().getDrawable(R.drawable.basic_elements_two_bg));
+                    } else {
+                        flMorePicture.setBackground(mContext.getResources().getDrawable(R.drawable.basic_elements_one_bg));
+                    }
+                    collapse(pos);
+                    swipeMenuLayout.setSwipeEnable(true);
 
-                    }
                 });
-                btDel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int assembleParentPosition = holder.getAdapterPosition();
-                        deleteAssembleParent(assembleParentPosition, lv0);
-                    }
+                btDel.setOnClickListener(v -> {
+                    int assembleParentPosition = holder.getAdapterPosition();
+                    deleteAssembleParent(assembleParentPosition, lv0);
                 });
                 break;
             case TYPE_LEVEL_1:
@@ -203,19 +188,8 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 holder.setText(R.id.tv_item_content, lv1.content);
                 holder.setText(R.id.tv_pkg_name, lv1.pkg);
                 holder.setText(R.id.tv_item_time, TimeUtil.getTime(lv1.getTime()));
-                holder.getView(R.id.btn_item_delete).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        deleteAssembleChild(holder, lv1);
-                    }
-                });
-                rlRoot.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        deleteAssembleChild(holder, lv1);
-                    }
-                });
-
+                holder.getView(R.id.btn_item_delete).setOnClickListener(v -> deleteAssembleChild(holder, lv1));
+                rlRoot.setOnClickListener(v -> deleteAssembleChild(holder, lv1));
                 break;
             default:
                 break;
@@ -344,12 +318,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
         TextView textView = mFooterLayout.findViewById(R.id.footer_tv);
         ImageView imageView = mFooterLayout.findViewById(R.id.footer_iv);
         textView.setText("当前有" + noInterestingList.size() + "条不重要的通知");
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                noInterestViewListener.showNoInterestView();
-            }
-        });
+        imageView.setOnClickListener(v -> noInterestViewListener.showNoInterestView());
     }
 
     public void loadNotificationList(TestNotification xcnRecord, List<TestNotification> curList, boolean isGroup) {
