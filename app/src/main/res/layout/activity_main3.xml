@@ -2,9 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rl_notification_drawer"
-    android:background="@color/cardview_dark_background"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/cardview_dark_background">
 
     <LinearLayout
         android:id="@+id/empty_view"
@@ -14,22 +14,22 @@
 
         <TextView
             android:id="@+id/tv_no_notification"
-            android:layout_marginTop="60dp"
-            android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="60dp"
             android:text="没有最近的通知"
             android:textColor="@color/notify_recycler_tc_color"
             android:textSize="20sp" />
 
         <RelativeLayout
-            android:layout_marginTop="110dp"
-            android:layout_gravity="center"
+            android:id="@+id/rl_list_view_empty_layout_clock1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="110dp">
 
             <TextClock
-                android:id="@+id/tc1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:format12Hour="hh:mm"
@@ -37,44 +37,27 @@
                 android:textColor="@color/mb_white"
                 android:textSize="93sp"
                 android:textStyle="bold" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
 
             <TextClock
                 android:id="@+id/tc2"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tc1"
-                android:layout_marginStart="10dp"
-                android:format12Hour="@string/date_and_time"
-                android:format24Hour="@string/date_and_time"
+                android:format12Hour="@string/date_and_time_12"
+                android:format24Hour="@string/date_and_time_24"
+                android:gravity="center"
+                android:maxLines="1"
                 android:textColor="@color/mb_white"
-                android:textSize="27sp"
-                android:textStyle="normal" />
+                android:textSize="32sp" />
 
-            <TextClock
-                android:id="@+id/tc3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:layout_toEndOf="@id/tc1"
-                android:format12Hour="a"
-                android:format24Hour=" "
-                android:textColor="@color/mb_white"
-                android:textSize="27sp"
-                android:textStyle="normal" />
-
-            <TextClock
-                android:id="@+id/tc4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tc1"
-                android:layout_marginStart="25dp"
-                android:layout_toEndOf="@id/tc2"
-                android:format12Hour="EEEE"
-                android:format24Hour="EEEE"
-                android:textColor="@color/mb_white"
-                android:textSize="27sp"
-                android:textStyle="normal" />
         </RelativeLayout>
+
+
     </LinearLayout>
 
 </RelativeLayout>

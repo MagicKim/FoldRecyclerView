@@ -1,7 +1,10 @@
 package com.chad.baserecyclerviewadapterhelper;
 
+import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.TextClock;
+import android.widget.TextView;
 
 public class Main3Activity extends AppCompatActivity {
 
@@ -9,5 +12,8 @@ public class Main3Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
+
+        TextClock textClock = findViewById(R.id.tc2);
+//        TextViewCompat.setAutoSizeTextTypeWithDefaults(textClock, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
     }
 }

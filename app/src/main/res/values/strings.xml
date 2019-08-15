@@ -2,5 +2,6 @@
     <string name="network_err">Simulation network error</string>
     <string name="empty_network_error">Network error, Click Retry</string>
     <string name="empty_no_data">There is no data, Click Retry</string>
-    <string name="date_and_time">MM月dd日</string>
+    <string name="date_and_time_12">MM-dd&#160;&#160;EEa</string>
+    <string name="date_and_time_24">MM-dd&#160;&#160;EE</string>
 </resources>

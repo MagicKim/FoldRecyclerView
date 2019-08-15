@@ -1,5 +1,6 @@
 package com.chad.baserecyclerviewadapterhelper.animation;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -13,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.chad.baserecyclerviewadapterhelper.R;
+import com.github.florent37.viewanimator.AnimationListener;
+import com.github.florent37.viewanimator.ViewAnimator;
 
 
 public class DeleteLayout extends RelativeLayout implements View.OnClickListener {

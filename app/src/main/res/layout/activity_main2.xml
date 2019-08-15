@@ -10,20 +10,14 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!--<com.chad.baserecyclerviewadapterhelper.animation.DeleteLayout-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="270dp" />-->
-
-        <com.chad.baserecyclerviewadapterhelper.animation.HeaderDelButton
-            android:layout_width="wrap_content"
-            android:layout_height="270dp" />
-
-        <com.chad.baserecyclerviewadapterhelper.animation.HeaderDelButton
+        <com.chad.baserecyclerviewadapterhelper.animation.DeleteLayout
+            android:background="@color/cardview_shadow_start_color"
             android:layout_width="wrap_content"
             android:layout_height="270dp"
-            app:dl_header="false" />
+            android:layout_gravity="center" />
 
-  <com.chad.baserecyclerviewadapterhelper.animation.SwipeMenuLayout
+
+        <com.chad.baserecyclerviewadapterhelper.animation.SwipeMenuLayout
             android:id="@+id/item_root_view"
             android:layout_width="1300dp"
             android:layout_height="wrap_content"
@@ -166,9 +160,9 @@
                 android:id="@+id/bt_bg"
                 android:layout_width="@dimen/list_view_del_button_width"
                 android:layout_height="221dp"
+                android:background="@drawable/list_item_delete_selector"
                 android:gravity="center"
                 android:src="@drawable/item_icon_delete_all"
-                android:background="@drawable/list_item_delete_selector"
                 android:textAlignment="center"
                 android:textColor="@drawable/list_item_delete_text_selector"
                 android:textSize="@dimen/list_view_item_delete_text" />
@@ -192,6 +186,10 @@
             android:drawableEnd="@drawable/expand_arrow"
             android:text="折叠"
             android:textSize="25sp" />
+
+        <com.chad.baserecyclerviewadapterhelper.view.AddButton
+            android:layout_width="130dp"
+            android:layout_height="70dp" />
 
 
     </LinearLayout>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Main5Activity">
+
+
+    <com.chad.baserecyclerviewadapterhelper.view.ParentLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@android:color/holo_blue_dark"
+        android:gravity="center"
+        tools:ignore="MissingConstraints">
+
+        <com.chad.baserecyclerviewadapterhelper.view.ChildLayout
+            android:layout_width="200dp"
+            android:layout_height="150dp"
+            android:background="@android:color/holo_green_dark"
+            android:gravity="center">
+
+            <com.chad.baserecyclerviewadapterhelper.view.InnerButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_red_dark"
+                android:padding="10dp"
+                android:text="HELLO WORLD" />
+        </com.chad.baserecyclerviewadapterhelper.view.ChildLayout>
+    </com.chad.baserecyclerviewadapterhelper.view.ParentLayout>
+
+</android.support.constraint.ConstraintLayout>
