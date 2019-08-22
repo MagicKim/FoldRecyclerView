@@ -80,5 +80,28 @@
     <color name="mb_blue_dark">#ff00719b</color>
     <dimen name="mb_corner_radius_2">2dp</dimen>
 
+    <color name="rippelColor">#ff7200</color>
+
+    <color name="white">#ffffff</color>
+
+    <color name="black">#000000</color>
+
+    <color name="tiao_button">#5e5e5e</color>
+
+    <color name="reveal_color">#664d5a6b</color>
+
+
+    <!-- App的背景颜色 -->
+    <color name="bg_gray">#EEEEEE</color>
+    <!-- 默认按钮的bg -->
+    <color name="bg_btn_gray">#E8E8E8</color>
+    <!-- 点击后 -->
+    <color name="bg_btn_gray_slted">#CECECE</color>
+    <!-- wifi 列表item 点击颜色bg -->
+    <color name="bg_item_slted">#E5E5E5</color>
+
+    <!-- 字体为橙色 -->
+    <color name="font_orange">#FF3C00</color>
+
 
 </resources>

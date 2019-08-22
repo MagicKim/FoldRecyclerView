@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_btn_gray">
+
+    <TextView
+        android:id="@+id/select_system_language"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="94.5dp"
+        android:text="@string/txt_select_system_language"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+
+    <ListView
+        android:id="@+id/language_listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/select_system_language"
+        android:layout_marginLeft="32.5dp"
+        android:layout_marginTop="41.5dp"
+        android:layout_marginRight="32.5dp"
+        android:divider="@null"
+        android:listSelector="@android:color/transparent"/>
+
+    <View
+        android:id="@+id/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@id/language_listview"
+        android:layout_marginLeft="32.5dp"
+        android:layout_marginRight="32.5dp"
+        android:background="@color/bg_btn_gray_slted" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/button_next_step" />
+    </LinearLayout>
+
+</RelativeLayout>

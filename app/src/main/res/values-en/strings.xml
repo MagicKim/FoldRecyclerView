@@ -2,4 +2,7 @@
 <resources>
     <string name="date_and_time_12">MM-dd&#160;&#160;EEa</string>
     <string name="date_and_time_24">MM-dd&#160;&#160;EE</string>
+
+    <string name="button_next_step">next</string>
+    <string name="txt_select_system_language">please select language</string>
 </resources>

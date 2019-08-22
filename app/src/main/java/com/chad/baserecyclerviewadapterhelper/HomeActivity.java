@@ -25,10 +25,10 @@ public class HomeActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     //
     private static final Class<?>[] ACTIVITY = {ExpandableUseActivity.class, Main2Activity.class, Main3Activity.class,
-            Main4Activity.class, Main5Activity.class};
-    private static final String[] TITLE = {"test demo", "Test UI", "Test_Empty", "Air War", "Touch_EVENT"};
+            Main4Activity.class, Main5Activity.class, Main6Activity.class};
+    private static final String[] TITLE = {"test demo", "Test UI", "Test_Empty", "Air War", "Touch_EVENT", "SWITCH_LANGUAGE"};
     private static final int[] IMG = {R.mipmap.gv_expandable, R.mipmap.gv_empty, R.mipmap.animation_img1, R.drawable.big
-            , R.mipmap.animation_img1};
+            , R.mipmap.animation_img1, R.mipmap.animation_img3};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

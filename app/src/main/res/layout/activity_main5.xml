@@ -8,6 +8,7 @@
 
 
     <com.chad.baserecyclerviewadapterhelper.view.ParentLayout
+        android:id="@+id/parentLayout"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:background="@android:color/holo_blue_dark"
@@ -28,5 +29,116 @@
                 android:text="HELLO WORLD" />
         </com.chad.baserecyclerviewadapterhelper.view.ChildLayout>
     </com.chad.baserecyclerviewadapterhelper.view.ParentLayout>
+
+
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:background="@color/cardview_shadow_start_color"
+        android:gravity="center"
+        android:text="HI HI HI HI HI"
+        android:textSize="28sp"
+        tools:layout_editor_absoluteX="218dp"
+        tools:layout_editor_absoluteY="451dp" />
+
+    <TextView
+        android:id="@+id/tv2"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:text="Hei hei hei"
+        android:textSize="28sp"
+        tools:layout_editor_absoluteX="235dp"
+        tools:layout_editor_absoluteY="501dp" />
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:background="@color/colorAccent"
+        android:text="发如雪"
+        android:textSize="28sp"
+        tools:layout_editor_absoluteX="126dp"
+        tools:layout_editor_absoluteY="457dp" />
+
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineBegin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="542dp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        tools:layout_editor_absoluteX="100dp"
+        tools:layout_editor_absoluteY="16dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="100dp" />
+
+    <Button
+        android:id="@+id/buttonEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button2"
+        tools:layout_editor_absoluteX="412dp"
+        tools:layout_editor_absoluteY="48dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelinePercent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <Button
+        android:id="@+id/buttonPercent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button3"
+        tools:layout_editor_absoluteX="300dp"
+        tools:layout_editor_absoluteY="96dp" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        app:layout_constraintBottom_toTopOf="@+id/button3"
+        app:layout_constraintTop_toBottomOf="@+id/button4"
+        app:layout_constraintVertical_bias="1.0"
+        tools:layout_editor_absoluteX="328dp" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Button"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toStartOf="@+id/guidelinePercent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        tools:layout_editor_absoluteX="360dp"
+        tools:layout_editor_absoluteY="417dp" />
+
 
 </android.support.constraint.ConstraintLayout>
