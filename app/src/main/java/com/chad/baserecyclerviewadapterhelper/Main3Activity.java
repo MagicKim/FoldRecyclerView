@@ -13,7 +13,5 @@ public class Main3Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
 
-        TextClock textClock = findViewById(R.id.tc2);
-//        TextViewCompat.setAutoSizeTextTypeWithDefaults(textClock, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
     }
 }

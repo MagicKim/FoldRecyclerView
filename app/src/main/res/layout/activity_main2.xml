@@ -11,10 +11,10 @@
         android:orientation="vertical">
 
         <com.chad.baserecyclerviewadapterhelper.animation.DeleteLayout
-            android:background="@color/cardview_shadow_start_color"
             android:layout_width="wrap_content"
             android:layout_height="270dp"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:background="@color/cardview_shadow_start_color" />
 
 
         <com.chad.baserecyclerviewadapterhelper.animation.SwipeMenuLayout
@@ -191,6 +191,16 @@
             android:layout_width="130dp"
             android:layout_height="70dp" />
 
+        <Button
+            android:id="@+id/bt_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="开启前台服务" />
+        <Button
+            android:id="@+id/bt_stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="关闭前台服务" />
 
     </LinearLayout>
 </ScrollView>

@@ -120,6 +120,7 @@ public class DeleteLayout extends RelativeLayout implements View.OnClickListener
 
     @Override
     protected void onDetachedFromWindow() {
+        restoreUI();
         super.onDetachedFromWindow();
     }
 

@@ -177,8 +177,8 @@ public class MorphingButton extends Button {
 
         Resources resources = getResources();
         int cornerRadius = (int) resources.getDimension(R.dimen.dp_4);
-        int blue = resources.getColor(R.color.colorAccent);
-        int blueDark = resources.getColor(R.color.colorAccent);
+        int blue = resources.getColor(R.color.bg_btn_gray);
+        int blueDark = resources.getColor(R.color.bg_btn_gray);
 
         StateListDrawable background = new StateListDrawable();
         mDrawableNormal = createDrawable(blue, cornerRadius, 0);
@@ -188,7 +188,7 @@ public class MorphingButton extends Button {
         mStrokeColor = blue;
         mCornerRadius = cornerRadius;
         setAllCaps(false);
-        background.addState(new int[]{android.R.attr.state_pressed}, mDrawablePressed.getGradientDrawable());
+//        background.addState(new int[]{android.R.attr.state_pressed}, mDrawablePressed.getGradientDrawable());
         background.addState(StateSet.WILD_CARD, mDrawableNormal.getGradientDrawable());
 
         setBackgroundCompat(background);

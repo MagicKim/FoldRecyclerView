@@ -64,13 +64,20 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
         setTitle("ExpandableItem Activity");
         setContentView(R.layout.activity_expandable_item_use);
         rootLayout = findViewById(R.id.root_layout);
-        mNoInterestRecyclerView = findViewById(R.id.no_interest_rv);
-        Button buttonExpand = findViewById(R.id.bt_expand);
-        buttonExpand.setOnClickListener(new View.OnClickListener() {
+        rootLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                HeaderDelButton viewCache = HeaderDelButton.getViewCache();
+                if (viewCache != null) {
+                    Log.i(TAG,"click delete layout ");
+                    viewCache.restoreUI();
+                }
             }
+        });
+        mNoInterestRecyclerView = findViewById(R.id.no_interest_rv);
+        Button buttonExpand = findViewById(R.id.bt_expand);
+        buttonExpand.setOnClickListener(v -> {
+
         });
         LinearLayout emptyView = findViewById(R.id.empty_view);
         getNormalData();
@@ -113,14 +120,11 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
             RelativeLayout noInterestHeaderView = (RelativeLayout) getNoInterestHeaderView();
             mNoInterestAdapter.addHeaderView(noInterestHeaderView);
             ImageView imageView = noInterestHeaderView.findViewById(R.id.iv_back_notification_list);
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mRecyclerView.setVisibility(View.VISIBLE);
-                    mNoInterestRecyclerView.setVisibility(View.GONE);
-                    expandableAdapter.notifyDataSetChanged();
-                    expandableAdapter.notifyNoInterestUI();
-                }
+            imageView.setOnClickListener(v -> {
+                mRecyclerView.setVisibility(View.VISIBLE);
+                mNoInterestRecyclerView.setVisibility(View.GONE);
+                expandableAdapter.notifyDataSetChanged();
+                expandableAdapter.notifyNoInterestUI();
             });
         }
 
@@ -129,48 +133,34 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
         checked = switchGroup.isChecked();
         expandableAdapter.selectListView(checked);
 
-        switchGroup.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                checked = isChecked;
-                expandableAdapter.selectListView(isChecked);
-                mNoInterestAdapter.selectListView(checked);
-            }
+        switchGroup.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            checked = isChecked;
+            expandableAdapter.selectListView(isChecked);
+            mNoInterestAdapter.selectListView(checked);
         });
 
         final int[] group = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
         Button addNotificationButton = findViewById(R.id.bt_add_notification);
-        addNotificationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int i = group[0]++;
-                if (i <= group.length - 1) {
-                    expandableAdapter.loadNotificationList(mData.get(i), null, checked);
-                }
+        addNotificationButton.setOnClickListener(v -> {
+            int i = group[0]++;
+            if (i <= group.length - 1) {
+                expandableAdapter.loadNotificationList(mData.get(i), null, checked);
             }
         });
 
-        buttonExpand.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                expandableAdapter.expand(2, false, true);
-            }
-        });
+        buttonExpand.setOnClickListener(v -> expandableAdapter.expand(2, false, true));
     }
 
-    private DeleteLayout deleteLayout;
+    private HeaderDelButton deleteLayout;
 
     private View getHeaderView() {
         View view = getLayoutInflater().inflate(R.layout.head_view, (ViewGroup) mRecyclerView.getParent(), false);
 
         deleteLayout = view.findViewById(R.id.iv_delete_all);
 
-        deleteLayout.setDeleteItemListener(new DeleteLayout.OnDeleteItemListener() {
-            @Override
-            public void setDeleteItem(int status) {
-                if (status == 2) {
-                    expandableAdapter.deleteAllData();
-                }
+        deleteLayout.setDeleteItemListener(status -> {
+            if (status == 2) {
+                expandableAdapter.deleteAllData();
             }
         });
         return view;

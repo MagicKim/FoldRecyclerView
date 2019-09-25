@@ -83,6 +83,7 @@ public class HeaderDelButton extends RelativeLayout implements View.OnClickListe
         if (mMorphCounter == 1) {
             if (deleteLayoutCache != null) {
                 if (deleteLayoutCache != this) {
+                    Log.e("HeaderDelButton", "quick click");
                     deleteLayoutCache.restoreUI();
                 }
             }
@@ -106,6 +107,9 @@ public class HeaderDelButton extends RelativeLayout implements View.OnClickListe
     }
 
     public void restoreUI() {
+        if (this == deleteLayoutCache) {
+            deleteLayoutCache = null;
+        }
         if (timer != null) {
             timer.cancel();
         }
@@ -191,9 +195,6 @@ public class HeaderDelButton extends RelativeLayout implements View.OnClickListe
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         restoreUI();
-        if (this == deleteLayoutCache) {
-            deleteLayoutCache = null;
-        }
     }
 
 }

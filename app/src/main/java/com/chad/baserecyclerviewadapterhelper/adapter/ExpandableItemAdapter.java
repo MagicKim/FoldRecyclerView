@@ -117,10 +117,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 final LinearLayout swipeRightLayout = holder.getView(R.id.ll_swipe_right_layout);
                 textCount.setText(lv0.getSubItems().size() + "个通知");
                 Button buttonCollapse = holder.getView(R.id.bt_header_collapse);
-                final DeleteLayout parentDelButton = holder.getView(R.id.bt_parent_del);
-                if(parentDelButton.getCountDownTimer()!=null){
-                    parentDelButton.restoreUI();
-                }
+                final HeaderDelButton parentDelButton = holder.getView(R.id.bt_parent_del);
                 parentDelButton.setDeleteItemListener(state -> {
                     if (state == 2) {
                         deleteAssembleParent(holder.getAdapterPosition(), lv0);
@@ -330,8 +327,6 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
             notificationArrayList.addAll(curList);
             selectListView(isGroup);
         }
-
-
     }
 
 

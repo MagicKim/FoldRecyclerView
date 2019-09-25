@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rl_notification_drawer"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/cardview_dark_background">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/empty_view"
@@ -22,41 +22,68 @@
             android:textColor="@color/notify_recycler_tc_color"
             android:textSize="20sp" />
 
-        <RelativeLayout
-            android:id="@+id/rl_list_view_empty_layout_clock1"
+        <!-- <RelativeLayout
+             android:id="@+id/rl_list_view_empty_layout_clock1"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center"
+             android:layout_marginTop="110dp">
+
+             <TextClock
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:format12Hour="hh:mm"
+                 android:format24Hour="HH:mm"
+                 android:textColor="@color/mb_white"
+                 android:textSize="93sp"
+                 android:textStyle="bold" />
+         </RelativeLayout>
+
+         <RelativeLayout
+             android:layout_width="220dp"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center">
+
+             <TextClock
+                 android:id="@+id/tc2"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:format12Hour="@string/date_and_time_12"
+                 android:format24Hour="@string/date_and_time_24"
+                 android:gravity="center"
+                 android:maxLines="1"
+                 android:textColor="@color/mb_white"
+                 android:textSize="32sp" />
+
+         </RelativeLayout>-->
+
+
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="110dp">
+            android:background="@color/colorAccent"
+            android:elevation="20dp"
+            android:text="按钮"
+            android:textSize="23sp" />
 
-            <TextClock
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:format12Hour="hh:mm"
-                android:format24Hour="HH:mm"
-                android:textColor="@color/mb_white"
-                android:textSize="93sp"
-                android:textStyle="bold" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="220dp"
+        <TextView
+            android:id="@+id/tv_confirm_message"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center">
-
-            <TextClock
-                android:id="@+id/tc2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:format12Hour="@string/date_and_time_12"
-                android:format24Hour="@string/date_and_time_24"
-                android:gravity="center"
-                android:maxLines="1"
-                android:textColor="@color/mb_white"
-                android:textSize="32sp" />
-
-        </RelativeLayout>
-
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center"
+            android:lineSpacingMultiplier="1.1"
+            android:maxHeight="174dp"
+            android:scrollbars="vertical"
+            android:textAllCaps="false"
+            android:textColor="@color/colorAccent"
+            android:text="第一行文本\n第二行文本\n第三行文本\n第四行文本\n第五行文本\n第六行文本"
+            android:textSize="34sp" />
 
     </LinearLayout>
 

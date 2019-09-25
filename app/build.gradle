@@ -97,4 +97,5 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.3.2'
     implementation 'com.github.florent37:viewanimator:1.0.5'
     implementation 'com.android.support:support-v4:28.+'
+    implementation 'com.android.support:support-dynamic-animation:28+'
 }

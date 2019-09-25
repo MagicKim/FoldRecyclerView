@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.chad.baserecyclerviewadapterhelper"
     android:sharedUserId="${SHARED_USERID}">
+
     <!-- android.uid.system -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -12,6 +13,7 @@
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:name=".MyApplication"
@@ -21,7 +23,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Main6Activity"></activity>
+        <service
+            android:name=".MyForegroundService"
+            android:enabled="true"
+            android:exported="true"></service>
+
+        <activity android:name=".Main6Activity" />
         <activity android:name=".Main5Activity" />
         <activity android:name=".Main4Activity" />
         <activity android:name=".Main3Activity" />

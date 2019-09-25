@@ -1,8 +1,7 @@
 package com.chad.baserecyclerviewadapterhelper;
 
-import android.app.IntentService;
-import android.app.job.JobScheduler;
-import android.app.job.JobService;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -14,7 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
@@ -22,15 +21,30 @@ public class Main2Activity extends AppCompatActivity {
     private static final String SETTING_KEY_MERGE_GROUP = "key_notify_merge_group";
     private boolean isGroupView;
     private Handler mSubHandler;
+    private Context mContext;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-
+        mContext = this;
         isGroupView = Settings.System.getInt(this.getContentResolver(), SETTING_KEY_MERGE_GROUP, 0) != 0;
         Switch aSwitch = findViewById(R.id.switch2);
+        Button start = findViewById(R.id.bt_start);
+        Button stop = findViewById(R.id.bt_stop);
+        start.setOnClickListener(v -> {
+            Intent start1 = new Intent(mContext, MyForegroundService.class);
+            if (Build.VERSION.SDK_INT >= 26) {
+                startForegroundService(start1);
+            } else {
+                startService(start1);
+            }
+        });
+        stop.setOnClickListener(v -> {
+            Intent stop1 = new Intent(mContext, MyForegroundService.class);
+            stopService(stop1);
+        });
         aSwitch.setChecked(isGroupView);
 
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -43,7 +57,6 @@ public class Main2Activity extends AppCompatActivity {
                 }
             }
         });
-
 
 
         HandlerThread handlerThread = new HandlerThread("handlerThread");
