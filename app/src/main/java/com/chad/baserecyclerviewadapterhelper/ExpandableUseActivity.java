@@ -89,7 +89,6 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
         expandableAdapter = new ExpandableItemAdapter(mContext);
         //manager
         LinearLayoutManager manager = new LinearLayoutManager(mContext);
-        manager.setRecycleChildrenOnDetach(true);
         mRecyclerView.setLayoutManager(manager);
         DividerDecoration mItemDecoration = new DividerDecoration(this, LinearLayoutManager.VERTICAL);
         mRecyclerView.addItemDecoration(mItemDecoration);
