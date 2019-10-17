@@ -17,7 +17,10 @@ import android.support.v7.widget.AppCompatTextView;
 import android.text.format.DateFormat;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewDebug;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.chad.baserecyclerviewadapterhelper.R;
 
@@ -28,20 +31,22 @@ import java.util.TimeZone;
 /**
  * Created by ${Kim} on 19-10-17.
  */
-public class TextClock2 extends AppCompatTextView {
+public class TextClock2 extends LinearLayout {
 
     public static final String TAG = "TextClock2";
 
-    public static final CharSequence DEFAULT_FORMAT_12_HOUR = "h:mm a";
+    public static final CharSequence DEFAULT_FORMAT_12_HOUR = "hh:mm";
 
-    public static final CharSequence DEFAULT_FORMAT_24_HOUR = "H:mm";
+    public static final CharSequence DEFAULT_FORMAT_24_HOUR = "HH:mm";
 
-    private CharSequence mFormat12;
-    private CharSequence mFormat24;
-    private CharSequence mDescFormat12;
-    private CharSequence mDescFormat24;
+    //    private CharSequence mFormat12;
+//    private CharSequence mFormat24;
+//    private CharSequence mDescFormat12;
+//    private CharSequence mDescFormat24;
     public static final char QUOTE = '\'';
     public static final char SECONDS = 's';
+
+    private OnTextClockListener mTextClockListener;
 
     private CharSequence mFormat;
     private boolean mHasSeconds;
@@ -56,6 +61,8 @@ public class TextClock2 extends AppCompatTextView {
 
     private Context mContext;
 
+    private TextView tv1, tv2, tv3, tv4, tv5;
+
 
     public TextClock2(Context context) {
         super(context);
@@ -69,15 +76,6 @@ public class TextClock2 extends AppCompatTextView {
 
     public TextClock2(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        final TypedArray a = context.obtainStyledAttributes(
-                attrs, R.styleable.TextClock2);
-        try {
-            mFormat12 = a.getText(R.styleable.TextClock2_format12Hour);
-            mFormat24 = a.getText(R.styleable.TextClock2_format24Hour);
-            mTimeZone = a.getString(R.styleable.TextClock2_timeZone);
-        } finally {
-            a.recycle();
-        }
         init(context);
     }
 
@@ -107,9 +105,9 @@ public class TextClock2 extends AppCompatTextView {
         public void onReceive(Context context, Intent intent) {
             if (mTimeZone == null && Intent.ACTION_TIMEZONE_CHANGED.equals(intent.getAction())) {
                 final String timeZone = intent.getStringExtra("time-zone");
-                Log.w(TAG, "timeZone = " + timeZone);
                 createTime(timeZone);
             }
+            Log.w(TAG, "onReceive ");
             onTimeChanged();
         }
     };
@@ -129,8 +127,15 @@ public class TextClock2 extends AppCompatTextView {
     private void init(Context context) {
         Log.w(TAG, "init");
         mContext = context;
+        View rootView = inflate(context, R.layout.view_text_clock, this);
+        tv1 = rootView.findViewById(R.id.tv1);
+        tv2 = rootView.findViewById(R.id.tv2);
+        tv3 = rootView.findViewById(R.id.tv3);
+        tv4 = rootView.findViewById(R.id.tv4);
+        tv5 = rootView.findViewById(R.id.tv5);
         createTime(mTimeZone);
         chooseFormat();
+        onTimeChanged();
     }
 
     private void createTime(String timeZone) {
@@ -154,17 +159,24 @@ public class TextClock2 extends AppCompatTextView {
         final boolean format24Requested = is24HourModeEnabled();
 
         if (format24Requested) {
-            mFormat = abc(mFormat24, mFormat12, null);
+            mFormat = DEFAULT_FORMAT_24_HOUR;
+            Log.d(TAG, "24mFormat = " + mFormat);
         } else {
-            mFormat = abc(mFormat12, mFormat24, null);
+            mFormat = DEFAULT_FORMAT_12_HOUR;
+            Log.d(TAG, "12mFormat = " + mFormat);
         }
 
         boolean hadSeconds = mHasSeconds;
         mHasSeconds = hasSeconds(mFormat);
 
-        if (mShouldRunTicker && hadSeconds != mHasSeconds) {
-            if (hadSeconds) getHandler().removeCallbacks(mTicker);
-            else mTicker.run();
+        if (hadSeconds != mHasSeconds) {
+            if (hadSeconds) {
+                Log.d(TAG, "hadSeconds = true");
+                getHandler().removeCallbacks(mTicker);
+            } else {
+                Log.d(TAG, "hadSeconds = false");
+                mTicker.run();
+            }
         }
     }
 
@@ -211,31 +223,29 @@ public class TextClock2 extends AppCompatTextView {
         }
     }
 
-    @Override
-    public void onVisibilityAggregated(boolean isVisible) {
-        super.onVisibilityAggregated(isVisible);
-        Log.w(TAG, "isVisible = " + isVisible);
-        if (!mShouldRunTicker && isVisible) {
-            mShouldRunTicker = true;
-            if (mHasSeconds) {
-                mTicker.run();
-            } else {
-                onTimeChanged();
-            }
-        } else if (mShouldRunTicker && !isVisible) {
-            mShouldRunTicker = false;
-            getHandler().removeCallbacks(mTicker);
-        }
-    }
+//    @Override
+//    public void onVisibilityAggregated(boolean isVisible) {
+//        super.onVisibilityAggregated(isVisible);
+//        Log.w(TAG, "isVisible = " + isVisible);
+//        if (!mShouldRunTicker && isVisible) {
+//            mShouldRunTicker = true;
+//            if (mHasSeconds) {
+//                mTicker.run();
+//            } else {
+//                onTimeChanged();
+//            }
+//        } else if (mShouldRunTicker && !isVisible) {
+//            mShouldRunTicker = false;
+//            getHandler().removeCallbacks(mTicker);
+//        }
+//    }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-
         if (mRegistered) {
             unregisterReceiver();
             unregisterObserver();
-
             mRegistered = false;
         }
     }
@@ -243,21 +253,18 @@ public class TextClock2 extends AppCompatTextView {
 
     private void registerReceiver() {
         final IntentFilter filter = new IntentFilter();
-
         filter.addAction(Intent.ACTION_TIME_TICK);
         filter.addAction(Intent.ACTION_TIME_CHANGED);
         filter.addAction(Intent.ACTION_TIMEZONE_CHANGED);
-
-
         mContext.registerReceiver(mIntentReceiver, filter);
     }
 
     private void registerObserver() {
         if (mRegistered) {
             if (mFormatChangeObserver == null) {
+                Log.e(TAG, "registerObserver");
                 mFormatChangeObserver = new FormatChangeObserver(getHandler());
             }
-            Log.e(TAG, "registerObserver");
             final ContentResolver resolver = mContext.getContentResolver();
             Uri uri = Settings.System.getUriFor(Settings.System.TIME_12_24);
             resolver.registerContentObserver(uri, true,
@@ -276,15 +283,31 @@ public class TextClock2 extends AppCompatTextView {
         }
     }
 
-    /**
-     *
-     */
+
     private void onTimeChanged() {
         // mShouldRunTicker always equals the last value passed into onVisibilityAggregated
-        if (mShouldRunTicker) {
-            Log.e(TAG, "onTimeChanged");
-            mTime.setTimeInMillis(System.currentTimeMillis());
-            setText(DateFormat.format(mFormat, mTime));
+//        if (mShouldRunTicker) {
+        Log.e(TAG, "onTimeChanged");
+        mTime.setTimeInMillis(System.currentTimeMillis());
+        CharSequence text = DateFormat.format(mFormat, mTime);
+
+        Log.d(TAG,"0 = "+text.charAt(0));
+        Log.d(TAG,"1 = "+text.charAt(1));
+        Log.d(TAG,"2 = "+text.charAt(2));
+        Log.d(TAG,"3 = "+text.charAt(3));
+        Log.d(TAG,"4 = "+text.charAt(4));
+
+
+        if (mTextClockListener != null) {
+            mTextClockListener.onTextClockChanged(text);
         }
+    }
+
+    public void setTextClockListener(OnTextClockListener onTextClockListener) {
+        mTextClockListener = onTextClockListener;
+    }
+
+    public interface OnTextClockListener {
+        void onTextClockChanged(CharSequence text);
     }
 }

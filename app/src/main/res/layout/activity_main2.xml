@@ -305,10 +305,14 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:textSize="32sp"
-            android:visibility="visible"
-            app:format12Hour="@string/date_and_time_12"
-            app:format24Hour="@string/date_and_time_24" />
-
-
+            app:format12Hour="hh:mm"
+            app:format24Hour="HH:mm" />
+        <TextClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:format12Hour="hh:mm"
+            android:format24Hour="HH:mm"
+            android:textColor="@color/black"
+            android:textSize="93sp" />
     </LinearLayout>
 </ScrollView>
