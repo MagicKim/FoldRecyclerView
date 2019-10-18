@@ -1,31 +1,25 @@
 package com.chad.baserecyclerviewadapterhelper.view;
 
-import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.TypedArray;
 import android.database.ContentObserver;
-import android.icu.util.LocaleData;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.provider.Settings;
-import android.support.v7.widget.AppCompatTextView;
 import android.text.format.DateFormat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewDebug;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.baserecyclerviewadapterhelper.R;
 
 import java.util.Calendar;
-import java.util.Locale;
 import java.util.TimeZone;
 
 /**
@@ -46,7 +40,6 @@ public class TextClock2 extends LinearLayout {
     public static final char QUOTE = '\'';
     public static final char SECONDS = 's';
 
-    private OnTextClockListener mTextClockListener;
 
     private CharSequence mFormat;
     private boolean mHasSeconds;
@@ -205,7 +198,7 @@ public class TextClock2 extends LinearLayout {
     }
 
     /**
-     * 如果如果a不为空则返回a，如果b不为空则返回b，最后返回c。
+     * 如果a不为空则返回a，如果b不为空则返回b，最后返回c。
      */
     private static CharSequence abc(CharSequence a, CharSequence b, CharSequence c) {
         return a == null ? (b == null ? c : b) : a;
@@ -214,8 +207,8 @@ public class TextClock2 extends LinearLayout {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-
         if (!mRegistered) {
+            Log.e(TAG,"onAttachedToWindow mRegistered");
             mRegistered = true;
             registerReceiver();
             registerObserver();
@@ -244,6 +237,7 @@ public class TextClock2 extends LinearLayout {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         if (mRegistered) {
+            Log.e(TAG,"onDetachedFromWindow unregister");
             unregisterReceiver();
             unregisterObserver();
             mRegistered = false;
@@ -290,24 +284,12 @@ public class TextClock2 extends LinearLayout {
         Log.e(TAG, "onTimeChanged");
         mTime.setTimeInMillis(System.currentTimeMillis());
         CharSequence text = DateFormat.format(mFormat, mTime);
+        tv1.setText(String.valueOf(text.charAt(0)));
+        tv2.setText(String.valueOf(text.charAt(1)));
+        tv3.setText(String.valueOf(text.charAt(2)));
+        tv4.setText(String.valueOf(text.charAt(3)));
+        tv5.setText(String.valueOf(text.charAt(4)));
 
-        Log.d(TAG,"0 = "+text.charAt(0));
-        Log.d(TAG,"1 = "+text.charAt(1));
-        Log.d(TAG,"2 = "+text.charAt(2));
-        Log.d(TAG,"3 = "+text.charAt(3));
-        Log.d(TAG,"4 = "+text.charAt(4));
 
-
-        if (mTextClockListener != null) {
-            mTextClockListener.onTextClockChanged(text);
-        }
-    }
-
-    public void setTextClockListener(OnTextClockListener onTextClockListener) {
-        mTextClockListener = onTextClockListener;
-    }
-
-    public interface OnTextClockListener {
-        void onTextClockChanged(CharSequence text);
     }
 }
