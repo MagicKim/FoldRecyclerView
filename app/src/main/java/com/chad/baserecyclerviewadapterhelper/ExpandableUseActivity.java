@@ -2,6 +2,8 @@ package com.chad.baserecyclerviewadapterhelper;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.support.transition.Fade;
 import android.support.transition.Slide;
 import android.support.transition.TransitionManager;
@@ -11,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
@@ -55,6 +58,8 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
     private DataManager mDataManager;
     private boolean checked;
     private LinearLayout rootLayout;
+    private View maskLayout;
+    private Handler mHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,12 +69,13 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
         setTitle("ExpandableItem Activity");
         setContentView(R.layout.activity_expandable_item_use);
         rootLayout = findViewById(R.id.root_layout);
+        maskLayout = findViewById(R.id.fl_enable_click);
         rootLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 HeaderDelButton viewCache = HeaderDelButton.getViewCache();
                 if (viewCache != null) {
-                    Log.i(TAG,"click delete layout ");
+                    Log.i(TAG, "click delete layout ");
                     viewCache.restoreUI();
                 }
             }
@@ -84,6 +90,7 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
         mDataManager = new DataManager();
         mDataManager.groupEntity();
         mRecyclerView = findViewById(R.id.rv);
+
 
         //expand adapter
         expandableAdapter = new ExpandableItemAdapter(mContext);
@@ -101,6 +108,7 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
         expandableAdapter.addHeaderView(getHeaderView());
         expandableAdapter.setFooterLayout(getFooterView());
         expandableAdapter.notifyDataSetChanged();
+
 
         if (mNoInterestAdapter == null) {
             mNoInterestAdapter = new NoInterestAdapter(mContext);
@@ -138,17 +146,43 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
             mNoInterestAdapter.selectListView(checked);
         });
 
+        findViewById(R.id.bt_auto_flush).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mHandler.postDelayed(autoAdd, 1000);
+            }
+        });
+
+        findViewById(R.id.bt_stop_flush).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mHandler.removeCallbacks(autoAdd);
+            }
+        });
+
         final int[] group = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
         Button addNotificationButton = findViewById(R.id.bt_add_notification);
         addNotificationButton.setOnClickListener(v -> {
             int i = group[0]++;
             if (i <= group.length - 1) {
                 expandableAdapter.loadNotificationList(mData.get(i), null, checked);
+                maskLayout.setClickable(false);
             }
         });
 
         buttonExpand.setOnClickListener(v -> expandableAdapter.expand(2, false, true));
     }
+
+    private Runnable autoAdd = new Runnable() {
+        @Override
+        public void run() {
+            maskLayout.setClickable(true);
+            expandableAdapter.loadNotificationList(new TestNotification(16, "ecarx.upgrade", "您的mcu需要升级!",
+                    "OTA消息3", false, 1557903098235L, 2), null, checked);
+            maskLayout.setClickable(false);
+            mHandler.postDelayed(this, 1000);
+        }
+    };
 
     private HeaderDelButton deleteLayout;
 

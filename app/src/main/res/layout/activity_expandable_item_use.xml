@@ -1,90 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg"
-    android:orientation="vertical">
+    android:background="@color/bg">
+
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <Switch
-            android:id="@+id/switch1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="聚合开关"
-            android:textOff="聚合关闭"
-            android:textOn="聚合开启" />
-
-
-        <Button
-            android:id="@+id/bt_add_notification"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="添加一条消息"
-            android:textColor="@color/colorPrimary" />
-
-        <Button
-            android:id="@+id/bt_del_notification"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="删除一条消息"
-            android:textColor="@color/colorPrimary" />
-        <Button
-            android:id="@+id/bt_expand"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="展开一条消息"
-            android:textColor="@color/colorPrimary" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/empty_view"
-        style="@style/bg"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <ImageView
-            style="@style/empty_img"
-            android:src="@mipmap/empty_icon" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:id="@+id/tool"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
             android:orientation="horizontal">
 
-            <ProgressBar
-                android:id="@+id/progressBar"
-                style="?android:attr/progressBarStyleSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <TextView
+            <Switch
+                android:id="@+id/switch1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:text="没有通知"
-                android:textColor="@color/txt_color" />
+                android:checked="true"
+                android:text="聚合开关"
+                android:textOff="聚合关闭"
+                android:textOn="聚合开启" />
+
+
+            <Button
+                android:id="@+id/bt_add_notification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="添加消息"
+                android:textColor="@color/colorPrimary" />
+
+            <Button
+                android:id="@+id/bt_auto_flush"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="刷新测试"
+                android:textColor="@color/colorPrimary" />
+
+            <Button
+                android:id="@+id/bt_stop_flush"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="停止刷新"
+                android:textColor="@color/colorPrimary" />
+
+            <Button
+                android:id="@+id/bt_del_notification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="删除消息"
+                android:textColor="@color/colorPrimary" />
+
+            <Button
+                android:id="@+id/bt_expand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="展开消息"
+                android:textColor="@color/colorPrimary" />
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/empty_view"
+            style="@style/bg"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                style="@style/empty_img"
+                android:src="@mipmap/empty_icon" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyleSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="没有通知"
+                    android:textColor="@color/txt_color" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <com.chad.baserecyclerviewadapterhelper.view.EmptyRecyclerView
+            android:id="@+id/rv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal" />
+
+        <com.chad.baserecyclerviewadapterhelper.view.EmptyRecyclerView
+            android:id="@+id/no_interest_rv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:visibility="gone" />
+
     </LinearLayout>
 
-    <com.chad.baserecyclerviewadapterhelper.view.EmptyRecyclerView
-        android:id="@+id/rv"
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:id="@+id/fl_enable_click"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal" />
-
-    <com.chad.baserecyclerviewadapterhelper.view.EmptyRecyclerView
-        android:id="@+id/no_interest_rv"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal"
-        android:visibility="gone" />
-</LinearLayout>
+        android:layout_marginTop="50dp"
+        android:background="@android:color/transparent"
+        android:clickable="true" />
+</FrameLayout>

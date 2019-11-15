@@ -7,6 +7,7 @@ import android.support.transition.Fade;
 import android.support.transition.Slide;
 import android.support.transition.TransitionManager;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPropertyAnimatorListenerAdapter;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -331,15 +332,15 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
 
 
     public void loadNotificationList(TestNotification xcnRecord, boolean isGroup) {
-        int updateListIndex = findUpdateList(xcnRecord);
-        Log.v("updateList", "updateListIndex = " + updateListIndex);
-        //添加原始数据
-        if (updateListIndex != -1) {
-            Log.v("updateList", "update  List");
-            notificationArrayList.set(updateListIndex, xcnRecord);
-        } else {
+//        int updateListIndex = findUpdateList(xcnRecord);
+//        Log.v("updateList", "updateListIndex = " + updateListIndex);
+//        //添加原始数据
+//        if (updateListIndex != -1) {
+//            Log.v("updateList", "update  List");
+//            notificationArrayList.set(updateListIndex, xcnRecord);
+//        } else {
             notificationArrayList.add(xcnRecord);
-        }
+//        }
 
         selectListView(isGroup);
     }

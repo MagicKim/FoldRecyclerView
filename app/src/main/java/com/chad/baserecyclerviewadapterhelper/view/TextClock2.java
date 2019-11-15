@@ -45,7 +45,6 @@ public class TextClock2 extends LinearLayout {
     private boolean mHasSeconds;
 
     private boolean mRegistered;
-    private boolean mShouldRunTicker;
 
     private Calendar mTime;
     private String mTimeZone;
@@ -143,20 +142,14 @@ public class TextClock2 extends LinearLayout {
         return DateFormat.is24HourFormat(mContext);
     }
 
-    public String getTimeZone() {
-        return mTimeZone;
-    }
-
 
     private void chooseFormat() {
         final boolean format24Requested = is24HourModeEnabled();
 
         if (format24Requested) {
             mFormat = DEFAULT_FORMAT_24_HOUR;
-            Log.d(TAG, "24mFormat = " + mFormat);
         } else {
             mFormat = DEFAULT_FORMAT_12_HOUR;
-            Log.d(TAG, "12mFormat = " + mFormat);
         }
 
         boolean hadSeconds = mHasSeconds;
@@ -279,8 +272,6 @@ public class TextClock2 extends LinearLayout {
 
 
     private void onTimeChanged() {
-        // mShouldRunTicker always equals the last value passed into onVisibilityAggregated
-//        if (mShouldRunTicker) {
         Log.e(TAG, "onTimeChanged");
         mTime.setTimeInMillis(System.currentTimeMillis());
         CharSequence text = DateFormat.format(mFormat, mTime);
@@ -289,7 +280,5 @@ public class TextClock2 extends LinearLayout {
         tv3.setText(String.valueOf(text.charAt(2)));
         tv4.setText(String.valueOf(text.charAt(3)));
         tv5.setText(String.valueOf(text.charAt(4)));
-
-
     }
 }

@@ -33,6 +33,17 @@ public class Main2Activity extends AppCompatActivity {
         Switch aSwitch = findViewById(R.id.switch2);
         Button start = findViewById(R.id.bt_start);
         Button stop = findViewById(R.id.bt_stop);
+
+        findViewById(R.id.switch_time).setOnClickListener(v -> {
+            Settings.System.putString(mContext.getContentResolver(),
+                    Settings.System.TIME_12_24, "12");
+        });
+
+        findViewById(R.id.switch_time_24).setOnClickListener(v -> {
+            Settings.System.putString(mContext.getContentResolver(),
+                    Settings.System.TIME_12_24, "24");
+        });
+
         start.setOnClickListener(v -> {
             Intent start1 = new Intent(mContext, MyForegroundService.class);
             if (Build.VERSION.SDK_INT >= 26) {
