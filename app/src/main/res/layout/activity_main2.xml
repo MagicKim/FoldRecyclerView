@@ -242,5 +242,10 @@
             android:format24Hour="HH:mm"
             android:textColor="@color/black"
             android:textSize="93sp" />
+
+        <com.chad.baserecyclerviewadapterhelper.view.OffsetTextView
+            android:background="@color/colorAccent"
+            android:layout_width="100dp"
+            android:layout_height="100dp"/>
     </LinearLayout>
 </ScrollView>

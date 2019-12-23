@@ -465,7 +465,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
         Log.d("kim", "(delete all)");
         getData().clear();
         notificationArrayList.clear();
-        notifyDataSetChanged();
+        notifyItemRangeRemoved(0,0);
     }
 
     private LoadNoInterestViewListener noInterestViewListener;

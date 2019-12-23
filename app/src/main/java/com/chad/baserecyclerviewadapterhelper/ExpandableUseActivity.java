@@ -85,6 +85,12 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
         buttonExpand.setOnClickListener(v -> {
 
         });
+
+        findViewById(R.id.bt_del_notification).setOnClickListener(v -> {
+
+            expandableAdapter.deleteAllData();
+
+        });
         LinearLayout emptyView = findViewById(R.id.empty_view);
         getNormalData();
         mDataManager = new DataManager();
@@ -105,7 +111,7 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
         expandableAdapter.addLoadNoInterestView(this);
         expandableAdapter.setRecyclerView(mRecyclerView);
         mRecyclerView.setEmptyView(emptyView);
-        expandableAdapter.addHeaderView(getHeaderView());
+//        expandableAdapter.addHeaderView(getHeaderView());
         expandableAdapter.setFooterLayout(getFooterView());
         expandableAdapter.notifyDataSetChanged();
 
@@ -171,6 +177,22 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
         });
 
         buttonExpand.setOnClickListener(v -> expandableAdapter.expand(2, false, true));
+
+        Log.e(TAG, "---->" + isSpace("com.eacrx.ut il"));
+    }
+
+
+    private static boolean isSpace(final String s) {
+        if (s == null) {
+            return true;
+        }
+        for (int i = 0, len = s.length(); i < len; ++i) {
+            //如果字符为空白字符，则返回 true,否则返回 false
+            if (!Character.isWhitespace(s.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private Runnable autoAdd = new Runnable() {
@@ -251,38 +273,38 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
                 "新闻消息2", false, 1557903095761L, 1));
         mData.add(new TestNotification(24, "com.car.bb", "坚果Pro 2系统更新：下线“残废”功能",
                 "新闻消息24", false, 1557903123092L, 1));
-        mData.add(new TestNotification(28, "com.car.cc", "周杰伦全新专辑发布(------>更新的条目<-------)!",
-                "音乐消息28", false, 1557903197323L, 1));
-        mData.add(new TestNotification(46, "com.car.bb", "AirPods H1芯片有多强？- 你的耳朵里是台iPhone 4",
-                "新闻消息46", false, 1557903095561L, 1));
-        mData.add(new TestNotification(45, "com.car.cc", "陈奕迅全新专辑发布!",
-                "音乐消息45", false, 1557903099034L, 1));
-        mData.add(new TestNotification(30, "com.car.kk", "今天天气好!",
-                "天气消息30", false, 1557953696852L, 1));
-        mData.add(new TestNotification(6, "com.car.dd", "有新的OTA升级包哦！",
-                "系统消息6", false, 1557903141000L, 1));
-        mData.add(new TestNotification(49, "com.car.cc", "陈奕迅全新专辑发布!(------>更新的条目<-------)",
-                "音乐消息49", false, 1557983299020L, 1));
-        mData.add(new TestNotification(200, "com.car.kk", "今天天气热!",
-                "天气消息200", false, 1557923095001L, 1));
-        mData.add(new TestNotification(500, "com.car.kk", "今天有大暴雨!",
-                "天气消息500", false, 1557913096002L, 1));
-        mData.add(new TestNotification(70, "com.car.ff", "还有100公里到达目的地!",
-                "导航消息70", false, 1557914992000L, 1));
-        mData.add(new TestNotification(80, "com.car.ff", "还有70公里到达目的地!!",
-                "导航消息80", false, 1557973893000L, 1));
-        mData.add(new TestNotification(90, "com.car.cc", "朴树全新专辑发布!",
-                "音乐消息90", false, 1557913634000L, 1));
-        mData.add(new TestNotification(14, "ecarx.upgrade", "您的系统需要升级!",
-                "OTA消息1", false, 1557903299000L, 2));
-        mData.add(new TestNotification(14, "ecarx.upgrade", "您的系统需要升级!(------>更新的条目<-------)",
-                "OTA消息1", false, 1557903096006L, 2));
-        mData.add(new TestNotification(13, "com.car.ee", "18万只蜜蜂在巴黎圣母院大火幸存 因没有肺脏不怕烟",
-                "娱乐消息13", false, 1557903108000L, 1));
-        mData.add(new TestNotification(100, "com.car.ff", "前方道路拥堵请注意绕行!",
-                "导航消息100", false, 1557923545000L, 1));
-        mData.add(new TestNotification(310, "com.car.bb", "AirPods H1芯片有多强？- 你的耳朵里是台iPhone 4",
-                "新闻消息310", false, 1557905195001L, 1));
+//        mData.add(new TestNotification(28, "com.car.cc", "周杰伦全新专辑发布(------>更新的条目<-------)!",
+//                "音乐消息28", false, 1557903197323L, 1));
+//        mData.add(new TestNotification(46, "com.car.bb", "AirPods H1芯片有多强？- 你的耳朵里是台iPhone 4",
+//                "新闻消息46", false, 1557903095561L, 1));
+//        mData.add(new TestNotification(45, "com.car.cc", "陈奕迅全新专辑发布!",
+//                "音乐消息45", false, 1557903099034L, 1));
+//        mData.add(new TestNotification(30, "com.car.kk", "今天天气好!",
+//                "天气消息30", false, 1557953696852L, 1));
+//        mData.add(new TestNotification(6, "com.car.dd", "有新的OTA升级包哦！",
+//                "系统消息6", false, 1557903141000L, 1));
+//        mData.add(new TestNotification(49, "com.car.cc", "陈奕迅全新专辑发布!(------>更新的条目<-------)",
+//                "音乐消息49", false, 1557983299020L, 1));
+//        mData.add(new TestNotification(200, "com.car.kk", "今天天气热!",
+//                "天气消息200", false, 1557923095001L, 1));
+//        mData.add(new TestNotification(500, "com.car.kk", "今天有大暴雨!",
+//                "天气消息500", false, 1557913096002L, 1));
+//        mData.add(new TestNotification(70, "com.car.ff", "还有100公里到达目的地!",
+//                "导航消息70", false, 1557914992000L, 1));
+//        mData.add(new TestNotification(80, "com.car.ff", "还有70公里到达目的地!!",
+//                "导航消息80", false, 1557973893000L, 1));
+//        mData.add(new TestNotification(90, "com.car.cc", "朴树全新专辑发布!",
+//                "音乐消息90", false, 1557913634000L, 1));
+//        mData.add(new TestNotification(14, "ecarx.upgrade", "您的系统需要升级!",
+//                "OTA消息1", false, 1557903299000L, 2));
+//        mData.add(new TestNotification(14, "ecarx.upgrade", "您的系统需要升级!(------>更新的条目<-------)",
+//                "OTA消息1", false, 1557903096006L, 2));
+//        mData.add(new TestNotification(13, "com.car.ee", "18万只蜜蜂在巴黎圣母院大火幸存 因没有肺脏不怕烟",
+//                "娱乐消息13", false, 1557903108000L, 1));
+//        mData.add(new TestNotification(100, "com.car.ff", "前方道路拥堵请注意绕行!",
+//                "导航消息100", false, 1557923545000L, 1));
+//        mData.add(new TestNotification(310, "com.car.bb", "AirPods H1芯片有多强？- 你的耳朵里是台iPhone 4",
+//                "新闻消息310", false, 1557905195001L, 1));
         mData.add(new TestNotification(320, "com.car.bb", "坚果Pro 2系统更新：下线“残废”功能",
                 "新闻消息320", false, 1557904296002L, 1));
         mData.add(new TestNotification(3, "com.car.dd", "您的内存满了哦，请及时清理！",
@@ -300,6 +322,21 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
 
         mData.add(new TestNotification(1212, "com.car.ee", "微软公布Windows 10的活跃设备数已经超过9亿 但可能是个乌龙",
                 "娱乐消息12", false, 1557903107000L, 1));
+
+        mData.add(new TestNotification(66, "", "无包名的消息1",
+                "未知应用1", false, 1557903107120L, 1));
+        mData.add(new TestNotification(63, "", "无包名的消息2",
+                "未知应用2", false, 1557903107120L, 1));
+
+        mData.add(new TestNotification(56, " ", "一个空格无包名的消息1",
+                "一个空格未知应用1", false, 1557903107120L, 1));
+        mData.add(new TestNotification(453, " ", "一个空格无包名的消息2",
+                "一个空格未知应用2", false, 1557903107120L, 1));
+
+        mData.add(new TestNotification(126, "  ", "二个空格无包名的消息1",
+                "二个空格未知应用1", false, 1557903107120L, 1));
+        mData.add(new TestNotification(613, "  ", "二个空格无包名的消息2",
+                "二个空格未知应用2", false, 1557903107120L, 1));
     }
 
 
