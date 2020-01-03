@@ -273,12 +273,12 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
                 "新闻消息2", false, 1557903095761L, 1));
         mData.add(new TestNotification(24, "com.car.bb", "坚果Pro 2系统更新：下线“残废”功能",
                 "新闻消息24", false, 1557903123092L, 1));
-//        mData.add(new TestNotification(28, "com.car.cc", "周杰伦全新专辑发布(------>更新的条目<-------)!",
-//                "音乐消息28", false, 1557903197323L, 1));
-//        mData.add(new TestNotification(46, "com.car.bb", "AirPods H1芯片有多强？- 你的耳朵里是台iPhone 4",
-//                "新闻消息46", false, 1557903095561L, 1));
-//        mData.add(new TestNotification(45, "com.car.cc", "陈奕迅全新专辑发布!",
-//                "音乐消息45", false, 1557903099034L, 1));
+        mData.add(new TestNotification(28, "com.car.cc", "周杰伦全新专辑发布(------>更新的条目<-------)!",
+                "音乐消息28", false, 1557903197323L, 1));
+        mData.add(new TestNotification(46, "com.car.bb", "AirPods H1芯片有多强？- 你的耳朵里是台iPhone 4",
+                "新闻消息46", false, 1557903095561L, 1));
+        mData.add(new TestNotification(45, "com.car.cc", "陈奕迅全新专辑发布!",
+                "音乐消息45", false, 1557903099034L, 1));
 //        mData.add(new TestNotification(30, "com.car.kk", "今天天气好!",
 //                "天气消息30", false, 1557953696852L, 1));
 //        mData.add(new TestNotification(6, "com.car.dd", "有新的OTA升级包哦！",
@@ -303,39 +303,39 @@ public class ExpandableUseActivity extends BaseActivity implements ExpandableIte
 //                "娱乐消息13", false, 1557903108000L, 1));
 //        mData.add(new TestNotification(100, "com.car.ff", "前方道路拥堵请注意绕行!",
 //                "导航消息100", false, 1557923545000L, 1));
-//        mData.add(new TestNotification(310, "com.car.bb", "AirPods H1芯片有多强？- 你的耳朵里是台iPhone 4",
-//                "新闻消息310", false, 1557905195001L, 1));
+        mData.add(new TestNotification(310, "com.car.bb", "AirPods H1芯片有多强？- 你的耳朵里是台iPhone 4",
+                "新闻消息310", false, 1557905195001L, 1));
         mData.add(new TestNotification(320, "com.car.bb", "坚果Pro 2系统更新：下线“残废”功能",
                 "新闻消息320", false, 1557904296002L, 1));
-        mData.add(new TestNotification(3, "com.car.dd", "您的内存满了哦，请及时清理！",
-                "系统消息3", false, 1557903098200L, 1));
-        mData.add(new TestNotification(15, "ecarx.upgrade", "您的屏幕需要升级!",
-                "OTA消息2", false, 1557903097000L, 2));
-        mData.add(new TestNotification(16, "ecarx.upgrade", "您的mcu需要升级!",
-                "OTA消息3", false, 1557903098235L, 2));
-        mData.add(new TestNotification(16, "ecarx.upgrade", "您的mcu需要升级!(------>更新的条目<-------)",
-                "OTA消息3", false, 1557903098010L, 2));
-        mData.add(new TestNotification(11, "com.car.ee", "2019日本小姐冠军出炉 网友：越看越像吴京！",
-                "娱乐消息11", false, 1557903106000L, 1));
-        mData.add(new TestNotification(12, "com.car.ee", "微软公布Windows 10的活跃设备数已经超过9亿 但可能是个乌龙",
-                "娱乐消息12", false, 1557903107000L, 1));
+//        mData.add(new TestNotification(3, "com.car.dd", "您的内存满了哦，请及时清理！",
+//                "系统消息3", false, 1557903098200L, 1));
+//        mData.add(new TestNotification(15, "ecarx.upgrade", "您的屏幕需要升级!",
+//                "OTA消息2", false, 1557903097000L, 2));
+//        mData.add(new TestNotification(16, "ecarx.upgrade", "您的mcu需要升级!",
+//                "OTA消息3", false, 1557903098235L, 2));
+//        mData.add(new TestNotification(16, "ecarx.upgrade", "您的mcu需要升级!(------>更新的条目<-------)",
+//                "OTA消息3", false, 1557903098010L, 2));
+//        mData.add(new TestNotification(11, "com.car.ee", "2019日本小姐冠军出炉 网友：越看越像吴京！",
+//                "娱乐消息11", false, 1557903106000L, 1));
+//        mData.add(new TestNotification(12, "com.car.ee", "微软公布Windows 10的活跃设备数已经超过9亿 但可能是个乌龙",
+//                "娱乐消息12", false, 1557903107000L, 1));
+//
+//        mData.add(new TestNotification(1212, "com.car.ee", "微软公布Windows 10的活跃设备数已经超过9亿 但可能是个乌龙",
+//                "娱乐消息12", false, 1557903107000L, 1));
 
-        mData.add(new TestNotification(1212, "com.car.ee", "微软公布Windows 10的活跃设备数已经超过9亿 但可能是个乌龙",
-                "娱乐消息12", false, 1557903107000L, 1));
-
-        mData.add(new TestNotification(66, "", "无包名的消息1",
+        mData.add(new TestNotification(66, "com.car.bb", "无包名的消息1",
                 "未知应用1", false, 1557903107120L, 1));
         mData.add(new TestNotification(63, "", "无包名的消息2",
                 "未知应用2", false, 1557903107120L, 1));
 
-        mData.add(new TestNotification(56, " ", "一个空格无包名的消息1",
+        mData.add(new TestNotification(56, "com.car.bb", "一个空格无包名的消息1",
                 "一个空格未知应用1", false, 1557903107120L, 1));
-        mData.add(new TestNotification(453, " ", "一个空格无包名的消息2",
+        mData.add(new TestNotification(453, "com.car.bb", "一个空格无包名的消息2",
                 "一个空格未知应用2", false, 1557903107120L, 1));
 
-        mData.add(new TestNotification(126, "  ", "二个空格无包名的消息1",
+        mData.add(new TestNotification(126, "com.car.bb", "二个空格无包名的消息1",
                 "二个空格未知应用1", false, 1557903107120L, 1));
-        mData.add(new TestNotification(613, "  ", "二个空格无包名的消息2",
+        mData.add(new TestNotification(613, "com.car.bb", "二个空格无包名的消息2",
                 "二个空格未知应用2", false, 1557903107120L, 1));
     }
 

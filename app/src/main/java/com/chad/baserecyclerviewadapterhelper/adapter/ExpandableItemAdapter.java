@@ -2,10 +2,13 @@ package com.chad.baserecyclerviewadapterhelper.adapter;
 
 import android.content.Context;
 import android.os.Handler;
+import android.support.transition.AutoTransition;
 import android.support.transition.Explode;
 import android.support.transition.Fade;
+import android.support.transition.Scene;
 import android.support.transition.Slide;
 import android.support.transition.TransitionManager;
+import android.support.transition.TransitionSet;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPropertyAnimatorListenerAdapter;
 import android.text.TextUtils;
@@ -14,6 +17,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -111,6 +115,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 final Level0Item lv0 = (Level0Item) item;
                 final SwipeMenuLayout swipeMenuLayout = holder.getView(R.id.rl_normal_root_layout);
                 final RelativeLayout layoutL0 = holder.getView(R.id.sm_root_view);
+                final RelativeLayout rootView = holder.getView(R.id.rl_view);
                 final FrameLayout flMorePicture = holder.getView(R.id.iv_more_picture);
                 final RelativeLayout rlHeader = holder.getView(R.id.rl_expand_header);
                 final TextView textCount = holder.getView(R.id.tv_parent_count);
@@ -134,6 +139,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                     flMorePicture.setBackground(mContext.getResources().getDrawable(R.drawable.basic_elements_one_bg));
                 }
 
+
                 if (lv0.isExpanded()) {
                     swipeMenuLayout.setSwipeEnable(false);
                     rlHeader.setVisibility(View.VISIBLE);
@@ -150,7 +156,6 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 //.removeTarget(btDel).removeTarget(btPlace).removeTarget(rlHeader)
                 TransitionManager.beginDelayedTransition(swipeMenuLayout,
                         new Slide(Gravity.BOTTOM));
-
                 //todo 展开与折叠分别是两个按钮，所以删除之后swipe状态不会混乱了
                 layoutL0.setOnClickListener(v -> {
                     int pos = holder.getAdapterPosition();
@@ -163,6 +168,9 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                     swipeMenuLayout.setSwipeEnable(false);
                 });
                 buttonCollapse.setOnClickListener(v -> {
+//                    TransitionManager.beginDelayedTransition(swipeMenuLayout,
+//                            new TransitionSet().addTransition(new Slide(Gravity.BOTTOM)).addTransition(new Fade()));
+                    TransitionManager.beginDelayedTransition(swipeMenuLayout,new Slide(Gravity.BOTTOM).excludeTarget(rlHeader,true));
                     int pos = holder.getAdapterPosition();
                     textCount.setText(lv0.getSubItems().size() + "个通知");
                     if (lv0.getSubItems().size() > 2) {
@@ -172,7 +180,6 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                     }
                     collapse(pos);
                     swipeMenuLayout.setSwipeEnable(true);
-
                 });
                 btDel.setOnClickListener(v -> {
                     int assembleParentPosition = holder.getAdapterPosition();
@@ -339,7 +346,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
 //            Log.v("updateList", "update  List");
 //            notificationArrayList.set(updateListIndex, xcnRecord);
 //        } else {
-            notificationArrayList.add(xcnRecord);
+        notificationArrayList.add(xcnRecord);
 //        }
 
         selectListView(isGroup);
@@ -446,7 +453,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 }
             }
         }
-        Log.e(TAG, "GROUP ------->" + getData().toString());
+//        Log.e(TAG, "GROUP ------->" + getData().toString());
     }
 
 
@@ -465,7 +472,7 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
         Log.d("kim", "(delete all)");
         getData().clear();
         notificationArrayList.clear();
-        notifyItemRangeRemoved(0,0);
+        notifyItemRangeRemoved(0, 0);
     }
 
     private LoadNoInterestViewListener noInterestViewListener;

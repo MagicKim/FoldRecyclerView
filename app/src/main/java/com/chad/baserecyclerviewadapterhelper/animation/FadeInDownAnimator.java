@@ -53,21 +53,21 @@ public class FadeInDownAnimator extends BaseItemAnimator {
 
     @Override
     protected void animateAddImpl(final RecyclerView.ViewHolder holder) {
-//        ViewCompat.animate(holder.itemView)
-//                .translationY(0)
-//                .alpha(1)
-//                .setDuration(getAddDuration())
-//                .setInterpolator(new AccelerateInterpolator())
-//                .setListener(new DefaultAddVpaListener(holder))
-//                .setStartDelay(getAddDelay(holder))
-//                .start();
         ViewCompat.animate(holder.itemView)
-                .rotationX(90)
+                .translationY(0)
                 .alpha(1)
-                .setDuration(500)
+                .setDuration(getAddDuration())
                 .setInterpolator(new AccelerateInterpolator())
                 .setListener(new DefaultAddVpaListener(holder))
                 .setStartDelay(getAddDelay(holder))
                 .start();
+//        ViewCompat.animate(holder.itemView)
+//                .rotationX(90)
+//                .alpha(1)
+//                .setDuration(500)
+//                .setInterpolator(new AccelerateInterpolator())
+//                .setListener(new DefaultAddVpaListener(holder))
+//                .setStartDelay(getAddDelay(holder))
+//                .start();
     }
 }
