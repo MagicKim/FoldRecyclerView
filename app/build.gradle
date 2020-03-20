@@ -14,17 +14,17 @@ android {
     signingConfigs {
 
         debugSignCfg {
-            storeFile file(System.getenv("ECARX_PLATFORM_KEYSTORE") == null ? "/dev/null" : System.getenv("ECARX_PLATFORM_KEYSTORE"))
-            storePassword System.getenv("ECARX_PLATFORM_KEYSTORE_PASSWORD")
-            keyAlias System.getenv("ECARX_PLATFORM_KEY_ALIAS")
-            keyPassword System.getenv("ECARX_PLATFORM_KEY_PASSWORD")
+            storeFile file(System.getenv("KIM_PLATFORM_KEYSTORE") == null ? "/dev/null" : System.getenv("KIM_PLATFORM_KEYSTORE"))
+            storePassword System.getenv("KIM_PLATFORM_KEYSTORE_PASSWORD")
+            keyAlias System.getenv("KIM_PLATFORM_KEY_ALIAS")
+            keyPassword System.getenv("KIM_PLATFORM_KEY_PASSWORD")
         }
 
         releaseSignCfg {
-            storeFile file(System.getenv("ECARX_PLATFORM_KEYSTORE") == null ? "/dev/null" : System.getenv("ECARX_PLATFORM_KEYSTORE"))
-            storePassword System.getenv("ECARX_PLATFORM_KEYSTORE_PASSWORD")
-            keyAlias System.getenv("ECARX_PLATFORM_KEY_ALIAS")
-            keyPassword System.getenv("ECARX_PLATFORM_KEY_PASSWORD")
+            storeFile file(System.getenv("KIM_PLATFORM_KEYSTORE") == null ? "/dev/null" : System.getenv("KIM_PLATFORM_KEYSTORE"))
+            storePassword System.getenv("KIM_PLATFORM_KEYSTORE_PASSWORD")
+            keyAlias System.getenv("KIM_PLATFORM_KEY_ALIAS")
+            keyPassword System.getenv("KIM_PLATFORM_KEY_PASSWORD")
         }
 
     }
