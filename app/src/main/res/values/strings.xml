@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
     <string name="network_err">Simulation network error</string>
     <string name="empty_network_error">Network error, Click Retry</string>
     <string name="empty_no_data">There is no data, Click Retry</string>
@@ -7,5 +7,8 @@
 
     <string name="button_next_step">下一步</string>
     <string name="txt_select_system_language">请选择您的系统语言</string>
+    <string name="wt_wireless_charging_foreign_body_warn_title">无线充电板异物预警</string>
+    <string name="wt_wireless_charging_foreign_body_warn_content">检测到金属异物，请将异物从无线充电器上移开，否则无法进行充电。</string>
+    <string name="wt_wireless_charging_foreign_body_warn_button_text">知道了 (<xliff:g id="number_string">%d</xliff:g>s)</string>
 
 </resources>

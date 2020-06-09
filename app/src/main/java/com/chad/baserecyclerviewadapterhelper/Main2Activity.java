@@ -17,7 +17,10 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
+import com.chad.baserecyclerviewadapterhelper.view.CustomWarnDialog;
+
 public class Main2Activity extends AppCompatActivity {
+    private static final String TAG = "Main2Activity";
     private static final String SETTING_KEY_MERGE_GROUP = "key_notify_merge_group";
     private boolean isGroupView;
     private Handler mSubHandler;
@@ -69,6 +72,12 @@ public class Main2Activity extends AppCompatActivity {
             }
         });
 
+        CustomWarnDialog customWarnDialog = new CustomWarnDialog(mContext);
+        Button button = findViewById(R.id.button_dialog);
+        button.setOnClickListener(v -> {
+            Log.d(TAG, "click dialog");
+            customWarnDialog.showDialog();
+        });
 
         HandlerThread handlerThread = new HandlerThread("handlerThread");
         handlerThread.start();

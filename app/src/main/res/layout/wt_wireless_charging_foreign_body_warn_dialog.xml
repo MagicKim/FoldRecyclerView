@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="510px"
+    android:background="@drawable/wt_standard_dialog_bg">
+
+    <ImageView
+        android:id="@+id/icon_foreign_body_close"
+        android:layout_width="48px"
+        android:layout_height="48px"
+        android:layout_marginLeft="32px"
+        android:layout_marginTop="32px"
+        android:src="@drawable/icon_close"/>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="772px"
+        android:layout_height="52px"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="48px"
+        android:gravity="center_horizontal"
+        android:text="@string/wt_wireless_charging_foreign_body_warn_title"
+        android:textColor="#FFFFFF"
+        android:textSize="36px"/>
+
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:layout_marginLeft="44px"
+        android:layout_marginTop="22px"
+        android:layout_marginRight="44px"
+        android:text="@string/wt_wireless_charging_foreign_body_warn_content"
+        android:textColor="#FFFFFF"
+        android:textSize="32px"/>
+
+    <ImageView
+        android:id="@+id/foreign_body_image"
+        android:layout_width="392px"
+        android:layout_height="186px"
+        android:layout_below="@id/content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16px"
+        android:src="@drawable/wt_wireless_charging_foreign_body_warn_image"/>
+
+    <Button
+        android:id="@+id/wt_wireless_charging_foreign_body_warn_button"
+        android:layout_width="match_parent"
+        android:layout_height="80px"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="25px"
+        android:background="@drawable/wt_selector_low_power_warn_button"
+        android:text="@string/wt_wireless_charging_foreign_body_warn_button_text"
+        android:textColor="#FFFFFFFF"
+        android:textSize="32px"/>
+
+</RelativeLayout>

@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="date_and_time_12">MM-dd&#160;&#160;EEa</string>
     <string name="date_and_time_24">MM-dd&#160;&#160;EE</string>
 
     <string name="button_next_step">next</string>
     <string name="txt_select_system_language">please select language</string>
+    <string name="wt_wireless_charging_foreign_body_warn_title">无线充电板异物预警</string>
+    <string name="wt_wireless_charging_foreign_body_warn_content">检测到金属异物，请将异物从无线充电器上移开，否则无法进行充电。</string>
+    <string name="wt_wireless_charging_foreign_body_warn_button_text">知道了 (<xliff:g id="number_string">%d</xliff:g>s)</string>
 </resources>
